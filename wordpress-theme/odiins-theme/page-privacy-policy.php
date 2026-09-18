@@ -1,26 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy | Odiins</title>
-  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <header class="topbar">
-    <div class="container topbar-content">
-      <div class="topbar-left"><span>📍 Serving all of Odisha</span></div>
-      <div class="topbar-right"><a href="tel:+917008012345">📞 +91 70080 12345</a></div>
-    </div>
-  </header>
-  <nav class="navbar">
-    <div class="container navbar-inner">
-      <a href="index.html" class="brand-logo"><img src="assets/icons/logo.svg" alt="Odiins" height="42"></a>
-      <a href="index.html" class="btn btn-green btn-sm">Back to Home</a>
-    </div>
-  </nav>
-  <main class="container section section-white" style="max-width:800px;">
+<?php
+/**
+ * Template Name: Odiins - Privacy Policy
+ */
+get_header();
+?>
+
+<main class="container section section-white" style="max-width:800px;">
     <h1>Privacy Policy</h1>
     <p style="color:var(--text-muted); margin-bottom:2rem;">Last Updated: March 2026</p>
     <div style="line-height:1.8; display:flex; flex-direction:column; gap:1.25rem;">
@@ -35,10 +20,7 @@
       <p>For any questions regarding your data, contact us at <code>privacy@odiins.com</code> or call <code>+91 70080 12345</code>.</p>
     </div>
   </main>
-  <footer class="site-footer" style="padding-top:2rem;">
-    <div class="container text-center" style="text-align:center; padding-bottom:2rem;">
-      <p>&copy; 2026 Odiins. All rights reserved. • <a href="dashboard.html" style="color:rgba(255,255,255,0.75);">🔒 Admin Login</a></p>
-    </div>
-  </footer>
-</body>
-</html>
+
+<?php
+get_footer();
+?>

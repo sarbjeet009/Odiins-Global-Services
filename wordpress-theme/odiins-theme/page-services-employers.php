@@ -1,93 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hire Staff in Odisha | Manpower Agency Bhubaneswar &amp; Cuttack - Odiins</title>
-  <meta name="description" content="Looking to hire staff in Odisha? Odiins provides pre-screened local talent for small businesses & corporates. Back office, sales executives, telecallers, delivery, drivers.">
-  <meta name="keywords" content="manpower agency Bhubaneswar, HR consultancy Odisha, hire staff Cuttack, recruitment agency Odisha, corporate staffing Bhubaneswar">
-  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+<?php
+/**
+ * Template Name: Odiins - For Employers & Business
+ */
+get_header();
+?>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-
-  <!-- TOP BAR -->
-  <header class="topbar">
-    <div class="container topbar-content">
-      <div class="topbar-left">
-        <span>📍 <strong>Serving all 30 districts of Odisha</strong></span>
-        <span class="topbar-badge">Pre-Screened Candidates</span>
-      </div>
-      <div class="topbar-right">
-        <a href="tel:+917008012345">📞 +91 70080 12345</a>
-        <a href="mailto:corporate@odiins.com">✉️ corporate@odiins.com</a>
-        <button class="lang-toggle">ଓଡ଼ିଆ | English</button>
-      </div>
-    </div>
-  </header>
-
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="container navbar-inner">
-      <a href="index.html" class="brand-logo" aria-label="Odiins Home">
-        <img src="assets/icons/logo.svg" alt="Odiins Logo" height="46">
-      </a>
-      <ul class="nav-menu">
-        <li><a href="index.html" class="nav-link">Home</a></li>
-        <li class="nav-dropdown">
-          <a href="#" class="nav-dropdown-btn" style="color:var(--primary-green);">Services ▾</a>
-          <div class="dropdown-menu">
-            <a href="services-job-seekers.html" class="dropdown-item">💼 For Job Seekers</a>
-            <a href="services-employers.html" class="dropdown-item" style="color:var(--primary-green); font-weight:700;">🏢 For Employers &amp; Business</a>
-            <a href="services-customers.html" class="dropdown-item">🏠 For Customers (Home Help)</a>
-          </div>
-        </li>
-        <li class="nav-dropdown">
-          <a href="#" class="nav-dropdown-btn">About Us ▾</a>
-          <div class="dropdown-menu">
-            <a href="about-vision-mission.html" class="dropdown-item">🎯 Vision &amp; Mission</a>
-            <a href="about-media.html" class="dropdown-item">📰 Media &amp; Recognition</a>
-          </div>
-        </li>
-        <li><a href="blogs.html" class="nav-link">Blogs</a></li>
-        <li><a href="contact.html" class="nav-link">Contact</a></li>
-      </ul>
-      <div class="navbar-actions">
-        <a href="#employerFormSection" class="btn btn-green btn-sm">Post Requirement</a>
-        <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Open Navigation Menu">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Mobile Drawer Menu -->
-  <div class="drawer-overlay" id="drawerOverlay"></div>
-  <aside class="mobile-drawer" id="mobileDrawer">
-    <div class="drawer-header">
-      <img src="assets/icons/logo.svg" alt="Odiins Logo" height="38">
-      <button class="drawer-close" id="drawerCloseBtn">&times;</button>
-    </div>
-    <div class="drawer-links">
-      <a href="index.html" class="drawer-link">Home</a>
-      <a href="services-job-seekers.html" class="drawer-link">💼 For Job Seekers</a>
-      <a href="services-employers.html" class="drawer-link active">🏢 For Employers</a>
-      <a href="services-customers.html" class="drawer-link">🏠 For Customers (Home Help)</a>
-      <a href="about-vision-mission.html" class="drawer-link">🎯 Vision &amp; Mission</a>
-      <a href="about-media.html" class="drawer-link">📰 Media &amp; Recognition</a>
-      <a href="blogs.html" class="drawer-link">Blogs</a>
-      <a href="contact.html" class="drawer-link">Contact Us</a>
-    </div>
-    <div class="drawer-footer">
-      <a href="tel:+917008012345" class="btn btn-green btn-block">📞 Call Corporate Desk</a>
-    </div>
-  </aside>
-
-  <!-- LANDING HERO & SHORT FORM -->
+<!-- LANDING HERO & SHORT FORM -->
   <section class="landing-hero" id="employerFormSection">
     <div class="container landing-grid">
       <!-- Left: Headline + 4 Benefits -->
@@ -259,67 +177,6 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-col">
-          <img src="assets/icons/logo.svg" alt="Odiins Logo" height="42" style="filter: brightness(0) invert(1); margin-bottom: 1rem;">
-          <p>Odisha's own HR &amp; manpower connection platform. Dedicated to powering businesses with reliable local staff.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Quick Links</h4>
-          <div class="footer-links">
-            <a href="index.html">Home</a>
-            <a href="services-job-seekers.html">For Job Seekers</a>
-            <a href="services-employers.html">For Employers</a>
-            <a href="services-customers.html">For Customers</a>
-            <a href="contact.html">Contact Us</a>
-            <a href="dashboard.html">🔒 Admin Portal</a>
-          </div>
-        </div>
-        <div class="footer-col">
-          <h4>Staffing Solutions</h4>
-          <div class="footer-links">
-            <a href="#employerFormSection">Back Office &amp; Data Entry</a>
-            <a href="#employerFormSection">Field Sales Executives</a>
-            <a href="#employerFormSection">Warehouse &amp; Delivery Fleets</a>
-            <a href="#employerFormSection">Security &amp; Support Staff</a>
-          </div>
-        </div>
-        <div class="footer-col">
-          <h4>Corporate Contact</h4>
-          <p>📞 <a href="tel:+917008012345" style="color:#FFFFFF;">+91 70080 12345</a></p>
-          <p>✉️ <a href="mailto:corporate@odiins.com" style="color:#FFFFFF;">corporate@odiins.com</a></p>
-          <p>⏰ Mon - Sat: 9:00 AM - 7:00 PM</p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <div class="footer-bottom-links">
-          <a href="privacy-policy.html">Privacy Policy</a>
-          <span>|</span>
-          <a href="terms.html">Terms</a>
-          <span>|</span>
-          <a href="disclaimer.html">Disclaimer</a>
-          <span>|</span>
-          <a href="dashboard.html" style="color:rgba(255,255,255,0.75);">🔒 Admin Login</a>
-        </div>
-        <p>&copy; 2026 Odiins. All rights reserved.</p>
-        <p class="footer-disclaimer">
-          <strong>Disclaimer:</strong> Odiins connects employers with candidates. We verify documents and references, but employers are advised to conduct standard internal background verifications before employment engagement.
-        </p>
-      </div>
-    </div>
-  </footer>
-
-  <a href="https://wa.me/917008012345?text=Hello%20Odiins%2C%20I%20want%20to%20hire%20staff%20for%20my%20business" target="_blank" rel="noopener" class="floating-whatsapp" aria-label="Chat on WhatsApp">💬</a>
-
-  <div class="mobile-bottom-bar">
-    <a href="tel:+917008012345" class="mobile-action-btn mobile-btn-call"><span>📞</span> Call Now</a>
-    <a href="https://wa.me/917008012345?text=Hello%20Odiins%2C%20I%20want%20to%20hire%20staff" target="_blank" rel="noopener" class="mobile-action-btn mobile-btn-wa"><span>💬</span> WhatsApp</a>
-  </div>
-
-  <script src="js/main.js"></script>
-  <script src="js/forms.js"></script>
-</body>
-</html>
+<?php
+get_footer();
+?>

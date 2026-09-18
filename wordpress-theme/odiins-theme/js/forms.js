@@ -156,7 +156,8 @@ function initFormSubmissions() {
       }
 
       try {
-        const response = await fetch('/api/leads', {
+        const postUrl = (typeof window !== 'undefined' && window.odiins_wp && window.odiins_wp.rest_url) ? (window.odiins_wp.rest_url + 'leads') : '/api/leads';
+        const response = await fetch(postUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(leadData)
@@ -270,7 +271,8 @@ function initNewsletterForm() {
     }
 
     try {
-      await fetch('/api/leads', {
+      const postUrl = (typeof window !== 'undefined' && window.odiins_wp && window.odiins_wp.rest_url) ? (window.odiins_wp.rest_url + 'leads') : '/api/leads';
+      await fetch(postUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

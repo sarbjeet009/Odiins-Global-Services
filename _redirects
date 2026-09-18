@@ -1,0 +1,9 @@
+# Netlify Clean URL Redirects
+/services-job-seekers    /services-job-seekers.html    200
+/services-employers      /services-employers.html      200
+/services-customers      /services-customers.html      200
+/about-vision-mission    /about-vision-mission.html    200
+/about-media             /about-media.html             200
+/blogs                   /blogs.html                   200
+/contact                 /contact.html                 200
+/dashboard               /dashboard.html               200

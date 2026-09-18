@@ -1,131 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Odiins | Odisha's Own HR, Manpower & Trusted Home Help Platform</title>
-  <meta name="description" content="Odiins is Odisha's dedicated HR consultancy and manpower agency connecting businesses with staff, job seekers with local careers, and families with verified domestic help.">
-  <meta name="keywords" content="HR consultancy Odisha, manpower agency Bhubaneswar, driver on hire Odisha, house maid service Bhubaneswar, pandit booking Odisha, jobs in Odisha, staff hiring Cuttack">
-  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+<?php get_header(); ?>
 
-  <!-- Google Fonts: Poppins -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-
-  <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/style.css">
-
-  <!-- Analytics Placeholders -->
-  <!-- Google Analytics (gtag.js) Placeholder: Replace G-XXXXXXXXXX with Measurement ID -->
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    // gtag('js', new Date());
-    // gtag('config', 'G-XXXXXXXXXX');
-  </script>
-
-  <!-- Meta Pixel Code Placeholder: Replace XXXXXXXXXXXXXXX with Pixel ID -->
-  <script>
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-    document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    // fbq('init', 'XXXXXXXXXXXXXXX');
-    // fbq('track', 'PageView');
-  </script>
-</head>
-<body>
-
-  <!-- 1. TOP BAR (Green with White Text) -->
-  <header class="topbar">
-    <div class="container topbar-content">
-      <div class="topbar-left">
-        <span>📍 <strong>Serving all 30 districts of Odisha</strong></span>
-        <span class="topbar-badge">Odisha's Verified Network</span>
-      </div>
-      <div class="topbar-right">
-        <a href="tel:+917008012345">📞 +91 70080 12345</a>
-        <a href="mailto:contact@odiins.com">✉️ contact@odiins.com</a>
-        <button class="lang-toggle" title="Change Language">ଓଡ଼ିଆ | English</button>
-      </div>
-    </div>
-  </header>
-
-  <!-- 2. STICKY NAVBAR -->
-  <nav class="navbar">
-    <div class="container navbar-inner">
-      <a href="index.html" class="brand-logo" aria-label="Odiins Home">
-        <img src="assets/icons/logo.svg" alt="Odiins Logo" height="46">
-      </a>
-
-      <!-- Desktop Navigation Links -->
-      <ul class="nav-menu">
-        <li><a href="index.html" class="nav-link active">Home</a></li>
-        <li class="nav-dropdown">
-          <a href="#" class="nav-dropdown-btn">Services ▾</a>
-          <div class="dropdown-menu">
-            <a href="services-job-seekers.html" class="dropdown-item">💼 For Job Seekers</a>
-            <a href="services-employers.html" class="dropdown-item">🏢 For Employers &amp; Business</a>
-            <a href="services-customers.html" class="dropdown-item">🏠 For Customers (Home Help)</a>
-          </div>
-        </li>
-        <li class="nav-dropdown">
-          <a href="#" class="nav-dropdown-btn">About Us ▾</a>
-          <div class="dropdown-menu">
-            <a href="about-vision-mission.html" class="dropdown-item">🎯 Vision &amp; Mission</a>
-            <a href="about-media.html" class="dropdown-item">📰 Media &amp; Recognition</a>
-          </div>
-        </li>
-        <li><a href="blogs.html" class="nav-link">Blogs</a></li>
-        <li><a href="contact.html" class="nav-link">Contact</a></li>
-      </ul>
-
-      <!-- Action Buttons -->
-      <div class="navbar-actions">
-        <a href="services-job-seekers.html" class="btn btn-green btn-sm">Get Started</a>
-        <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Open Navigation Menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Mobile Drawer Menu -->
-  <div class="drawer-overlay" id="drawerOverlay"></div>
-  <aside class="mobile-drawer" id="mobileDrawer">
-    <div class="drawer-header">
-      <img src="assets/icons/logo.svg" alt="Odiins Logo" height="38">
-      <button class="drawer-close" id="drawerCloseBtn" aria-label="Close Navigation Menu">&times;</button>
-    </div>
-    <div class="drawer-links">
-      <a href="index.html" class="drawer-link active">Home</a>
-      <span class="drawer-link" style="color:var(--primary-green); font-size:0.9rem; padding-bottom:0;">SERVICES:</span>
-      <div class="drawer-sublinks">
-        <a href="services-job-seekers.html" class="drawer-sublink">💼 For Job Seekers</a>
-        <a href="services-employers.html" class="drawer-sublink">🏢 For Employers</a>
-        <a href="services-customers.html" class="drawer-sublink">🏠 For Customers (Home Help)</a>
-      </div>
-      <span class="drawer-link" style="color:var(--primary-green); font-size:0.9rem; padding-bottom:0;">ABOUT US:</span>
-      <div class="drawer-sublinks">
-        <a href="about-vision-mission.html" class="drawer-sublink">🎯 Vision &amp; Mission</a>
-        <a href="about-media.html" class="drawer-sublink">📰 Media &amp; Recognition</a>
-      </div>
-      <a href="blogs.html" class="drawer-link">Blogs</a>
-      <a href="contact.html" class="drawer-link">Contact Us</a>
-    </div>
-    <div class="drawer-footer">
-      <a href="tel:+917008012345" class="btn btn-green btn-block">📞 Call +91 70080 12345</a>
-      <div style="margin-top: 0.75rem; text-align:center;">
-        <button class="lang-toggle" style="background:var(--bg-light-blue); color:var(--text-charcoal); border:1px solid var(--border-light);">ଓଡ଼ିଆ ଭାଷା ବାଛନ୍ତୁ</button>
-      </div>
-    </div>
-  </aside>
-
-  <!-- 1. AUTO-SCROLLING TEXT TICKER (Green Bar, White Text) -->
+<!-- 1. AUTO-SCROLLING TEXT TICKER (Green Bar, White Text) -->
   <section class="ticker-bar" aria-label="Latest Updates Ticker">
     <div class="ticker-wrap">
       <div class="ticker-track">
@@ -158,9 +33,9 @@
         
         <!-- 3 Big Green Buttons -->
         <div class="hero-buttons">
-          <a href="services-job-seekers.html" class="btn btn-green btn-lg">💼 I Need a Job</a>
-          <a href="services-employers.html" class="btn btn-green btn-lg">🏢 I Need Staff for My Business</a>
-          <a href="services-customers.html" class="btn btn-green btn-lg">🏠 I Need Help at Home</a>
+          <a href="<?php echo esc_url(home_url('/services-job-seekers/')); ?>" class="btn btn-green btn-lg">💼 I Need a Job</a>
+          <a href="<?php echo esc_url(home_url('/services-employers/')); ?>" class="btn btn-green btn-lg">🏢 I Need Staff for My Business</a>
+          <a href="<?php echo esc_url(home_url('/services-customers/')); ?>" class="btn btn-green btn-lg">🏠 I Need Help at Home</a>
         </div>
 
         <div class="hero-trust-line">
@@ -259,7 +134,7 @@
           <div class="feature-card-icon">💼</div>
           <h3>Job Seekers</h3>
           <p>Find genuine openings close to home. From back office and sales to customer support and commercial driving, get placed without paying consultation fees.</p>
-          <a href="services-job-seekers.html" class="btn btn-green">Find a Job &rarr;</a>
+          <a href="<?php echo esc_url(home_url('/services-job-seekers/')); ?>" class="btn btn-green">Find a Job &rarr;</a>
         </div>
 
         <!-- Card 2: Employers -->
@@ -267,7 +142,7 @@
           <div class="feature-card-icon">🏢</div>
           <h3>Employers &amp; Businesses</h3>
           <p>Hire pre-screened local talent quickly. Save countless hours interviewing mismatched applicants—get reliable staff ready to join immediately.</p>
-          <a href="services-employers.html" class="btn btn-green">Hire Staff Fast &rarr;</a>
+          <a href="<?php echo esc_url(home_url('/services-employers/')); ?>" class="btn btn-green">Hire Staff Fast &rarr;</a>
         </div>
 
         <!-- Card 3: Households -->
@@ -275,7 +150,7 @@
           <div class="feature-card-icon">🏠</div>
           <h3>Households &amp; Families</h3>
           <p>Connect with trustworthy house maids, experienced cooks, verified drivers, and authentic pandits for sacred family pujas.</p>
-          <a href="services-customers.html" class="btn btn-green">Find Domestic Help &rarr;</a>
+          <a href="<?php echo esc_url(home_url('/services-customers/')); ?>" class="btn btn-green">Find Domestic Help &rarr;</a>
         </div>
       </div>
     </div>
@@ -338,7 +213,7 @@
       </div>
 
       <div style="text-align:center; margin-top: 2rem;">
-        <a href="services-employers.html" class="btn btn-green">Post Business Requirement &rarr;</a>
+        <a href="<?php echo esc_url(home_url('/services-employers/')); ?>" class="btn btn-green">Post Business Requirement &rarr;</a>
       </div>
     </div>
   </section>
@@ -388,7 +263,7 @@
       </div>
 
       <div style="text-align:center; margin-top: 2rem;">
-        <a href="services-customers.html" class="btn btn-green">Request Home Help Call Back &rarr;</a>
+        <a href="<?php echo esc_url(home_url('/services-customers/')); ?>" class="btn btn-green">Request Home Help Call Back &rarr;</a>
       </div>
     </div>
   </section>
@@ -505,7 +380,7 @@
           "Odisha has talented people and growing businesses, but they don't always find each other. Odiins bridges that gap, and we work only in Odisha because we believe in growing our own state."
         </p>
         <div>
-          <a href="about-vision-mission.html" class="btn btn-green">Read Our Vision &amp; Mission &rarr;</a>
+          <a href="<?php echo esc_url(home_url('/about-vision-mission/')); ?>" class="btn btn-green">Read Our Vision &amp; Mission &rarr;</a>
         </div>
       </div>
     </div>
@@ -530,7 +405,7 @@
             <span class="media-tag">Regional Press</span>
             <h4>Empowering Local Youth with Direct Career Opportunities</h4>
             <p>Featured in leading Odisha dailies for bridging the hiring gap for tier-2 businesses in Cuttack and Bhubaneswar.</p>
-            <a href="about-media.html" style="color:var(--primary-green); font-weight:600; font-size:0.88rem;">Read Coverage &rarr;</a>
+            <a href="<?php echo esc_url(home_url('/about-media/')); ?>" style="color:var(--primary-green); font-weight:600; font-size:0.88rem;">Read Coverage &rarr;</a>
           </div>
         </div>
 
@@ -543,7 +418,7 @@
             <span class="media-tag">Recognition</span>
             <h4>Odisha MSME Employment Champion Citation</h4>
             <p>Recognized for supporting over 1,200 small enterprises with swift, verified recruitment solutions.</p>
-            <a href="about-media.html" style="color:var(--primary-green); font-weight:600; font-size:0.88rem;">View Citation &rarr;</a>
+            <a href="<?php echo esc_url(home_url('/about-media/')); ?>" style="color:var(--primary-green); font-weight:600; font-size:0.88rem;">View Citation &rarr;</a>
           </div>
         </div>
 
@@ -556,13 +431,13 @@
             <span class="media-tag">Community Event</span>
             <h4>Annual Odisha Manpower &amp; Skill Development Meet</h4>
             <p>Keynote showcase on creating sustainable home help and skilled trades opportunities in our home state.</p>
-            <a href="about-media.html" style="color:var(--primary-green); font-weight:600; font-size:0.88rem;">View Highlights &rarr;</a>
+            <a href="<?php echo esc_url(home_url('/about-media/')); ?>" style="color:var(--primary-green); font-weight:600; font-size:0.88rem;">View Highlights &rarr;</a>
           </div>
         </div>
       </div>
 
       <div style="text-align:center; margin-top:2.5rem;">
-        <a href="about-media.html" class="btn btn-green">View All Media &amp; Recognition &rarr;</a>
+        <a href="<?php echo esc_url(home_url('/about-media/')); ?>" class="btn btn-green">View All Media &amp; Recognition &rarr;</a>
       </div>
     </div>
   </section>
@@ -654,7 +529,7 @@
             </div>
             <h3>Hiring in Bhubaneswar: Top Skills Small Businesses are Looking for in 2026</h3>
             <p>Discover which competencies are driving growth in Bhubaneswar's burgeoning retail and IT sectors.</p>
-            <a href="blog-detail.html" style="color:var(--primary-green); font-weight:600; font-size:0.88rem;">Read Article &rarr;</a>
+            <a href="<?php echo esc_url(home_url('/blog-detail/')); ?>" style="color:var(--primary-green); font-weight:600; font-size:0.88rem;">Read Article &rarr;</a>
           </div>
         </article>
 
@@ -669,7 +544,7 @@
             </div>
             <h3>How to Find a Verified, Trustworthy Cook or Maid in Cuttack &amp; Bhubaneswar</h3>
             <p>Essential checklist for Odisha families when bringing domestic help into their households.</p>
-            <a href="blog-detail.html" style="color:var(--primary-green); font-weight:600; font-size:0.88rem;">Read Article &rarr;</a>
+            <a href="<?php echo esc_url(home_url('/blog-detail/')); ?>" style="color:var(--primary-green); font-weight:600; font-size:0.88rem;">Read Article &rarr;</a>
           </div>
         </article>
 
@@ -684,13 +559,13 @@
             </div>
             <h3>5 Back-Office Roles Growing Rapidly Across Odisha's Tier-2 Cities</h3>
             <p>Why Rourkela, Sambalpur, and Balasore are witnessing strong demand for accounting and billing talent.</p>
-            <a href="blog-detail.html" style="color:var(--primary-green); font-weight:600; font-size:0.88rem;">Read Article &rarr;</a>
+            <a href="<?php echo esc_url(home_url('/blog-detail/')); ?>" style="color:var(--primary-green); font-weight:600; font-size:0.88rem;">Read Article &rarr;</a>
           </div>
         </article>
       </div>
 
       <div style="text-align:center; margin-top: 2.5rem;">
-        <a href="blogs.html" class="btn btn-green">Explore All Articles &rarr;</a>
+        <a href="<?php echo esc_url(home_url('/blogs/')); ?>" class="btn btn-green">Explore All Articles &rarr;</a>
       </div>
     </div>
   </section>
@@ -764,129 +639,13 @@
       <h2>Ready to Find the Right Fit in Odisha?</h2>
       <p>Whether you need a rewarding job, dependable manpower for your enterprise, or trusted help for your home, our local team is ready to assist you today.</p>
       <div class="final-cta-buttons">
-        <a href="services-job-seekers.html" class="btn btn-white btn-lg">💼 I Need a Job</a>
-        <a href="services-employers.html" class="btn btn-outline-white btn-lg">🏢 I Need Staff for My Business</a>
-        <a href="services-customers.html" class="btn btn-white btn-lg">🏠 I Need Help at Home</a>
+        <a href="<?php echo esc_url(home_url('/services-job-seekers/')); ?>" class="btn btn-white btn-lg">💼 I Need a Job</a>
+        <a href="<?php echo esc_url(home_url('/services-employers/')); ?>" class="btn btn-outline-white btn-lg">🏢 I Need Staff for My Business</a>
+        <a href="<?php echo esc_url(home_url('/services-customers/')); ?>" class="btn btn-white btn-lg">🏠 I Need Help at Home</a>
       </div>
     </div>
   </section>
 
   <!-- GLOBAL FOOTER (4 Columns, Green Background, White Text, Blue Hover/Icons) -->
-  <footer class="site-footer">
-    <div class="container">
-      <!-- Newsletter Bar -->
-      <div class="footer-newsletter-wrap">
-        <div class="footer-newsletter-text">
-          <h3>Get Job Alerts &amp; Hiring Tips</h3>
-          <p>Join over 10,000 Odias receiving weekly career updates and manpower insights.</p>
-        </div>
-        <form class="footer-newsletter-form" id="newsletterForm">
-          <input type="email" placeholder="Enter your email address" required aria-label="Email for job alerts">
-          <button type="submit">Subscribe</button>
-        </form>
-      </div>
 
-      <!-- 4 Columns -->
-      <div class="footer-grid">
-        <!-- Col 1: Logo & Description -->
-        <div class="footer-col">
-          <img src="assets/icons/logo.svg" alt="Odiins Logo" height="42" style="filter: brightness(0) invert(1); margin-bottom: 1rem;">
-          <p>Odisha's own HR &amp; manpower connection platform. Dedicated to building local opportunities and trusted household connections.</p>
-          <div class="footer-social-icons">
-            <a href="#" class="social-icon-btn" aria-label="Facebook">f</a>
-            <a href="#" class="social-icon-btn" aria-label="LinkedIn">in</a>
-            <a href="#" class="social-icon-btn" aria-label="Instagram">📸</a>
-            <a href="#" class="social-icon-btn" aria-label="X / Twitter">𝕏</a>
-            <a href="#" class="social-icon-btn" aria-label="YouTube">▶</a>
-          </div>
-        </div>
-
-        <!-- Col 2: Quick Links -->
-        <div class="footer-col">
-          <h4>Quick Links</h4>
-          <div class="footer-links">
-            <a href="index.html">Home</a>
-            <a href="about-vision-mission.html">Vision &amp; Mission</a>
-            <a href="about-media.html">Media &amp; Recognition</a>
-            <a href="blogs.html">Blogs &amp; Insights</a>
-            <a href="contact.html">Contact Us</a>
-            <a href="dashboard.html">🔒 Admin Portal</a>
-          </div>
-        </div>
-
-        <!-- Col 3: Services -->
-        <div class="footer-col">
-          <h4>Services</h4>
-          <div class="footer-links">
-            <a href="services-job-seekers.html">For Job Seekers</a>
-            <a href="services-employers.html">For Employers &amp; Business</a>
-            <a href="services-customers.html">For Customers (Home Help)</a>
-            <a href="services-employers.html">Corporate Staffing</a>
-            <a href="services-customers.html">Driver &amp; Cook on Hire</a>
-            <a href="services-customers.html">Pandit Booking Odisha</a>
-          </div>
-        </div>
-
-        <!-- Col 4: Contact & Coverage -->
-        <div class="footer-col">
-          <h4>Contact &amp; Coverage</h4>
-          <p>📞 <a href="tel:+917008012345" style="color:#FFFFFF;">+91 70080 12345</a></p>
-          <p>✉️ <a href="mailto:contact@odiins.com" style="color:#FFFFFF;">contact@odiins.com</a></p>
-          <p>⏰ Mon - Sat: 9:00 AM - 7:00 PM</p>
-          <p style="font-size:0.8rem; color:rgba(255,255,255,0.8); margin-top:0.5rem;">
-            Serving Bhubaneswar, Cuttack, Puri, Rourkela, Sambalpur, Berhampur &amp; all 30 districts of Odisha.
-          </p>
-        </div>
-      </div>
-
-      <!-- Bottom Bar & Disclaimer -->
-      <div class="footer-bottom">
-        <div class="footer-bottom-links">
-          <a href="privacy-policy.html">Privacy Policy</a>
-          <span>|</span>
-          <a href="terms.html">Terms</a>
-          <span>|</span>
-          <a href="disclaimer.html">Disclaimer</a>
-          <span>|</span>
-          <a href="dashboard.html" style="color:rgba(255,255,255,0.75);">🔒 Admin Login</a>
-        </div>
-        <p style="margin-bottom:0.75rem;">&copy; 2026 Odiins. All rights reserved.</p>
-        <p class="footer-disclaimer">
-          <strong>Disclaimer:</strong> Odiins is a connecting platform between employers, job seekers and households. We do not guarantee employment or hiring outcomes. Please verify details before engagement.
-        </p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- FLOATING WHATSAPP BUTTON -->
-  <a href="https://wa.me/917008012345?text=Hello%20Odiins%2C%20I%20have%20an%20enquiry" target="_blank" rel="noopener" class="floating-whatsapp" aria-label="Chat on WhatsApp">
-    💬
-  </a>
-
-  <!-- MOBILE STICKY BOTTOM ACTION BAR -->
-  <div class="mobile-bottom-bar">
-    <a href="tel:+917008012345" class="mobile-action-btn mobile-btn-call">
-      <span>📞</span> Call Now
-    </a>
-    <a href="https://wa.me/917008012345?text=Hello%20Odiins%2C%20I%20have%20an%20enquiry" target="_blank" rel="noopener" class="mobile-action-btn mobile-btn-wa">
-      <span>💬</span> WhatsApp
-    </a>
-  </div>
-
-  <!-- COOKIE CONSENT BANNER -->
-  <div class="cookie-banner" id="cookieBanner">
-    <div class="cookie-banner-inner">
-      <div class="cookie-text">
-        🍪 We use cookies to offer you a smooth experience and relevant job alerts in Odisha.
-      </div>
-      <div class="cookie-btns">
-        <button class="btn btn-green btn-sm" id="acceptCookieBtn">Accept</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scripts -->
-  <script src="js/main.js"></script>
-  <script src="js/forms.js"></script>
-</body>
-</html>
+<?php get_footer(); ?>
