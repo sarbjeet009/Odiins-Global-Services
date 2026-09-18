@@ -1,0 +1,22 @@
+{
+  "name": "odiins-app",
+  "version": "1.0.0",
+  "description": "Odiins - Odisha's Own HR, Manpower & Trusted Home Help Connection Platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "odisha",
+    "manpower",
+    "recruitment",
+    "jobs",
+    "maid",
+    "cook",
+    "driver",
+    "pandit"
+  ],
+  "author": "Odiins",
+  "license": "ISC"
+}

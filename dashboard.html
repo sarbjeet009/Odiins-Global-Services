@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Lead Dashboard | Odiins Operations Portal</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="background-color: var(--bg-light-blue);">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="container topbar-content">
+      <div class="topbar-left">
+        <span>🔒 <strong>Odiins Internal Operations &amp; Lead Management Portal</strong></span>
+      </div>
+      <div class="topbar-right">
+        <span>Admin: operations@odiins.com</span>
+        <a href="index.html" class="btn btn-sm btn-white" style="padding:0.2rem 0.6rem; color:var(--primary-green); font-size:0.75rem;">Return to Website</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- DASHBOARD MAIN -->
+  <main class="container" style="padding-top: 2rem; padding-bottom: 3rem;">
+    
+    <!-- Header Block -->
+    <div style="background:var(--bg-white); padding:1.75rem; border-radius:var(--radius-lg); box-shadow:var(--card-shadow); border:1px solid var(--border-light); margin-bottom:1.5rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <img src="assets/icons/logo.svg" alt="Odiins Logo" height="42">
+          <div>
+            <h1 style="font-size:1.5rem; line-height:1.2;">Lead Management Dashboard</h1>
+            <p style="font-size:0.85rem; color:var(--text-muted);">Real-time leads, live CSV spreadsheet sync &amp; email dispatch</p>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+          <a href="/api/leads/export.csv" id="exportCsvBtn" class="btn btn-green btn-sm" download>
+            📥 Export to CSV / Excel
+          </a>
+          <button id="refreshLeadsBtn" class="btn btn-white btn-sm">
+            🔄 Refresh
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="dashboard-stats-grid">
+      <div class="stat-box">
+        <div class="stat-box-val" id="statTotalLeads">0</div>
+        <div class="stat-box-title">Total Active Enquiries</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-val" id="statJobSeekers" style="color:#0369A1;">0</div>
+        <div class="stat-box-title">Job Seekers</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-val" id="statEmployers" style="color:#15803D;">0</div>
+        <div class="stat-box-title">Employers &amp; MSMEs</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-val" id="statCustomers" style="color:#B45309;">0</div>
+        <div class="stat-box-title">Household Inquiries</div>
+      </div>
+    </div>
+
+    <!-- Filters & Search Toolbar -->
+    <div style="background:var(--bg-white); padding:1.25rem; border-radius:var(--radius-md); box-shadow:var(--card-shadow); border:1px solid var(--border-light); margin-bottom:1.5rem;">
+      <div style="display:grid; grid-template-columns:1fr; gap:1rem;">
+        <div style="display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center;">
+          <!-- Search Box -->
+          <div style="flex-grow:1; min-width:240px;">
+            <input type="text" id="leadSearchInput" class="form-control" placeholder="Search by name, phone, district, or requirement...">
+          </div>
+
+          <!-- Filter by Category -->
+          <div>
+            <select id="filterCategory" class="form-control" style="width:auto; min-width:160px;">
+              <option value="all">All Categories</option>
+              <option value="Job Seeker">Job Seekers</option>
+              <option value="Employer">Employers / Business</option>
+              <option value="Customer">Household Help</option>
+              <option value="Contact Enquiry">Contact Messages</option>
+            </select>
+          </div>
+
+          <!-- Filter by Status -->
+          <div>
+            <select id="filterStatus" class="form-control" style="width:auto; min-width:140px;">
+              <option value="all">All Statuses</option>
+              <option value="New">New</option>
+              <option value="Contacted">Contacted</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Closed">Closed</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leads Table -->
+    <div class="table-responsive">
+      <table class="data-table" id="leadsTable">
+        <thead>
+          <tr>
+            <th>ID &amp; Date</th>
+            <th>Category</th>
+            <th>Name / Business</th>
+            <th>Phone / WhatsApp</th>
+            <th>District / Location</th>
+            <th>Requirement</th>
+            <th>Status</th>
+            <th>Quick Actions</th>
+          </tr>
+        </thead>
+        <tbody id="leadsTableBody">
+          <tr>
+            <td colspan="8" style="text-align:center; padding:2rem; color:var(--text-muted);">
+              Loading live leads...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Email Notification Audit Log Card -->
+    <div style="margin-top:2.5rem; background:var(--bg-white); border-radius:var(--radius-lg); padding:1.75rem; box-shadow:var(--card-shadow); border:1px solid var(--border-light);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h3 style="font-size:1.15rem; display:flex; align-items:center; gap:0.5rem;">
+          <span>✉️</span> Admin Email Notification Dispatch Log
+        </h3>
+        <span class="section-badge" style="margin:0;">Simulated SMTP / Webhook</span>
+      </div>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">
+        Whenever a user submits any enquiry form across Odiins, an automated alert email is compiled and dispatched to <code>admin@odiins.com</code> and <code>support@odiins.com</code> with one-tap WhatsApp and call actions.
+      </p>
+      <div id="emailLogContainer" style="background:#1F2937; color:#A7F3D0; font-family:monospace; font-size:0.8rem; padding:1rem; border-radius:var(--radius-sm); max-height:180px; overflow-y:auto; line-height:1.5;">
+        [System Ready] Listening for new leads...
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    let allLeads = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchLeads();
+      setupToolbar();
+    });
+
+    async function fetchLeads() {
+      try {
+        const res = await fetch('/api/leads');
+        if (res.ok) {
+          allLeads = await res.json();
+        } else {
+          // Fallback to localStorage if offline
+          allLeads = JSON.parse(localStorage.getItem('odiins_leads') || '[]');
+        }
+      } catch (e) {
+        allLeads = JSON.parse(localStorage.getItem('odiins_leads') || '[]');
+      }
+      renderLeads();
+      updateStats();
+      renderEmailLog();
+    }
+
+    function updateStats() {
+      document.getElementById('statTotalLeads').textContent = allLeads.length;
+      document.getElementById('statJobSeekers').textContent = allLeads.filter(l => l.formType === 'Job Seeker').length;
+      document.getElementById('statEmployers').textContent = allLeads.filter(l => l.formType === 'Employer').length;
+      document.getElementById('statCustomers').textContent = allLeads.filter(l => l.formType === 'Customer').length;
+    }
+
+    function renderLeads() {
+      const tbody = document.getElementById('leadsTableBody');
+      const search = (document.getElementById('leadSearchInput').value || '').toLowerCase().trim();
+      const cat = document.getElementById('filterCategory').value;
+      const status = document.getElementById('filterStatus').value;
+
+      const filtered = allLeads.filter(lead => {
+        const matchesCat = (cat === 'all' || lead.formType === cat);
+        const matchesStatus = (status === 'all' || lead.status === status);
+        const text = `${lead.name} ${lead.phone} ${lead.location} ${lead.requirement} ${lead.id}`.toLowerCase();
+        const matchesSearch = !search || text.includes(search);
+        return matchesCat && matchesStatus && matchesSearch;
+      });
+
+      if (!filtered.length) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align:center; padding:2rem; color:var(--text-muted);">
+              No leads found matching your criteria.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(lead => {
+        const dateStr = new Date(lead.timestamp).toLocaleDateString('en-IN', {
+          day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+        });
+
+        let catBadgeClass = 'badge-job-seeker';
+        if (lead.formType === 'Employer') catBadgeClass = 'badge-employer';
+        if (lead.formType === 'Customer') catBadgeClass = 'badge-customer';
+        if (lead.formType === 'Contact Enquiry') catBadgeClass = 'badge-contact';
+
+        let statusClass = 'badge-status-new';
+        if (lead.status === 'Contacted') statusClass = 'badge-status-contacted';
+        if (lead.status === 'Closed') statusClass = 'badge-status-closed';
+
+        const cleanPhone = (lead.phone || '').replace(/[^0-9]/g, '');
+        const waText = encodeURIComponent(`Hello ${lead.name}, this is Odiins reaching out regarding your ${lead.requirement} enquiry.`);
+
+        return `
+          <tr>
+            <td>
+              <strong>${lead.id}</strong><br>
+              <span style="font-size:0.75rem; color:var(--text-muted);">${dateStr}</span>
+            </td>
+            <td>
+              <span class="badge-lead-type ${catBadgeClass}">${lead.formType}</span>
+            </td>
+            <td>
+              <strong>${lead.name}</strong>
+            </td>
+            <td>
+              <a href="tel:${cleanPhone}" style="color:var(--primary-green); font-weight:600;">${lead.phone}</a>
+            </td>
+            <td>${lead.location}</td>
+            <td>${lead.requirement}</td>
+            <td>
+              <select onchange="changeLeadStatus('${lead.id}', this.value)" style="padding:0.25rem; font-size:0.75rem; border-radius:4px; border:1px solid var(--border-light);">
+                <option value="New" ${lead.status === 'New' ? 'selected' : ''}>New</option>
+                <option value="Contacted" ${lead.status === 'Contacted' ? 'selected' : ''}>Contacted</option>
+                <option value="In Progress" ${lead.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                <option value="Closed" ${lead.status === 'Closed' ? 'selected' : ''}>Closed</option>
+              </select>
+            </td>
+            <td>
+              <div style="display:flex; gap:0.4rem;">
+                <a href="tel:${cleanPhone}" class="btn btn-green btn-sm" title="Call Now" style="padding:0.3rem 0.6rem;">📞</a>
+                <a href="https://wa.me/91${cleanPhone}?text=${waText}" target="_blank" class="btn btn-sm" style="background:#25D366; color:#FFF; padding:0.3rem 0.6rem;" title="WhatsApp">💬</a>
+                <button onclick="deleteLead('${lead.id}')" class="btn btn-white btn-sm" style="color:#DC2626; padding:0.3rem 0.6rem;" title="Delete">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    async function changeLeadStatus(id, newStatus) {
+      try {
+        await fetch(`/api/leads/${id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: newStatus })
+        });
+      } catch (e) {}
+
+      const item = allLeads.find(l => l.id === id);
+      if (item) item.status = newStatus;
+      renderLeads();
+      if (window.showToast) window.showToast(`Lead ${id} marked as ${newStatus}`, 'info');
+    }
+
+    async function deleteLead(id) {
+      if (!confirm(`Are you sure you want to delete lead ${id}?`)) return;
+      try {
+        await fetch(`/api/leads/${id}`, { method: 'DELETE' });
+      } catch (e) {}
+
+      allLeads = allLeads.filter(l => l.id !== id);
+      renderLeads();
+      updateStats();
+      if (window.showToast) window.showToast(`Lead ${id} deleted`, 'info');
+    }
+
+    function setupToolbar() {
+      document.getElementById('leadSearchInput').addEventListener('input', renderLeads);
+      document.getElementById('filterCategory').addEventListener('change', renderLeads);
+      document.getElementById('filterStatus').addEventListener('change', renderLeads);
+      document.getElementById('refreshLeadsBtn').addEventListener('click', fetchLeads);
+    }
+
+    function renderEmailLog() {
+      const container = document.getElementById('emailLogContainer');
+      if (!allLeads.length) return;
+
+      const lines = allLeads.slice(0, 3).map(l => {
+        return `[ALERT SENT TO ADMIN] New ${l.formType}: "${l.name}" (${l.location}) | Req: ${l.requirement} | Phone: ${l.phone}`;
+      });
+      container.innerHTML = `[SMTP Audit Log Active]\n` + lines.join('\n');
+    }
+  </script>
+</body>
+</html>

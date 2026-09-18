@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media &amp; Recognition | Odiins Press, Awards &amp; Events</title>
+  <meta name="description" content="Explore Odiins media coverage, industry awards, photo galleries, event highlights, and regional partnerships celebrating local employment across Odisha.">
+  <meta name="keywords" content="Odiins news, Odisha startup press, manpower awards Odisha, Bhubaneswar HR recognition, Odiins events">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="container topbar-content">
+      <div class="topbar-left">
+        <span>📍 <strong>Press &amp; Media Relations Desk</strong></span>
+      </div>
+      <div class="topbar-right">
+        <a href="mailto:press@odiins.com">✉️ press@odiins.com</a>
+        <a href="tel:+917008012345">📞 +91 70080 12345</a>
+        <button class="lang-toggle">ଓଡ଼ିଆ | English</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="brand-logo" aria-label="Odiins Home">
+        <img src="assets/icons/logo.svg" alt="Odiins Logo" height="46">
+      </a>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-dropdown">
+          <a href="#" class="nav-dropdown-btn">Services ▾</a>
+          <div class="dropdown-menu">
+            <a href="services-job-seekers.html" class="dropdown-item">💼 For Job Seekers</a>
+            <a href="services-employers.html" class="dropdown-item">🏢 For Employers &amp; Business</a>
+            <a href="services-customers.html" class="dropdown-item">🏠 For Customers (Home Help)</a>
+          </div>
+        </li>
+        <li class="nav-dropdown">
+          <a href="#" class="nav-dropdown-btn" style="color:var(--primary-green);">About Us ▾</a>
+          <div class="dropdown-menu">
+            <a href="about-vision-mission.html" class="dropdown-item">🎯 Vision &amp; Mission</a>
+            <a href="about-media.html" class="dropdown-item" style="color:var(--primary-green); font-weight:700;">📰 Media &amp; Recognition</a>
+          </div>
+        </li>
+        <li><a href="blogs.html" class="nav-link">Blogs</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <a href="services-job-seekers.html" class="btn btn-green btn-sm">Get Started</a>
+        <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Open Navigation Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+      <img src="assets/icons/logo.svg" alt="Odiins Logo" height="38">
+      <button class="drawer-close" id="drawerCloseBtn">&times;</button>
+    </div>
+    <div class="drawer-links">
+      <a href="index.html" class="drawer-link">Home</a>
+      <a href="services-job-seekers.html" class="drawer-link">💼 For Job Seekers</a>
+      <a href="services-employers.html" class="drawer-link">🏢 For Employers</a>
+      <a href="services-customers.html" class="drawer-link">🏠 For Customers (Home Help)</a>
+      <a href="about-vision-mission.html" class="drawer-link">🎯 Vision &amp; Mission</a>
+      <a href="about-media.html" class="drawer-link active">📰 Media &amp; Recognition</a>
+      <a href="blogs.html" class="drawer-link">Blogs</a>
+      <a href="contact.html" class="drawer-link">Contact Us</a>
+    </div>
+  </aside>
+
+  <!-- HERO SECTION -->
+  <section class="section section-alt" style="padding: 3rem 0 2rem 0;">
+    <div class="container text-center" style="text-align:center;">
+      <span class="section-badge">Press Room</span>
+      <h1 style="font-size: 2.5rem; margin-bottom: 0.75rem;">Media &amp; Recognition</h1>
+      <p style="max-width: 650px; margin: 0 auto; color: var(--text-muted);">
+        Highlights of our milestones, regional news features, MSME awards, and grassroots workforce initiatives across Odisha.
+      </p>
+    </div>
+  </section>
+
+  <!-- FILTER TABS & MEDIA GRID -->
+  <section class="section section-white">
+    <div class="container">
+      <!-- Filter Tabs (All / News / Awards / Events / Videos) -->
+      <div class="media-tabs">
+        <button class="media-tab active" data-filter="all">All Items</button>
+        <button class="media-tab" data-filter="news">📰 In the News</button>
+        <button class="media-tab" data-filter="awards">🏆 Awards &amp; Certificates</button>
+        <button class="media-tab" data-filter="events">📸 Photo Gallery &amp; Events</button>
+        <button class="media-tab" data-filter="videos">🎬 Videos &amp; Interviews</button>
+      </div>
+
+      <!-- Media Items Grid -->
+      <div class="media-grid">
+        <!-- Item 1: News -->
+        <div class="media-card" data-category="news">
+          <div class="media-card-img">
+            <span style="font-size: 3.5rem;">📰</span>
+          </div>
+          <div class="media-card-body">
+            <span class="media-tag">Regional Daily</span>
+            <h4>“Odiins Bridges the Urban-Rural Talent Void for Odisha MSMEs”</h4>
+            <p>Covered on the front page of leading regional media highlighting our zero-fee model for job seekers in Cuttack &amp; Bhubaneswar.</p>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: auto;">Odisha Sambad • March 2026</div>
+          </div>
+        </div>
+
+        <!-- Item 2: Awards -->
+        <div class="media-card" data-category="awards">
+          <div class="media-card-img" style="background:#EAF3FA;">
+            <span style="font-size: 3.5rem;">🏆</span>
+          </div>
+          <div class="media-card-body">
+            <span class="media-tag">Industry Award</span>
+            <h4>Odisha Manpower &amp; Staffing Excellence Award 2025</h4>
+            <p>Presented by the Odisha Commerce &amp; MSME Forum for placing over 1,000+ local youth in sustainable, verified jobs.</p>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: auto;">MSME Odisha Forum • November 2025</div>
+          </div>
+        </div>
+
+        <!-- Item 3: Events -->
+        <div class="media-card" data-category="events">
+          <div class="media-card-img" style="background:#F0FDF4;">
+            <span style="font-size: 3.5rem;">🤝</span>
+          </div>
+          <div class="media-card-body">
+            <span class="media-tag">Grassroots Drive</span>
+            <h4>Bhubaneswar Mega Youth Hiring &amp; Orientation Fair</h4>
+            <p>Over 800 candidates attended our career orientation workshop covering interview etiquette and verified local placements.</p>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: auto;">Event Gallery • January 2026</div>
+          </div>
+        </div>
+
+        <!-- Item 4: Videos -->
+        <div class="media-card" data-category="videos">
+          <div class="media-card-img" style="background:#EFF6FF;">
+            <span style="font-size: 3.5rem;">🎬</span>
+          </div>
+          <div class="media-card-body">
+            <span class="media-tag">Video Spotlight</span>
+            <h4>Founder Interview: Why Odisha Needs a State-First Platform</h4>
+            <p>A 15-minute conversation on curbing youth migration, formalizing household help, and boosting local enterprise growth.</p>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: auto;">Odisha Business Channel • 14 Mins</div>
+          </div>
+        </div>
+
+        <!-- Item 5: News -->
+        <div class="media-card" data-category="news">
+          <div class="media-card-img">
+            <span style="font-size: 3.5rem;">📰</span>
+          </div>
+          <div class="media-card-body">
+            <span class="media-tag">Business Feature</span>
+            <h4>Formalizing Domestic Support: The Odiins Verification Blueprint</h4>
+            <p>How verified identity badges and Aadhaar checks are bringing safety and dignity to maids and drivers in Odisha.</p>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: auto;">The Samaja Business Desk • December 2025</div>
+          </div>
+        </div>
+
+        <!-- Item 6: Awards -->
+        <div class="media-card" data-category="awards">
+          <div class="media-card-img" style="background:#EAF3FA;">
+            <span style="font-size: 3.5rem;">🎖️</span>
+          </div>
+          <div class="media-card-body">
+            <span class="media-tag">Community Recognition</span>
+            <h4>Top Customer-First Domestic Platform Citation</h4>
+            <p>Acknowledged by community associations across Bhubaneswar and Cuttack for dependable domestic care and pandit services.</p>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: auto;">Smart City Residents Welfare • 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERS LOGO STRIP -->
+  <section class="section section-alt">
+    <div class="container text-center" style="text-align:center;">
+      <span class="section-badge">Trusted Collaborations</span>
+      <h2>Supporting Odisha's Business Ecosystem</h2>
+      <p style="margin-bottom:2rem; color:var(--text-muted);">Collaborating with leading regional associations, trade federations, and retail networks.</p>
+
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:2rem; align-items:center;">
+        <div style="background:var(--bg-white); padding:1rem 2rem; border-radius:var(--radius-md); border:1px solid var(--border-light); font-weight:700; color:var(--text-charcoal);">
+          Odisha MSME Chamber
+        </div>
+        <div style="background:var(--bg-white); padding:1rem 2rem; border-radius:var(--radius-md); border:1px solid var(--border-light); font-weight:700; color:var(--text-charcoal);">
+          Utkal Retailers Federation
+        </div>
+        <div style="background:var(--bg-white); padding:1rem 2rem; border-radius:var(--radius-md); border:1px solid var(--border-light); font-weight:700; color:var(--text-charcoal);">
+          Bhubaneswar Logistics Council
+        </div>
+        <div style="background:var(--bg-white); padding:1rem 2rem; border-radius:var(--radius-md); border:1px solid var(--border-light); font-weight:700; color:var(--text-charcoal);">
+          Cuttack Traders Guild
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRESS ENQUIRY CONTACT BOX -->
+  <section class="section section-white">
+    <div class="container">
+      <div style="background:var(--bg-light-blue); border-radius:var(--radius-lg); padding:2.5rem; text-align:center; max-width:800px; margin:0 auto; border:1px solid var(--border-light);">
+        <span class="section-badge">Press Relations</span>
+        <h3 style="font-size:1.6rem; margin:0.5rem 0 0.75rem 0;">Journalist or Media Representative?</h3>
+        <p style="color:var(--text-muted); margin-bottom:1.5rem;">
+          For press inquiries, founder interviews, employment reports, or high-resolution brand assets, contact our dedicated media liaison team.
+        </p>
+        <div style="display:inline-flex; gap:1rem; flex-wrap:wrap; justify-content:center;">
+          <a href="mailto:press@odiins.com" class="btn btn-green">✉️ press@odiins.com</a>
+          <a href="tel:+917008012345" class="btn btn-white">📞 +91 70080 12345</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <img src="assets/icons/logo.svg" alt="Odiins Logo" height="42" style="filter: brightness(0) invert(1); margin-bottom: 1rem;">
+          <p>Odisha's own HR &amp; manpower connection platform.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about-vision-mission.html">Vision &amp; Mission</a>
+            <a href="about-media.html">Media &amp; Recognition</a>
+            <a href="blogs.html">Blogs</a>
+            <a href="contact.html">Contact Us</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Press Room</h4>
+          <div class="footer-links">
+            <a href="#">Press Releases</a>
+            <a href="#">Brand Assets &amp; Logo Kit</a>
+            <a href="#">Odisha Employment Reports</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Media Contact</h4>
+          <p>✉️ press@odiins.com</p>
+          <p>📞 +91 70080 12345</p>
+          <p>📍 Bhubaneswar, Odisha</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Odiins. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/917008012345" target="_blank" rel="noopener" class="floating-whatsapp" aria-label="Chat on WhatsApp">💬</a>
+
+  <div class="mobile-bottom-bar">
+    <a href="tel:+917008012345" class="mobile-action-btn mobile-btn-call"><span>📞</span> Call Now</a>
+    <a href="https://wa.me/917008012345" target="_blank" rel="noopener" class="mobile-action-btn mobile-btn-wa"><span>💬</span> WhatsApp</a>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/forms.js"></script>
+</body>
+</html>
