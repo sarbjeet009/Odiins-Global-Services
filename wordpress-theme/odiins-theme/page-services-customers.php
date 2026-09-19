@@ -196,7 +196,7 @@ get_header();
       <p>Submit your home requirement in 30 seconds, or speak directly with our household care desk.</p>
       <div class="final-cta-buttons">
         <a href="#customerFormSection" class="btn btn-white btn-lg">Request Call Back &rarr;</a>
-        <a href="tel:+917008012345" class="btn btn-outline-white btn-lg">📞 Call Home Desk</a>
+        <a href="tel:+919938079601" class="btn btn-outline-white btn-lg">📞 Call Home Desk</a>
       </div>
     </div>
   </section>

@@ -17,8 +17,8 @@
         <span class="topbar-badge">Odisha's Verified Network</span>
       </div>
       <div class="topbar-right">
-        <a href="tel:+917008012345">📞 +91 70080 12345</a>
-        <a href="mailto:contact@odiins.com">✉️ contact@odiins.com</a>
+        <a href="tel:+919938079601">📞 +91 99380 79601</a>
+        <a href="mailto:corporate@odiins.in">✉️ corporate@odiins.in</a>
         <button class="lang-toggle" title="Change Language">ଓଡ଼ିଆ | English</button>
       </div>
     </div>
@@ -87,6 +87,6 @@
       <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="drawer-link">Contact Us</a>
     </div>
     <div class="drawer-footer">
-      <a href="tel:+917008012345" class="btn btn-green btn-block">📞 Call +91 70080 12345</a>
+      <a href="tel:+919938079601" class="btn btn-green btn-block">📞 Call +91 99380 79601</a>
     </div>
   </aside>

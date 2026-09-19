@@ -46,8 +46,9 @@
         <!-- Col 4: Contact & Coverage -->
         <div class="footer-col">
           <h4>Contact &amp; Coverage</h4>
-          <p>📞 <a href="tel:+917008012345" style="color:#FFFFFF;">+91 70080 12345</a></p>
-          <p>✉️ <a href="mailto:contact@odiins.com" style="color:#FFFFFF;">contact@odiins.com</a></p>
+          <p>📞 <a href="tel:+919938079601" style="color:#FFFFFF;">+91 99380 79601</a></p>
+          <p>✉️ <a href="mailto:corporate@odiins.in" style="color:#FFFFFF;">corporate@odiins.in</a></p>
+          <p>📍 Plot 220/3482, lane no. 3, bairagi nagar, 751006</p>
           <p>⏰ Mon - Sat: 9:00 AM - 7:00 PM</p>
           <p style="font-size:0.8rem; color:rgba(255,255,255,0.8); margin-top:0.5rem;">
             Serving Bhubaneswar, Cuttack, Puri, Rourkela, Sambalpur, Berhampur &amp; all 30 districts of Odisha.
@@ -75,16 +76,16 @@
   </footer>
 
   <!-- FLOATING WHATSAPP BUTTON -->
-  <a href="https://wa.me/917008012345?text=Hello%20Odiins%2C%20I%20have%20an%20enquiry" target="_blank" rel="noopener" class="floating-whatsapp" aria-label="Chat on WhatsApp">
+  <a href="https://wa.me/919938079601?text=Hello%20Odiins%2C%20I%20have%20an%20enquiry" target="_blank" rel="noopener" class="floating-whatsapp" aria-label="Chat on WhatsApp">
     💬
   </a>
 
   <!-- MOBILE STICKY BOTTOM ACTION BAR -->
   <div class="mobile-bottom-bar" aria-label="Quick Mobile Actions">
-    <a href="tel:+917008012345" class="mobile-action-btn mobile-btn-call">
+    <a href="tel:+919938079601" class="mobile-action-btn mobile-btn-call">
       <span>📞</span> Call Now
     </a>
-    <a href="https://wa.me/917008012345?text=Hello%20Odiins%20Team%2C%20I%20have%20an%20urgent%20requirement" target="_blank" rel="noopener" class="mobile-action-btn mobile-btn-wa">
+    <a href="https://wa.me/919938079601?text=Hello%20Odiins%20Team%2C%20I%20have%20an%20urgent%20requirement" target="_blank" rel="noopener" class="mobile-action-btn mobile-btn-wa">
       <span>💬</span> WhatsApp
     </a>
   </div>

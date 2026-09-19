@@ -34,7 +34,7 @@ get_header();
             <div class="contact-item-icon">📍</div>
             <div>
               <h4>Central Office Address</h4>
-              <p>Plot No. 412, Janpath Road, Saheed Nagar / Patia, Bhubaneswar, Odisha 751007</p>
+              <p>Plot 220/3482, lane no. 3, bairagi nagar, 751006, Bhubaneswar, Odisha</p>
             </div>
           </div>
 
@@ -42,7 +42,7 @@ get_header();
             <div class="contact-item-icon">📞</div>
             <div>
               <h4>Helpline Phone</h4>
-              <p><a href="tel:+917008012345" style="font-weight:600; color:var(--text-charcoal);">+91 70080 12345</a></p>
+              <p><a href="tel:+919938079601" style="font-weight:600; color:var(--text-charcoal);">+91 99380 79601</a></p>
               <p style="font-size:0.8rem; color:var(--text-muted);">Toll-free candidate &amp; client assistance</p>
             </div>
           </div>
@@ -51,7 +51,7 @@ get_header();
             <div class="contact-item-icon">💬</div>
             <div>
               <h4>WhatsApp Support Desk</h4>
-              <p><a href="https://wa.me/917008012345" target="_blank" style="font-weight:600; color:var(--primary-green);">+91 70080 12345 (Click to Chat)</a></p>
+              <p><a href="https://wa.me/919938079601" target="_blank" style="font-weight:600; color:var(--primary-green);">+91 99380 79601 (Click to Chat)</a></p>
               <p style="font-size:0.8rem; color:var(--text-muted);">Fast responses during working hours</p>
             </div>
           </div>
@@ -60,7 +60,7 @@ get_header();
             <div class="contact-item-icon">✉️</div>
             <div>
               <h4>Email Support</h4>
-              <p><a href="mailto:contact@odiins.com" style="color:var(--text-charcoal);">contact@odiins.com</a></p>
+              <p><a href="mailto:corporate@odiins.in" style="color:var(--text-charcoal);">corporate@odiins.in</a></p>
             </div>
           </div>
 
@@ -79,7 +79,7 @@ get_header();
               <div style="font-size:2rem; margin-bottom:0.35rem;">🗺️</div>
               <h4 style="font-size:1rem; margin-bottom:0.25rem;">Bhubaneswar Hub Map</h4>
               <p style="font-size:0.82rem; color:var(--text-muted);">Serving Bhubaneswar, Cuttack, Puri &amp; all 30 districts</p>
-              <a href="https://maps.google.com/?q=Bhubaneswar,Odisha" target="_blank" class="btn btn-green btn-sm" style="margin-top:0.5rem;">
+              <a href="https://maps.google.com/?q=Plot+220%2F3482%2C+lane+no.+3%2C+bairagi+nagar%2C+751006" target="_blank" class="btn btn-green btn-sm" style="margin-top:0.5rem;">
                 Open in Google Maps &rarr;
               </a>
             </div>
@@ -87,10 +87,10 @@ get_header();
 
           <!-- Direct Call / WhatsApp Buttons -->
           <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:0.5rem;">
-            <a href="https://wa.me/917008012345" target="_blank" class="btn btn-green" style="background:#25D366; flex:1;">
+            <a href="https://wa.me/919938079601" target="_blank" class="btn btn-green" style="background:#25D366; flex:1;">
               💬 Chat on WhatsApp
             </a>
-            <a href="tel:+917008012345" class="btn btn-green" style="flex:1;">
+            <a href="tel:+919938079601" class="btn btn-green" style="flex:1;">
               📞 Call Now
             </a>
           </div>
@@ -116,7 +116,7 @@ get_header();
             <!-- Field 2: Phone* -->
             <div class="form-group">
               <label class="form-label" for="cntPhone">Phone Number *</label>
-              <input type="tel" id="cntPhone" name="phone" class="form-control" placeholder="e.g. 70080 12345" required pattern="[0-9]{10}">
+              <input type="tel" id="cntPhone" name="phone" class="form-control" placeholder="e.g. 99380 79601" required pattern="[0-9]{10}">
             </div>
 
             <!-- Field 3: I am a...* -->

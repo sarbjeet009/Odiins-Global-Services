@@ -292,7 +292,7 @@ function sendAdminEmailNotification(lead) {
   const emailBody = `
 ================================================================================
 [ADMIN EMAIL NOTIFICATION - ODIINS PLATFORM]
-To: admin@odiins.com, support@odiins.com
+To: corporate@odiins.in
 Date: ${new Date().toISOString()}
 Subject: [NEW LEAD ALERT] ${lead.formType.toUpperCase()} - ${lead.name} (${lead.location})
 
@@ -343,7 +343,7 @@ const server = http.createServer((req, res) => {
     req.on('end', () => {
       try {
         const { username, password } = JSON.parse(body || '{}');
-        const validUser = (username === 'admin@odiins.com' || username === 'admin');
+        const validUser = (username === 'corporate@odiins.in' || username === 'admin@odiins.com' || username === 'admin');
         const validPass = (password === 'Odiins@Admin2026');
         if (validUser && validPass) {
           const token = 'odiins_auth_' + Buffer.from(Date.now() + ':' + username).toString('base64');
@@ -351,7 +351,7 @@ const server = http.createServer((req, res) => {
           res.end(JSON.stringify({
             success: true,
             token,
-            user: { name: 'Odiins Administrator', email: 'admin@odiins.com', role: 'SuperAdmin' }
+            user: { name: 'Odiins Administrator', email: 'corporate@odiins.in', role: 'SuperAdmin' }
           }));
         } else {
           res.writeHead(401, { 'Content-Type': 'application/json' });

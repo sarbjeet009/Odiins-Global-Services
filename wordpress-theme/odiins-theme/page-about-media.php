@@ -145,8 +145,8 @@ get_header();
           For press inquiries, founder interviews, employment reports, or high-resolution brand assets, contact our dedicated media liaison team.
         </p>
         <div style="display:inline-flex; gap:1rem; flex-wrap:wrap; justify-content:center;">
-          <a href="mailto:press@odiins.com" class="btn btn-green">✉️ press@odiins.com</a>
-          <a href="tel:+917008012345" class="btn btn-white">📞 +91 70080 12345</a>
+          <a href="mailto:corporate@odiins.in" class="btn btn-green">✉️ corporate@odiins.in</a>
+          <a href="tel:+919938079601" class="btn btn-white">📞 +91 99380 79601</a>
         </div>
       </div>
     </div>

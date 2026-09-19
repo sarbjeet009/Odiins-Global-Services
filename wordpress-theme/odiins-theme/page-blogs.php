@@ -185,7 +185,7 @@ get_header();
 
               <div class="form-group">
                 <label class="form-label" for="sbPhone">Phone Number *</label>
-                <input type="tel" id="sbPhone" name="phone" class="form-control" placeholder="e.g. 70080 12345" required pattern="[0-9]{10}">
+                <input type="tel" id="sbPhone" name="phone" class="form-control" placeholder="e.g. 99380 79601" required pattern="[0-9]{10}">
               </div>
 
               <button type="submit" class="btn btn-green btn-block">Request Call</button>
@@ -201,7 +201,7 @@ get_header();
 
             <div style="text-align:center;">
               <div style="font-size:0.85rem; font-weight:600; margin-bottom:0.5rem;">Prefer instant messaging?</div>
-              <a href="https://wa.me/917008012345" target="_blank" class="btn btn-green btn-block btn-sm" style="background:#25D366;">
+              <a href="https://wa.me/919938079601" target="_blank" class="btn btn-green btn-block btn-sm" style="background:#25D366;">
                 💬 Chat on WhatsApp
               </a>
             </div>

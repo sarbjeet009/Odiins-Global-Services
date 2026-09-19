@@ -17,7 +17,7 @@ get_header();
       <h3>3. Data Sharing &amp; Confidentiality</h3>
       <p>We do not sell, rent, or distribute your private contact details to third-party marketing companies. Contact information is shared only between the matched employer/household and candidate with mutual consent.</p>
       <h3>4. Security &amp; Contact</h3>
-      <p>For any questions regarding your data, contact us at <code>privacy@odiins.com</code> or call <code>+91 70080 12345</code>.</p>
+      <p>For any questions regarding your data, contact us at <code>corporate@odiins.in</code> or call <code>+91 99380 79601</code>.</p>
     </div>
   </main>
 

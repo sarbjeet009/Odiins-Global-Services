@@ -180,7 +180,7 @@
           <label for="adminIdInput">Admin ID or Email</label>
           <div class="auth-input-wrapper">
             <span class="auth-input-icon">👤</span>
-            <input type="text" id="adminIdInput" class="auth-input-field" placeholder="admin@odiins.com" value="admin@odiins.com" required autocomplete="username">
+            <input type="text" id="adminIdInput" class="auth-input-field" placeholder="corporate@odiins.in" value="corporate@odiins.in" required autocomplete="username">
           </div>
         </div>
 
@@ -212,7 +212,7 @@
       <!-- Security Credential Notice -->
       <div class="auth-hint-box">
         <div style="font-weight:700; margin-bottom:0.2rem; color:var(--primary-green);">🔑 Default Executive Credentials:</div>
-        <div>Admin ID: <code>admin@odiins.com</code> (or <code>admin</code>)</div>
+        <div>Admin ID: <code>corporate@odiins.in</code> (or <code>admin</code>)</div>
         <div>Password: <code>Odiins@Admin2026</code></div>
       </div>
     </div>
@@ -869,7 +869,7 @@
         </div>
 
         <div style="margin-top:2rem; padding-top:1rem; border-top:1px solid var(--border-light); font-size:0.78rem; color:var(--text-muted); text-align:center;">
-          Confidential • Prepared for Board &amp; Executive Management of Odiins • Bhubaneswar, Odisha
+          Confidential • Prepared for Board &amp; Executive Management of Odiins • Plot 220/3482, lane no. 3, bairagi nagar, 751006, Bhubaneswar, Odisha • Helpline: +91 99380 79601 • corporate@odiins.in
         </div>
 
       </div>
@@ -907,7 +907,8 @@
   <!-- JAVASCRIPT LOGIC -->
   <script>
     const AUTH_STORAGE_KEY = 'odiins_admin_token';
-    const DEFAULT_USER = 'admin@odiins.com';
+    const DEFAULT_USER = 'corporate@odiins.in';
+    const DEFAULT_USER_ALT = 'admin@odiins.com';
     const DEFAULT_USER_SHORT = 'admin';
     const DEFAULT_PASS = 'Odiins@Admin2026';
 
@@ -1096,7 +1097,7 @@
       }
 
       // Client-side fallback authentication
-      const validId = (idInput.toLowerCase() === DEFAULT_USER.toLowerCase() || idInput.toLowerCase() === DEFAULT_USER_SHORT);
+      const validId = (idInput.toLowerCase() === DEFAULT_USER.toLowerCase() || idInput.toLowerCase() === DEFAULT_USER_ALT.toLowerCase() || idInput.toLowerCase() === DEFAULT_USER_SHORT);
       const validPass = (passInput === DEFAULT_PASS);
 
       if (validId && validPass) {

@@ -222,7 +222,7 @@ function showSubmissionSuccess(form, type, leadData) {
     const waConnectBtn = successBanner.querySelector('.instant-wa-btn');
     if (waConnectBtn) {
       const waMsg = encodeURIComponent(`Hello Odiins! I just submitted an enquiry for ${leadData.requirement} in ${leadData.location}. My name is ${leadData.name}.`);
-      waConnectBtn.href = `https://wa.me/917008012345?text=${waMsg}`;
+      waConnectBtn.href = `https://wa.me/919938079601?text=${waMsg}`;
     }
   } else {
     form.innerHTML = `
@@ -231,7 +231,7 @@ function showSubmissionSuccess(form, type, leadData) {
         <h4>Thank you! We'll call you within 24 hours.</h4>
         <p>Our Odisha team has received your enquiry. We are shortlisting the best options for you right now.</p>
         <div style="margin-top: 1.25rem;">
-          <a href="https://wa.me/917008012345?text=${encodeURIComponent('Hello Odiins, I submitted an enquiry for ' + leadData.requirement)}" target="_blank" class="btn btn-green btn-sm" style="display:inline-flex;">
+          <a href="https://wa.me/919938079601?text=${encodeURIComponent('Hello Odiins, I submitted an enquiry for ' + leadData.requirement)}" target="_blank" class="btn btn-green btn-sm" style="display:inline-flex;">
             <span>💬 Chat on WhatsApp Now</span>
           </a>
         </div>
