@@ -53,39 +53,135 @@
         <div class="hero-card-stack">
           <div class="hero-badge-pill hero-badge-1">✓ Verified in Odisha</div>
           <div style="background:var(--bg-light-blue); border-radius:var(--radius-md); padding:1.5rem; text-align:center;">
-            <!-- SVG Illustration representing Indian office team, handshake & home help -->
+            <!-- SVG Illustration: Odisha Map & Statewide People Network -->
             <svg viewBox="0 0 400 280" width="100%" height="auto">
               <defs>
                 <linearGradient id="gradCard" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stop-color="#EAF3FA"/>
                   <stop offset="100%" stop-color="#FFFFFF"/>
                 </linearGradient>
+                <linearGradient id="odishaMapGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#D5ECFB"/>
+                  <stop offset="60%" stop-color="#E1F2EC"/>
+                  <stop offset="100%" stop-color="#CEEBD9"/>
+                </linearGradient>
+                <linearGradient id="pulseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#098B38" stop-opacity="0.45"/>
+                  <stop offset="100%" stop-color="#098B38" stop-opacity="0"/>
+                </linearGradient>
+                <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                  <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                </filter>
               </defs>
+
+              <!-- Card Base -->
               <rect width="400" height="280" rx="16" fill="url(#gradCard)"/>
               
-              <!-- Bridge Graphic -->
-              <path d="M40 210 Q200 130 360 210" fill="none" stroke="#64A8DA" stroke-width="6" stroke-linecap="round"/>
-              <path d="M70 210 L70 178 M130 210 L130 152 M200 210 L200 148 M270 210 L270 152 M330 210 L330 178" stroke="#64A8DA" stroke-width="3" stroke-dasharray="2 4"/>
-              
-              <!-- 3 Figures representing Job Seeker, Employer & Domestic Staff -->
-              <!-- Center: Employer Handshake -->
-              <circle cx="200" cy="90" r="26" fill="#098B38"/>
-              <path d="M165 155 C165 125, 235 125, 235 155 Z" fill="#098B38"/>
-              <text x="200" y="96" font-family="'Poppins', sans-serif" font-size="18" fill="#FFFFFF" text-anchor="middle">👔</text>
+              <!-- Subtle Background Grid lines -->
+              <g stroke="#D1E3F2" stroke-width="1" stroke-dasharray="3 3" opacity="0.45">
+                <line x1="40" y1="70" x2="360" y2="70"/>
+                <line x1="40" y1="130" x2="360" y2="130"/>
+                <line x1="40" y1="190" x2="360" y2="190"/>
+                <line x1="120" y1="30" x2="120" y2="220"/>
+                <line x1="200" y1="30" x2="200" y2="220"/>
+                <line x1="280" y1="30" x2="280" y2="220"/>
+              </g>
 
-              <!-- Left: Job Seeker with Resume / Tech role -->
-              <circle cx="110" cy="110" r="22" fill="#64A8DA"/>
-              <path d="M80 165 C80 140, 140 140, 140 165 Z" fill="#64A8DA"/>
-              <text x="110" y="116" font-family="'Poppins', sans-serif" font-size="16" fill="#FFFFFF" text-anchor="middle">👨‍💻</text>
+              <!-- Bay of Bengal Water Accent -->
+              <path d="M260 55 Q295 90 280 135 Q265 170 215 195 Q235 220 280 210 Q340 190 355 120 Q365 70 285 45 Z" fill="#E4F2FC" opacity="0.75"/>
+              <text x="325" y="115" font-family="'Poppins', sans-serif" font-size="9" font-style="italic" fill="#64A8DA" opacity="0.85" text-anchor="middle">Bay of Bengal</text>
+              <path d="M295 130 Q315 125 335 130 M305 142 Q325 137 345 142" stroke="#64A8DA" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.45"/>
 
-              <!-- Right: Trusted Home Helper / Cook / Driver -->
-              <circle cx="290" cy="110" r="22" fill="#64A8DA"/>
-              <path d="M260 165 C260 140, 320 140, 320 165 Z" fill="#64A8DA"/>
-              <text x="290" y="116" font-family="'Poppins', sans-serif" font-size="16" fill="#FFFFFF" text-anchor="middle">👩‍🍳</text>
+              <!-- Stylized Accurate Odisha State Map Contour -->
+              <path d="M230 40 Q258 48 270 65 Q278 80 270 98 Q258 118 252 132 Q240 152 225 165 Q205 182 188 190 Q155 208 126 205 Q110 190 114 165 Q108 138 104 116 Q112 82 140 60 Q168 38 198 42 Z" 
+                    fill="url(#odishaMapGrad)" stroke="#64A8DA" stroke-width="2.5" stroke-linejoin="round" filter="url(#softGlow)"/>
+
+              <!-- Network Connecting Lines between Hubs -->
+              <g stroke-linecap="round">
+                <!-- Primary Arteries -->
+                <line x1="228" y1="116" x2="230" y2="100" stroke="#098B38" stroke-width="2.5"/>
+                <line x1="228" y1="116" x2="230" y2="136" stroke="#098B38" stroke-width="2.5"/>
+                <line x1="228" y1="116" x2="192" y2="168" stroke="#098B38" stroke-width="2"/>
+                <line x1="228" y1="116" x2="140" y2="88" stroke="#64A8DA" stroke-width="2" stroke-dasharray="4 3"/>
+                <line x1="230" y1="100" x2="170" y2="52" stroke="#64A8DA" stroke-width="1.8" stroke-dasharray="4 3"/>
+                <line x1="140" y1="88" x2="170" y2="52" stroke="#64A8DA" stroke-width="1.8" stroke-dasharray="4 3"/>
+                <line x1="230" y1="100" x2="262" y2="70" stroke="#64A8DA" stroke-width="1.8" stroke-dasharray="4 3"/>
+                <line x1="192" y1="168" x2="132" y2="182" stroke="#64A8DA" stroke-width="1.8" stroke-dasharray="4 3"/>
+                <line x1="140" y1="88" x2="132" y2="182" stroke="#64A8DA" stroke-width="1.5" stroke-dasharray="3 3"/>
+                <line x1="140" y1="88" x2="188" y2="92" stroke="#64A8DA" stroke-width="1.5" stroke-dasharray="3 3"/>
+                <line x1="188" y1="92" x2="228" y2="116" stroke="#098B38" stroke-width="1.8"/>
+              </g>
+
+              <!-- Central Bhubaneswar Hub Ripple Ring -->
+              <circle cx="228" cy="116" r="14" fill="none" stroke="#098B38" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.6"/>
+              <circle cx="228" cy="116" r="22" fill="url(#pulseGrad)"/>
+
+              <!-- District Nodes (Glowing Dots) -->
+              <!-- Bhubaneswar (HQ) -->
+              <circle cx="228" cy="116" r="6" fill="#098B38" stroke="#FFFFFF" stroke-width="2"/>
+              <text x="238" y="113" font-family="'Poppins', sans-serif" font-size="9" font-weight="700" fill="#1F2937">Bhubaneswar</text>
+
+              <!-- Cuttack -->
+              <circle cx="230" cy="100" r="4.5" fill="#64A8DA" stroke="#FFFFFF" stroke-width="1.5"/>
+              <text x="238" y="99" font-family="'Poppins', sans-serif" font-size="8" font-weight="600" fill="#374151">Cuttack</text>
+
+              <!-- Rourkela -->
+              <circle cx="170" cy="52" r="4.5" fill="#098B38" stroke="#FFFFFF" stroke-width="1.5"/>
+              <text x="178" y="52" font-family="'Poppins', sans-serif" font-size="8" font-weight="600" fill="#374151">Rourkela</text>
+
+              <!-- Sambalpur -->
+              <circle cx="140" cy="88" r="4.5" fill="#64A8DA" stroke="#FFFFFF" stroke-width="1.5"/>
+              <text x="88" y="87" font-family="'Poppins', sans-serif" font-size="8" font-weight="600" fill="#374151">Sambalpur</text>
+
+              <!-- Berhampur -->
+              <circle cx="192" cy="168" r="4.5" fill="#098B38" stroke="#FFFFFF" stroke-width="1.5"/>
+              <text x="200" y="172" font-family="'Poppins', sans-serif" font-size="8" font-weight="600" fill="#374151">Berhampur</text>
+
+              <!-- Puri -->
+              <circle cx="230" cy="136" r="4" fill="#098B38" stroke="#FFFFFF" stroke-width="1.5"/>
+              <text x="237" y="137" font-family="'Poppins', sans-serif" font-size="8" font-weight="600" fill="#374151">Puri</text>
+
+              <!-- Balasore -->
+              <circle cx="262" cy="70" r="4" fill="#64A8DA" stroke="#FFFFFF" stroke-width="1.5"/>
+              <text x="268" y="71" font-family="'Poppins', sans-serif" font-size="8" font-weight="600" fill="#374151">Balasore</text>
+
+              <!-- Koraput -->
+              <circle cx="132" cy="182" r="3.5" fill="#64A8DA" stroke="#FFFFFF" stroke-width="1.5"/>
+              <text x="96" y="185" font-family="'Poppins', sans-serif" font-size="8" font-weight="600" fill="#374151">Koraput</text>
+
+              <!-- Floating People Connection Avatars across the map -->
+              <!-- Corporate / Sales near Bhubaneswar -->
+              <g transform="translate(195, 102)">
+                <circle cx="10" cy="10" r="11" fill="#FFFFFF" stroke="#098B38" stroke-width="1.5" filter="url(#softGlow)"/>
+                <text x="10" y="14.5" font-size="11" text-anchor="middle">👔</text>
+              </g>
               
-              <!-- Connecting Tag -->
-              <rect x="100" y="225" width="200" height="34" rx="8" fill="#098B38"/>
-              <text x="200" y="247" font-family="'Poppins', sans-serif" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle">Connecting People Across Odisha</text>
+              <!-- IT / Back office near Sambalpur -->
+              <g transform="translate(125, 62)">
+                <circle cx="10" cy="10" r="11" fill="#FFFFFF" stroke="#64A8DA" stroke-width="1.5" filter="url(#softGlow)"/>
+                <text x="10" y="14.5" font-size="11" text-anchor="middle">👨‍💻</text>
+              </g>
+
+              <!-- Home care / Cook near Southern/Coastal Belt -->
+              <g transform="translate(202, 142)">
+                <circle cx="10" cy="10" r="11" fill="#FFFFFF" stroke="#64A8DA" stroke-width="1.5" filter="url(#softGlow)"/>
+                <text x="10" y="14.5" font-size="11" text-anchor="middle">👩‍🍳</text>
+              </g>
+
+              <!-- Verified Badge Accent -->
+              <g transform="translate(148, 118)">
+                <rect width="48" height="18" rx="9" fill="#EAF3FA" stroke="#64A8DA" stroke-width="1"/>
+                <text x="24" y="12.5" font-family="'Poppins', sans-serif" font-size="7.5" font-weight="700" fill="#098B38" text-anchor="middle">✓ VERIFIED</text>
+              </g>
+
+              <!-- Connecting Tag: Sized 280px, centered at x=60 with ample padding for text -->
+              <g transform="translate(60, 228)">
+                <rect width="280" height="36" rx="18" fill="#098B38" stroke="#FFFFFF" stroke-width="1.5" filter="url(#softGlow)"/>
+                <circle cx="22" cy="18" r="4" fill="#FFFFFF"/>
+                <circle cx="22" cy="18" r="8" fill="none" stroke="#FFFFFF" stroke-width="1" opacity="0.6"/>
+                <text x="148" y="23" font-family="'Poppins', sans-serif" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.2px">Connecting People Across Odisha</text>
+              </g>
             </svg>
           </div>
           <div class="hero-badge-pill hero-badge-2">⚡ Within 24-Hour Call Back</div>
