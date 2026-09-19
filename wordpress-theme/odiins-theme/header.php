@@ -28,7 +28,7 @@
   <nav class="navbar">
     <div class="container navbar-inner">
       <a href="<?php echo esc_url(home_url('/')); ?>" class="brand-logo" aria-label="Odiins Home">
-        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/icons/logo.svg'); ?>" alt="Odiins Logo" height="54">
+        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/icons/logo.svg'); ?>" alt="Odiins Logo" height="64">
       </a>
 
       <!-- Desktop Navigation Links -->
