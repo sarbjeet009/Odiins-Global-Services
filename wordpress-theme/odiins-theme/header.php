@@ -28,7 +28,7 @@
   <nav class="navbar">
     <div class="container navbar-inner">
       <a href="<?php echo esc_url(home_url('/')); ?>" class="brand-logo" aria-label="Odiins Home">
-        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/icons/logo.svg'); ?>" alt="Odiins Logo" height="42">
+        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/icons/logo.svg'); ?>" alt="Odiins Logo" height="54">
       </a>
 
       <!-- Desktop Navigation Links -->
@@ -67,7 +67,7 @@
   <div class="drawer-overlay" id="drawerOverlay"></div>
   <aside class="mobile-drawer" id="mobileDrawer">
     <div class="drawer-header">
-      <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/icons/logo.svg'); ?>" alt="Odiins Logo" height="36">
+      <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/icons/logo.svg'); ?>" alt="Odiins Logo" height="42">
       <button class="drawer-close" id="drawerCloseBtn" aria-label="Close Menu">&times;</button>
     </div>
     <div class="drawer-links">
