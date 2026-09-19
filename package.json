@@ -4,6 +4,7 @@
   "description": "Odiins - Odisha's Own HR, Manpower & Trusted Home Help Connection Platform",
   "main": "server.js",
   "scripts": {
+    "build": "echo 'Build completed successfully'",
     "start": "node server.js",
     "dev": "node server.js"
   },
