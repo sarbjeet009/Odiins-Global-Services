@@ -25,6 +25,7 @@
 
   <!-- 2. HERO SECTION -->
   <section class="hero-section">
+    <div class="hero-bg-layer" style="background-image: url('<?php echo esc_url(get_template_directory_uri() . '/assets/images/hero-workforce-bg.jpg'); ?>');" aria-hidden="true"></div>
     <div class="container hero-grid">
       <div class="hero-content">
         <span class="section-badge">🇮🇳 100% Dedicated to Odisha</span>
