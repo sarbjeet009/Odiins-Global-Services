@@ -4,7 +4,7 @@
       <div class="footer-grid">
         <!-- Col 1: Brand & Bio -->
         <div class="footer-col">
-          <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/icons/logo-white.svg'); ?>" alt="Odiins Logo" width="140" height="50" loading="lazy" style="margin-bottom: 1rem;">
+          <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/icons/logo-white.svg'); ?>" alt="Odiins Logo" height="50" style="margin-bottom: 1rem;">
           <p>
             Odisha's dedicated HR, staffing, and domestic connection platform. Connecting local employers with pre-screened staff, job seekers with openings, and households with trusted help across all 30 districts.
           </p>

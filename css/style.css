@@ -656,19 +656,13 @@ h1, h2, h3, h4, h5, h6 {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('../assets/images/hero-workforce-bg-mobile.webp'), url('../assets/images/hero-workforce-bg-mobile.jpg');
+  background-image: url('../assets/images/hero-workforce-bg.jpg');
   background-repeat: no-repeat;
   background-position: center bottom;
   background-size: cover;
-  opacity: 0.18;
+  opacity: 0.20;
   pointer-events: none;
   z-index: 1;
-}
-
-@media (min-width: 768px) {
-  .hero-bg-layer {
-    background-image: url('../assets/images/hero-workforce-bg.webp'), url('../assets/images/hero-workforce-bg.jpg');
-  }
 }
 
 .hero-grid {
