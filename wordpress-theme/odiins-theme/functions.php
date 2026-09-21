@@ -29,16 +29,16 @@ function odiins_theme_setup() {
 add_action('after_setup_theme', 'odiins_theme_setup');
 
 function odiins_enqueue_scripts() {
-    // Google Fonts
-    wp_enqueue_style('odiins-google-fonts', 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap', array(), null);
+    // Google Fonts - Streamlined for maximum speed (400, 600, 700)
+    wp_enqueue_style('odiins-google-fonts', 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap', array(), null);
 
     // Main Style
-    wp_enqueue_style('odiins-main-style', get_template_directory_uri() . '/css/style.css', array(), '1.1.0');
-    wp_enqueue_style('odiins-theme-style', get_stylesheet_uri(), array('odiins-main-style'), '1.1.0');
+    wp_enqueue_style('odiins-main-style', get_template_directory_uri() . '/css/style.css', array(), '2.1.0');
+    wp_enqueue_style('odiins-theme-style', get_stylesheet_uri(), array('odiins-main-style'), '2.1.0');
 
-    // Main Scripts
-    wp_enqueue_script('odiins-main-js', get_template_directory_uri() . '/js/main.js', array(), '1.1.0', true);
-    wp_enqueue_script('odiins-forms-js', get_template_directory_uri() . '/js/forms.js', array('odiins-main-js'), '1.1.0', true);
+    // Main Scripts (deferred in footer)
+    wp_enqueue_script('odiins-main-js', get_template_directory_uri() . '/js/main.js', array(), '2.1.0', true);
+    wp_enqueue_script('odiins-forms-js', get_template_directory_uri() . '/js/forms.js', array('odiins-main-js'), '2.1.0', true);
 
     // Pass dynamic configuration to frontend JavaScript
     wp_localize_script('odiins-forms-js', 'odiins_wp', array(

@@ -19,7 +19,7 @@ get_header();
           <div class="benefit-bullet">
             <div class="benefit-bullet-icon">✓</div>
             <div>
-              <h4>Maid, Cook, Driver, Caretaker &amp; Pandit</h4>
+              <h4>Maid, Cook, Driver, Tutor, Electrician &amp; Pandit</h4>
               <p>One platform catering to all your household support needs, from daily chores to sacred ceremonies.</p>
             </div>
           </div>
@@ -66,8 +66,12 @@ get_header();
           <p>Tell us what help you need. We'll connect you within 24 hours.</p>
         </div>
 
-        <form id="customerForm" novalidate>
-          <input type="text" name="website_hp" class="hp-trap" tabindex="-1" autocomplete="off">
+        <form id="customerLeadForm" class="lead-form" novalidate>
+          <input type="hidden" name="formType" value="Customer">
+          <!-- Honeypot -->
+          <div style="display:none;" aria-hidden="true">
+            <input type="text" name="website_hp" tabindex="-1" autocomplete="off">
+          </div>
 
           <!-- Field 1: Name* -->
           <div class="form-group">
@@ -89,6 +93,9 @@ get_header();
               <option value="House Maid">House Maid (Cleaning / Dishwashing)</option>
               <option value="Cook">Home Cook (Odia / Veg / Non-Veg)</option>
               <option value="Driver">Personal Driver (Daily / Monthly)</option>
+              <option value="Home Tutor">Home Tutor (CBSE / ICSE / State Board)</option>
+              <option value="Electrician / Plumber">Electrician &amp; Plumber (Home Maintenance)</option>
+              <option value="Security Guard">Security Guard / Watchman</option>
               <option value="Babysitter">Babysitter / Nanny</option>
               <option value="Elder Care">Elder Care &amp; Patient Care</option>
               <option value="Cleaner">Deep Home Cleaner</option>
@@ -151,6 +158,27 @@ get_header();
           <h3>Pandits for Family Pujas</h3>
           <p>Vedic-trained Brahmins for Griha Pravesh, Satyanarayan Puja, Birthday rituals, Shraddha, Rudrabhishek, and special home sankalpa.</p>
           <a href="#customerFormSection" class="btn btn-green btn-sm">Book Pandit &rarr;</a>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card-icon">📚</div>
+          <h3>Verified Home Tutors</h3>
+          <p>Qualified, background-checked tutors for Class 1 to 12 (CBSE, ICSE, Odisha State Board), foundational science, mathematics, English, and competitive exams.</p>
+          <a href="#customerFormSection" class="btn btn-green btn-sm">Find Tutor &rarr;</a>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card-icon">🔧</div>
+          <h3>Electricians &amp; Plumbers</h3>
+          <p>Experienced household technicians for electrical wiring, switchboard repairs, plumbing leakage, water pumps, bathroom fittings, and home maintenance.</p>
+          <a href="#customerFormSection" class="btn btn-green btn-sm">Book Technician &rarr;</a>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card-icon">🛡️</div>
+          <h3>Security Guards &amp; Watchmen</h3>
+          <p>Trained, disciplined gatekeepers and day/night security guards for residential societies, individual bungalows, apartments, and farmhouses in Odisha.</p>
+          <a href="#customerFormSection" class="btn btn-green btn-sm">Hire Security &rarr;</a>
         </div>
       </div>
     </div>

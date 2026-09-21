@@ -149,8 +149,13 @@
   </section>
 
   <!-- 2. HERO SECTION -->
-  <section class="hero-section">
-    <div class="hero-bg-layer" aria-hidden="true"></div>
+  <section class="hero-section" id="heroSection">
+    <div class="hero-bg-layer" id="heroBgLayer" aria-hidden="true"></div>
+    <div class="hero-parallax-shapes" aria-hidden="true">
+      <div class="parallax-orb orb-1" data-speed="0.06"></div>
+      <div class="parallax-orb orb-2" data-speed="-0.04"></div>
+      <div class="parallax-orb orb-3" data-speed="0.08"></div>
+    </div>
     <div class="container hero-grid">
       <div class="hero-content">
         <span class="section-badge">🇮🇳 100% Dedicated to Odisha</span>
@@ -174,9 +179,9 @@
       </div>
 
       <!-- Hero Visual (Right Side) -->
-      <div class="hero-visual">
-        <div class="hero-card-stack">
-          <div class="hero-badge-pill hero-badge-1">✓ Verified in Odisha</div>
+      <div class="hero-visual" id="heroVisual">
+        <div class="hero-card-stack" id="heroCardStack">
+          <div class="hero-badge-pill hero-badge-1" id="heroBadge1" data-depth="28">✓ Verified in Odisha</div>
           <div style="background:var(--bg-light-blue); border-radius:var(--radius-md); padding:0.5rem; text-align:center;">
             <!-- SVG Illustration: Odisha Map & Statewide People Network -->
             <svg viewBox="0 0 400 295" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="display:block;">
@@ -373,7 +378,7 @@
   </g>
 </svg>
           </div>
-          <div class="hero-badge-pill hero-badge-2">⚡ Within 24-Hour Call Back</div>
+          <div class="hero-badge-pill hero-badge-2" id="heroBadge2" data-depth="38">⚡ Within 24-Hour Call Back</div>
         </div>
       </div>
     </div>
@@ -537,6 +542,22 @@
         <div class="role-pill">
           <div class="role-pill-icon">🧼</div>
           <span class="role-pill-name">Deep Cleaner</span>
+        </div>
+        <div class="role-pill">
+          <div class="role-pill-icon">📚</div>
+          <span class="role-pill-name">Home Tutor</span>
+        </div>
+        <div class="role-pill">
+          <div class="role-pill-icon">⚡</div>
+          <span class="role-pill-name">Electrician</span>
+        </div>
+        <div class="role-pill">
+          <div class="role-pill-icon">🔧</div>
+          <span class="role-pill-name">Plumber</span>
+        </div>
+        <div class="role-pill">
+          <div class="role-pill-icon">🛡️</div>
+          <span class="role-pill-name">Security Guard</span>
         </div>
         <div class="role-pill">
           <div class="role-pill-icon">🌱</div>

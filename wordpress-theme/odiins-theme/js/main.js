@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initCookieBanner();
   initOdiaToggle();
   initMarqueePause();
+  initHeroInteractiveParallax();
+  initCard3DTilt();
+  initScrollParallax();
 });
 
 /* 1. Mobile Menu Drawer */
@@ -282,3 +285,215 @@ function showToast(message, type = 'info', duration = 3500) {
 
 // Global expose
 window.showToast = showToast;
+
+/* ==========================================================================
+   10. INTERACTIVE HERO PARALLAX ENGINE (3D Tilt & Layer Depth)
+   ========================================================================== */
+function initHeroInteractiveParallax() {
+  const hero = document.getElementById('heroSection');
+  const cardStack = document.getElementById('heroCardStack');
+  const badge1 = document.getElementById('heroBadge1');
+  const badge2 = document.getElementById('heroBadge2');
+  const bgLayer = document.getElementById('heroBgLayer');
+  const orbs = document.querySelectorAll('.parallax-orb');
+
+  if (!hero || !cardStack) return;
+
+  // Honor prefers-reduced-motion accessibility setting
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
+
+  let isVisible = true;
+  let mouseX = 0;
+  let mouseY = 0;
+  let targetTiltX = 0;
+  let targetTiltY = 0;
+  let currentTiltX = 0;
+  let currentTiltY = 0;
+  let isHovered = false;
+  let rafId = null;
+
+  // Viewport Observer: Pause RAF loop when hero is offscreen to guarantee 0% idle CPU
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) {
+        startLoop();
+      } else {
+        stopLoop();
+      }
+    });
+  }, { threshold: 0.05 });
+  observer.observe(hero);
+
+  function startLoop() {
+    if (!rafId) {
+      rafId = requestAnimationFrame(updateLoop);
+    }
+  }
+
+  function stopLoop() {
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  }
+
+  // Pointer tracking in hero area (Desktop)
+  hero.addEventListener('pointermove', (e) => {
+    isHovered = true;
+    const rect = hero.getBoundingClientRect();
+    const relX = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+    const relY = (e.clientY - rect.top) / rect.height - 0.5;
+
+    // Smooth responsive tilt (max 10-12 deg)
+    targetTiltX = -relY * 12;
+    targetTiltY = relX * 14;
+
+    mouseX = relX;
+    mouseY = relY;
+  }, { passive: true });
+
+  hero.addEventListener('pointerleave', () => {
+    isHovered = false;
+    targetTiltX = 0;
+    targetTiltY = 0;
+    mouseX = 0;
+    mouseY = 0;
+  });
+
+  // Mobile DeviceOrientation (Gyroscope Tilt) Support
+  if (window.DeviceOrientationEvent && 'ontouchstart' in window) {
+    window.addEventListener('deviceorientation', (e) => {
+      if (!isVisible || e.gamma === null || e.beta === null) return;
+      const gamma = Math.max(-30, Math.min(30, e.gamma));
+      const beta = Math.max(15, Math.min(65, e.beta)) - 40; // centered at ~40deg phone hold angle
+      targetTiltY = (gamma / 30) * 8;
+      targetTiltX = -(beta / 25) * 6;
+      mouseX = gamma / 60;
+      mouseY = beta / 50;
+    }, { passive: true });
+  }
+
+  function updateLoop() {
+    if (!isVisible) {
+      rafId = null;
+      return;
+    }
+
+    // Smooth Lerp (factor 0.08 for fluid inertia)
+    const factor = isHovered ? 0.08 : 0.05;
+    currentTiltX += (targetTiltX - currentTiltX) * factor;
+    currentTiltY += (targetTiltY - currentTiltY) * factor;
+
+    // 1. 3D Card Stack Tilt
+    cardStack.style.transform = `perspective(1000px) rotateX(${currentTiltX.toFixed(2)}deg) rotateY(${currentTiltY.toFixed(2)}deg)`;
+
+    // 2. Multi-plane Badges with elevated Z-space and subtle counter-parallax
+    if (badge1) {
+      const b1X = -currentTiltY * 0.9;
+      const b1Y = -currentTiltX * 0.9;
+      badge1.style.transform = `translateZ(34px) translate3d(${b1X.toFixed(1)}px, ${b1Y.toFixed(1)}px, 0)`;
+    }
+    if (badge2) {
+      const b2X = -currentTiltY * 1.3;
+      const b2Y = -currentTiltX * 1.3;
+      badge2.style.transform = `translateZ(42px) translate3d(${b2X.toFixed(1)}px, ${b2Y.toFixed(1)}px, 0)`;
+    }
+
+    // 3. Hero background layer subtle inverse drift
+    if (bgLayer) {
+      const bgX = -currentTiltY * 0.7;
+      const bgY = -currentTiltX * 0.7;
+      bgLayer.style.transform = `translate3d(${bgX.toFixed(1)}px, ${bgY.toFixed(1)}px, 0)`;
+    }
+
+    // 4. Ambient glowing orbs multi-depth drift
+    if (orbs.length) {
+      orbs.forEach((orb, idx) => {
+        const speed = parseFloat(orb.getAttribute('data-speed')) || (idx === 0 ? 0.06 : (idx === 1 ? -0.04 : 0.08));
+        const orbX = mouseX * speed * 260;
+        const orbY = mouseY * speed * 260;
+        orb.style.transform = `translate3d(${orbX.toFixed(1)}px, ${orbY.toFixed(1)}px, 0)`;
+      });
+    }
+
+    rafId = requestAnimationFrame(updateLoop);
+  }
+
+  startLoop();
+}
+
+/* ==========================================================================
+   11. INTERACTIVE 3D TILT & CURSOR SPOTLIGHT FOR CARDS
+   ========================================================================== */
+function initCard3DTilt() {
+  const cards = document.querySelectorAll('.feature-card, .step-card');
+  if (!cards.length) return;
+
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
+
+  cards.forEach((card) => {
+    let rect = null;
+
+    card.addEventListener('pointerenter', () => {
+      rect = card.getBoundingClientRect();
+    });
+
+    card.addEventListener('pointermove', (e) => {
+      if (!rect) rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // Update cursor spotlight position for reflective sheen
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+
+      // 3D tilt calculation relative to card center
+      const normX = (x / rect.width) - 0.5;
+      const normY = (y / rect.height) - 0.5;
+      const tiltX = -normY * 12; // degrees
+      const tiltY = normX * 12;
+
+      card.style.setProperty('--tilt-x', `${tiltX.toFixed(2)}deg`);
+      card.style.setProperty('--tilt-y', `${tiltY.toFixed(2)}deg`);
+    }, { passive: true });
+
+    card.addEventListener('pointerleave', () => {
+      rect = null;
+      card.style.setProperty('--tilt-x', '0deg');
+      card.style.setProperty('--tilt-y', '0deg');
+    });
+  });
+}
+
+/* ==========================================================================
+   12. MULTI-PLANE SCROLL PARALLAX (Desktop & Mobile)
+   ========================================================================== */
+function initScrollParallax() {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
+
+  const heroBg = document.getElementById('heroBgLayer');
+  if (!heroBg) return;
+
+  let ticking = false;
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        if (scrollY <= 700) {
+          heroBg.style.backgroundPositionY = `calc(100% + ${(scrollY * 0.22).toFixed(1)}px)`;
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+}
+
