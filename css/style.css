@@ -1075,13 +1075,15 @@ h1, h2, h3, h4, h5, h6 {
 .steps-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 2rem;
   position: relative;
+  padding-top: 1.25rem;
 }
 
 @media (min-width: 768px) {
   .steps-grid {
     grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
   }
 }
 
@@ -1093,7 +1095,7 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: var(--card-shadow);
   text-align: center;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   transform-style: preserve-3d;
   will-change: transform;
   transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
@@ -1108,21 +1110,22 @@ h1, h2, h3, h4, h5, h6 {
 
 .step-number {
   position: absolute;
-  top: -12px;
+  top: -16px;
   left: 50%;
   transform: translateX(-50%) translateZ(24px);
   background-color: var(--primary-green);
   color: var(--bg-white);
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--radius-full);
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--bg-white);
-  z-index: 3;
+  border: 2.5px solid var(--bg-white);
+  box-shadow: 0 4px 10px rgba(10, 37, 64, 0.16);
+  z-index: 10;
 }
 
 .step-card h4 {
