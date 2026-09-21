@@ -523,3 +523,37 @@ function odiins_rest_export_leads_csv($request) {
     fclose($output);
     exit;
 }
+
+// ----------------------------------------------------------------------
+// 6. CUSTOM SEO TITLES & META DESCRIPTIONS
+// ----------------------------------------------------------------------
+function odiins_custom_seo_meta() {
+    $desc = '';
+    if (is_front_page() || is_home()) {
+        $desc = "Odiins connects businesses with reliable staff, job seekers with verified local jobs, and Odisha households with trusted maids, cooks, tutors, and drivers.";
+    } elseif (is_page('services-customers') || is_page_template('page-services-customers.php')) {
+        $desc = "Hire trusted, background-checked domestic help in Bhubaneswar & Cuttack. Full-time maids, home cooks, CBSE tutors, elderly care, and authentic pandits | Odiins";
+    } elseif (is_page('services-employers') || is_page_template('page-services-employers.php')) {
+        $desc = "Hire pre-screened office staff, accountants, sales executives, security guards, and commercial drivers across Odisha. 24-hour fast matching with local support | Odiins";
+    } elseif (is_page('services-job-seekers') || is_page_template('page-services-job-seekers.php')) {
+        $desc = "Explore verified job openings in Odisha, including Bhubaneswar, for sales executive, manager, back office staff, driving, delivery, data entry and more. Find your next opportunity with Odiins.";
+    }
+    if (!empty($desc)) {
+        echo '<meta name="description" content="' . esc_attr($desc) . '">' . "\n";
+    }
+}
+add_action('wp_head', 'odiins_custom_seo_meta', 1);
+
+function odiins_custom_document_title($title) {
+    if (is_front_page() || is_home()) {
+        return "Odiins | Odisha's Own Platform for Hiring, Jobs & Trusted Home Help";
+    } elseif (is_page('services-customers') || is_page_template('page-services-customers.php')) {
+        return "Verified House Maid, Cook, Tutor & Driver in Bhubaneswar | Odiins";
+    } elseif (is_page('services-employers') || is_page_template('page-services-employers.php')) {
+        return "Hire Staff in Odisha | Manpower & Staffing Solutions in Bhubaneswar | Odiins";
+    } elseif (is_page('services-job-seekers') || is_page_template('page-services-job-seekers.php')) {
+        return "Job Opportunities in Odisha | Jobs in Bhubaneswar | Odiins";
+    }
+    return $title;
+}
+add_filter('pre_get_document_title', 'odiins_custom_document_title', 20);

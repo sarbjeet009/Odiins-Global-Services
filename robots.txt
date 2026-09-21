@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard.html
+Disallow: /dashboard
+
+Sitemap: https://odiins.in/sitemap.xml
