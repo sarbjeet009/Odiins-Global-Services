@@ -572,7 +572,9 @@ const server = http.createServer((req, res) => {
 
   // Static File Serving
   let reqPath = pathname;
-  if (reqPath === '/bank-csp' || reqPath === '/csp') {
+  if (reqPath === '/staffing-and-manpower-solutions-in-bhubaneswar' || reqPath === '/staffing-and-manpower-solutions-in-bhubaneswar/') {
+    reqPath = '/staffing-and-manpower-solutions-in-bhubaneswar.html';
+  } else if (reqPath === '/bank-csp' || reqPath === '/csp') {
     reqPath = '/bank-csp-odisha.html';
   }
   let filePath = path.join(__dirname, reqPath === '/' ? 'index.html' : reqPath);
@@ -583,6 +585,17 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  const send404 = () => {
+    const errorPage = path.join(__dirname, '404.html');
+    if (fs.existsSync(errorPage)) {
+      res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+      fs.createReadStream(errorPage).pipe(res);
+    } else {
+      res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end('<h1>404 - Page Not Found</h1><p><a href="/">Return to Odiins Home</a></p>');
+    }
+  };
+
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
       if (!path.extname(filePath)) {
@@ -590,13 +603,11 @@ const server = http.createServer((req, res) => {
         if (fs.existsSync(htmlPath)) {
           filePath = htmlPath;
         } else {
-          res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-          res.end('<h1>404 - Page Not Found</h1><p><a href="/">Return to Odiins Home</a></p>');
+          send404();
           return;
         }
       } else {
-        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-        res.end('<h1>404 - Page Not Found</h1><p><a href="/">Return to Odiins Home</a></p>');
+        send404();
         return;
       }
     }

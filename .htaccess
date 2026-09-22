@@ -8,12 +8,16 @@
   RewriteBase /
 
   # Clean URLs: serve .html files if path matches without extension
+  RewriteRule ^staffing-and-manpower-solutions-in-bhubaneswar/?$ staffing-and-manpower-solutions-in-bhubaneswar.html [L]
   RewriteRule ^bank-csp/?$ bank-csp-odisha.html [L]
   RewriteRule ^csp/?$ bank-csp-odisha.html [L]
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME}\.html -f
   RewriteRule ^(.*)$ $1.html [L]
 </IfModule>
+
+# Custom 404 Error Handler
+ErrorDocument 404 /404.html
 
 # 2. Browser Caching (Leverage Browser Cache for 98-100 PageSpeed Scores)
 <IfModule mod_expires.c>
