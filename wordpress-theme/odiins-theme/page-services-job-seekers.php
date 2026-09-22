@@ -10,7 +10,7 @@ get_header();
     <div class="container landing-grid">
       <!-- Left: Headline + 4 Benefits -->
       <div class="hero-content">
-        <span class="section-badge">100% Free Registration for Candidates</span>
+        <span class="section-badge">Verified Career Opportunities across Odisha</span>
         <h1 class="hero-headline">Find a Job That Fits You, Right Here in Odisha</h1>
         <p class="hero-sub">Don't leave your state to find dignity and growth. Odiins connects job seekers directly with hiring managers across Odisha's best companies.</p>
 
@@ -43,14 +43,14 @@ get_header();
           <div class="benefit-bullet">
             <div class="benefit-bullet-icon">✓</div>
             <div>
-              <h4>100% Free Guidance</h4>
-              <p>Zero consultation fee, zero security deposits. Genuine hiring by verified Odisha employers.</p>
+              <h4>Direct Guidance &amp; Support</h4>
+              <p>Interview preparation, profile matching, and genuine hiring by verified Odisha employers.</p>
             </div>
           </div>
         </div>
 
         <div class="hero-trust-line">
-          <span>🛡️ No Registration Charges</span>
+          <span>🛡️ Verified Employers</span>
           <span>•</span>
           <span>⚡ Direct Employer Connect</span>
           <span>•</span>
