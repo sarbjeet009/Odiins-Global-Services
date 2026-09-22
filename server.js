@@ -570,6 +570,13 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // 301 Permanent Redirects for Legacy Google-Indexed URLs
+  if (pathname === '/staffing-services-in-bhubaneswar' || pathname === '/staffing-services-in-bhubaneswar/' || pathname === '/staffing-services-in-bhubaneswar.html') {
+    res.writeHead(301, { 'Location': '/services-employers' });
+    res.end();
+    return;
+  }
+
   // Static File Serving
   let reqPath = pathname;
   if (reqPath === '/staffing-and-manpower-solutions-in-bhubaneswar' || reqPath === '/staffing-and-manpower-solutions-in-bhubaneswar/') {
