@@ -10,6 +10,9 @@
  * 7. Instant WhatsApp prefill connection
  */
 
+// Google Sheets Webhook URL for real-time lead capture
+const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwxblKhDvNFHne_A_5rXYGiqOE21Bg55Jnf6UBGtq4IQzPXFFd14Ncgrjl9NWF1lBlW/exec';
+
 document.addEventListener('DOMContentLoaded', () => {
   initAdTracking();
   initFormTimers();
@@ -130,11 +133,14 @@ function initFormSubmissions() {
       }
 
       let requirement = (formData.get('jobType') || formData.get('position') || formData.get('serviceNeeded') || formData.get('category') || '').toString().trim();
+      let qualification = '';
+      let shopStatus = '';
+      let branchDistance = '';
       if (type === 'Bank CSP Operator') {
-        const qual = (formData.get('qualification') || '').toString().trim();
-        const shop = (formData.get('shopStatus') || '').toString().trim();
-        const dist = (formData.get('branchDistance') || '').toString().trim();
-        requirement = `Bank CSP Operator [Edu: ${qual || '12th+'} | Shop: ${shop || 'Yes'} | Dist: ${dist || '<15km'}]`;
+        qualification = (formData.get('qualification') || '').toString().trim();
+        shopStatus = (formData.get('shopStatus') || '').toString().trim();
+        branchDistance = (formData.get('branchDistance') || '').toString().trim();
+        requirement = `Bank CSP Operator [Edu: ${qualification || '12th+'} | Shop: ${shopStatus || 'Yes'} | Dist: ${branchDistance || '<15km'}]`;
       } else if (!requirement) {
         requirement = 'General Manpower';
       }
@@ -146,8 +152,13 @@ function initFormSubmissions() {
         status: 'New',
         name: (formData.get('name') || formData.get('businessName') || '').toString().trim(),
         phone: (formData.get('phone') || '').toString().trim(),
+        district: district,
+        areaCity: areaCity,
         location: location,
         requirement: requirement,
+        qualification: qualification,
+        shopStatus: shopStatus,
+        branchDistance: branchDistance,
         message: (formData.get('message') || '').toString().trim(),
         adSource: attribution.adSource,
         campaign: attribution.campaign,
@@ -173,25 +184,22 @@ function initFormSubmissions() {
         submitBtn.innerHTML = 'Sending...';
       }
 
+      // 1. Instantly push to Google Sheets Webhook
+      sendLeadToGoogleSheets(leadData);
+
+      // 2. Push to local / backend API
       try {
-        const response = await fetch('/api/leads', {
+        await fetch('/api/leads', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(leadData)
         });
-
-        if (response.ok) {
-          fireAdConversions(leadData);
-          saveLeadToLocalStorage(leadData);
-          showSubmissionSuccess(form, type, leadData);
-        } else {
-          saveLeadToLocalStorage(leadData);
-          showSubmissionSuccess(form, type, leadData);
-        }
       } catch (err) {
+        console.warn('Backend endpoint notice:', err);
+      } finally {
+        fireAdConversions(leadData);
         saveLeadToLocalStorage(leadData);
         showSubmissionSuccess(form, type, leadData);
-      } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = originalBtnText;
@@ -199,6 +207,26 @@ function initFormSubmissions() {
       }
     });
   });
+}
+
+// Push lead in real-time to Google Spreadsheet via Apps Script Web App
+async function sendLeadToGoogleSheets(leadData) {
+  if (!GOOGLE_SHEETS_WEBHOOK_URL) return;
+
+  try {
+    // Mode 'no-cors' allows browser to post to Google Apps Script without CORS blockage
+    await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(leadData)
+    });
+    console.log('Lead synced to Google Spreadsheet successfully.');
+  } catch (err) {
+    console.warn('Google Sheets sync warning:', err);
+  }
 }
 
 // Trigger Google Ads Conversion & Meta Pixel Lead Event
