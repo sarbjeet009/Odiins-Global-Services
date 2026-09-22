@@ -90,7 +90,8 @@ function initFormSubmissions() {
     { id: 'employerForm', type: 'Employer' },
     { id: 'customerForm', type: 'Customer' },
     { id: 'contactForm', type: 'Contact Enquiry' },
-    { id: 'sidebarMiniForm', type: 'Quick Enquiry' }
+    { id: 'sidebarMiniForm', type: 'Quick Enquiry' },
+    { id: 'cspForm', type: 'Bank CSP Operator' }
   ];
 
   forms.forEach(({ id, type }) => {
@@ -121,6 +122,23 @@ function initFormSubmissions() {
 
       // Extract form data
       const formData = new FormData(form);
+      const district = (formData.get('district') || '').toString().trim();
+      const areaCity = (formData.get('areaCity') || formData.get('city') || '').toString().trim();
+      let location = (formData.get('location') || '').toString().trim();
+      if (!location) {
+        location = district && areaCity ? `${areaCity}, ${district}` : (district || areaCity || 'Odisha');
+      }
+
+      let requirement = (formData.get('jobType') || formData.get('position') || formData.get('serviceNeeded') || formData.get('category') || '').toString().trim();
+      if (type === 'Bank CSP Operator') {
+        const qual = (formData.get('qualification') || '').toString().trim();
+        const shop = (formData.get('shopStatus') || '').toString().trim();
+        const dist = (formData.get('branchDistance') || '').toString().trim();
+        requirement = `Bank CSP Operator [Edu: ${qual || '12th+'} | Shop: ${shop || 'Yes'} | Dist: ${dist || '<15km'}]`;
+      } else if (!requirement) {
+        requirement = 'General Manpower';
+      }
+
       const leadData = {
         id: 'OD-' + Date.now().toString(36).toUpperCase(),
         timestamp: new Date().toISOString(),
@@ -128,8 +146,8 @@ function initFormSubmissions() {
         status: 'New',
         name: (formData.get('name') || formData.get('businessName') || '').toString().trim(),
         phone: (formData.get('phone') || '').toString().trim(),
-        location: (formData.get('location') || formData.get('district') || formData.get('areaCity') || formData.get('city') || 'Odisha').toString().trim(),
-        requirement: (formData.get('jobType') || formData.get('position') || formData.get('serviceNeeded') || formData.get('category') || 'General Manpower').toString().trim(),
+        location: location,
+        requirement: requirement,
         message: (formData.get('message') || '').toString().trim(),
         adSource: attribution.adSource,
         campaign: attribution.campaign,

@@ -8,6 +8,8 @@
   RewriteBase /
 
   # Clean URLs: serve .html files if path matches without extension
+  RewriteRule ^bank-csp/?$ bank-csp-odisha.html [L]
+  RewriteRule ^csp/?$ bank-csp-odisha.html [L]
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME}\.html -f
   RewriteRule ^(.*)$ $1.html [L]

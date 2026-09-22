@@ -571,7 +571,11 @@ const server = http.createServer((req, res) => {
   }
 
   // Static File Serving
-  let filePath = path.join(__dirname, pathname === '/' ? 'index.html' : pathname);
+  let reqPath = pathname;
+  if (reqPath === '/bank-csp' || reqPath === '/csp') {
+    reqPath = '/bank-csp-odisha.html';
+  }
+  let filePath = path.join(__dirname, reqPath === '/' ? 'index.html' : reqPath);
 
   if (!filePath.startsWith(__dirname)) {
     res.writeHead(403, { 'Content-Type': 'text/plain' });

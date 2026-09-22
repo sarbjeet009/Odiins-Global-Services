@@ -2,3 +2,5 @@ node_modules/
 .DS_Store
 *.log
 data/email_notifications.log
+scratch/
+print/
