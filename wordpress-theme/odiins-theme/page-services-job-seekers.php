@@ -93,13 +93,18 @@ get_header();
             <label class="form-label" for="jsJobType">Preferred Job Type *</label>
             <select id="jsJobType" name="jobType" class="form-control" required>
               <option value="" disabled selected>Select Job Role</option>
-              <option value="Back Office">Back Office / Admin</option>
-              <option value="Sales">Sales &amp; Marketing</option>
-              <option value="Telecaller">Telecaller / BPO</option>
-              <option value="Customer Support">Customer Support</option>
+              <option value="Sales Manager">Sales Manager / Branch In-Charge</option>
+              <option value="Store Manager">Store / Showroom Manager</option>
+              <option value="Accountant">Accountant (Tally / GST / Billing)</option>
+              <option value="Data Entry">Data Entry Operator / MIS</option>
+              <option value="Sales Executive">Field Sales &amp; Marketing Executive</option>
+              <option value="Telecaller">Telecaller / BPO / Customer Care</option>
+              <option value="Front Desk">Receptionist / Front Desk</option>
+              <option value="Office Peon">Office Peon / Support Staff</option>
+              <option value="Delivery Fleet">Delivery Fleet Rider (2-Wheeler)</option>
               <option value="Driver">Commercial / Personal Driver</option>
-              <option value="Delivery">Delivery / Logistics</option>
-              <option value="Security">Security Guard</option>
+              <option value="Security Guard">Security Guard / Supervisor</option>
+              <option value="Warehouse">Warehouse Staff / Logistics</option>
               <option value="Other">Other Openings</option>
             </select>
           </div>
@@ -124,39 +129,132 @@ get_header();
     </div>
   </section>
 
-  <!-- POPULAR ROLES FOR JOB SEEKERS -->
-  <section class="section section-white">
+  <!-- 3-TIER ROLES WE ARE HIRING FOR -->
+  <section class="section section-white" style="padding-top: 3.5rem; padding-bottom: 3.5rem;">
     <div class="container">
       <div class="section-header">
-        <span class="section-badge">High Demand</span>
-        <h2>Roles Currently Hiring Across Odisha</h2>
-        <p>Positions with immediate openings and fast joining schedules.</p>
+        <span class="section-badge">Comprehensive Career Openings</span>
+        <h2>Private Job Openings Across Odisha</h2>
+        <p>From strategic managerial leadership to professional office roles and field operations.</p>
       </div>
 
-      <div class="roles-grid">
-        <div class="role-pill">
-          <div class="role-pill-icon">💻</div>
-          <span class="role-pill-name">Back Office / Computer Operator</span>
+      <!-- Tier 1: Leadership & Management -->
+      <div style="margin-bottom: 2.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+          <span style="background: #FEF3C7; color: #92400E; font-size: 0.85rem; font-weight: 800; padding: 0.35rem 0.85rem; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px;">Level 1</span>
+          <h3 style="margin: 0; font-size: 1.3rem; color: var(--text-charcoal); font-weight: 700;">Leadership &amp; Managerial Careers</h3>
         </div>
-        <div class="role-pill">
-          <div class="role-pill-icon">📈</div>
-          <span class="role-pill-name">Field Sales &amp; Counter Sales</span>
+        <div class="roles-grid">
+          <div class="role-pill">
+            <div class="role-pill-icon">👔</div>
+            <span class="role-pill-name"><strong>Sales Managers</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">B2B, FMCG &amp; Retail</small>
+          </div>
+          <div class="role-pill">
+            <div class="role-pill-icon">🏬</div>
+            <span class="role-pill-name"><strong>Store / Showroom Managers</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Retail Outlets</small>
+          </div>
+          <div class="role-pill">
+            <div class="role-pill-icon">📦</div>
+            <span class="role-pill-name"><strong>Warehouse Shift Leads</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Logistics Hubs</small>
+          </div>
+          <div class="role-pill">
+            <div class="role-pill-icon">🏨</div>
+            <span class="role-pill-name"><strong>Hospitality In-Charges</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Hotels &amp; Banquets</small>
+          </div>
+          <div class="role-pill">
+            <div class="role-pill-icon">🎧</div>
+            <span class="role-pill-name"><strong>Team Leaders &amp; Supervisors</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Telecalling &amp; BPO</small>
+          </div>
+          <div class="role-pill">
+            <div class="role-pill-icon">📑</div>
+            <span class="role-pill-name"><strong>HR &amp; Operations Officers</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Corporate Units</small>
+          </div>
         </div>
-        <div class="role-pill">
-          <div class="role-pill-icon">🎧</div>
-          <span class="role-pill-name">Odia / Hindi Telecallers</span>
+      </div>
+
+      <!-- Tier 2: Professional & Back Office -->
+      <div style="margin-bottom: 2.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+          <span style="background: #E0E7FF; color: #3730A3; font-size: 0.85rem; font-weight: 800; padding: 0.35rem 0.85rem; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px;">Level 2</span>
+          <h3 style="margin: 0; font-size: 1.3rem; color: var(--text-charcoal); font-weight: 700;">Professional &amp; Back Office Positions</h3>
         </div>
-        <div class="role-pill">
-          <div class="role-pill-icon">📊</div>
-          <span class="role-pill-name">Tally &amp; Billing Assistants</span>
+        <div class="roles-grid">
+          <div class="role-pill">
+            <div class="role-pill-icon">📊</div>
+            <span class="role-pill-name"><strong>Accountants &amp; Billing Staff</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Tally &amp; GST Invoicing</small>
+          </div>
+          <div class="role-pill">
+            <div class="role-pill-icon">📈</div>
+            <span class="role-pill-name"><strong>Sales Executives</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Field &amp; Counter Sales</small>
+          </div>
+          <div class="role-pill">
+            <div class="role-pill-icon">⌨️</div>
+            <span class="role-pill-name"><strong>Data Entry / MIS Operators</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Computer &amp; Excel Work</small>
+          </div>
+          <div class="role-pill">
+            <div class="role-pill-icon">📞</div>
+            <span class="role-pill-name"><strong>Telecallers &amp; Customer Care</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Odia, Hindi &amp; English</small>
+          </div>
+          <div class="role-pill">
+            <div class="role-pill-icon">🏢</div>
+            <span class="role-pill-name"><strong>Front Desk Receptionists</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Clinics, Offices &amp; Hotels</small>
+          </div>
+          <div class="role-pill">
+            <div class="role-pill-icon">📎</div>
+            <span class="role-pill-name"><strong>Office Peons &amp; Assistants</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Filing &amp; Daily Support</small>
+          </div>
         </div>
-        <div class="role-pill">
-          <div class="role-pill-icon">🚗</div>
-          <span class="role-pill-name">4-Wheeler &amp; Van Drivers</span>
+      </div>
+
+      <!-- Tier 3: Operations, Security & Fleet -->
+      <div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+          <span style="background: #DCFCE7; color: #166534; font-size: 0.85rem; font-weight: 800; padding: 0.35rem 0.85rem; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px;">Level 3</span>
+          <h3 style="margin: 0; font-size: 1.3rem; color: var(--text-charcoal); font-weight: 700;">Operations, Security &amp; Fleet Logistics</h3>
         </div>
-        <div class="role-pill">
-          <div class="role-pill-icon">🛡️</div>
-          <span class="role-pill-name">Security Staff &amp; Supervisors</span>
+        <div class="roles-grid">
+          <div class="role-pill">
+            <div class="role-pill-icon">🛡️</div>
+            <span class="role-pill-name"><strong>Security Guards &amp; Supervisors</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Day &amp; Night Shifts</small>
+          </div>
+          <div class="role-pill">
+            <div class="role-pill-icon">🚚</div>
+            <span class="role-pill-name"><strong>Delivery Fleet Riders</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">E-Commerce &amp; Food Delivery</small>
+          </div>
+          <div class="role-pill">
+            <div class="role-pill-icon">🚗</div>
+            <span class="role-pill-name"><strong>Commercial Drivers</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Car, Van &amp; Commercial Fleet</small>
+          </div>
+          <div class="role-pill">
+            <div class="role-pill-icon">🏗️</div>
+            <span class="role-pill-name"><strong>Warehouse &amp; Logistics Staff</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Packaging &amp; Loading</small>
+          </div>
+          <div class="role-pill">
+            <div class="role-pill-icon">🏥</div>
+            <span class="role-pill-name"><strong>Hospital Ward Attendants</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Nursing Homes &amp; Clinics</small>
+          </div>
+          <div class="role-pill">
+            <div class="role-pill-icon">🧹</div>
+            <span class="role-pill-name"><strong>Housekeeping &amp; Janitorial</strong></span>
+            <small style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Commercial Properties</small>
+          </div>
         </div>
       </div>
     </div>
@@ -176,7 +274,7 @@ get_header();
             <span class="accordion-icon">▼</span>
           </div>
           <div class="accordion-content">
-            <p>Never. Odiins never asks candidates to pay for interviews, offer letters, or registration. If any employer asks you for money, report it to our helpline immediately.</p>
+            <p>Never pay for an interview or offer letter. Employers are strictly prohibited from charging candidates for interview scheduling or placement. If any company asks you for money, report it to our helpline immediately.</p>
           </div>
         </div>
         <div class="accordion-item">

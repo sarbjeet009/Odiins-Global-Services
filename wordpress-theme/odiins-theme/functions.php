@@ -536,7 +536,7 @@ function odiins_custom_seo_meta() {
     } elseif (is_page('services-employers') || is_page_template('page-services-employers.php')) {
         $desc = "Hire pre-screened office staff, accountants, sales executives, security guards, and commercial drivers across Odisha. 24-hour fast matching with local support | Odiins";
     } elseif (is_page('services-job-seekers') || is_page_template('page-services-job-seekers.php')) {
-        $desc = "Explore verified job openings in Odisha, including Bhubaneswar, for sales executive, manager, back office staff, driving, delivery, data entry and more. Find your next opportunity with Odiins.";
+        $desc = "Apply for verified private jobs in Bhubaneswar & Odisha. Openings for Sales Managers, accountants, data entry, office staff, telecallers & delivery fleet.";
     }
     if (!empty($desc)) {
         echo '<meta name="description" content="' . esc_attr($desc) . '">' . "\n";
@@ -552,7 +552,7 @@ function odiins_custom_document_title($title) {
     } elseif (is_page('services-employers') || is_page_template('page-services-employers.php')) {
         return "Hire Staff in Odisha | Manpower & Staffing Solutions in Bhubaneswar | Odiins";
     } elseif (is_page('services-job-seekers') || is_page_template('page-services-job-seekers.php')) {
-        return "Job Opportunities in Odisha | Jobs in Bhubaneswar | Odiins";
+        return "Private Jobs in Bhubaneswar | Sales Manager, Office & Staff Careers | Odiins";
     }
     return $title;
 }
