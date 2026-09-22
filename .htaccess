@@ -8,7 +8,9 @@
   RewriteBase /
 
   # 301 Permanent Redirects for Legacy Google-Indexed URLs
+  RewriteRule ^staffing-services-bhubaneswar(\.html)?/?$ /services-employers [R=301,L]
   RewriteRule ^staffing-services-in-bhubaneswar(\.html)?/?$ /services-employers [R=301,L]
+  RewriteRule ^staffing-solutions(-in)?-bhubaneswar(\.html)?/?$ /services-employers [R=301,L]
 
   # Clean URLs: serve .html files if path matches without extension
   RewriteRule ^staffing-and-manpower-solutions-in-bhubaneswar/?$ staffing-and-manpower-solutions-in-bhubaneswar.html [L]

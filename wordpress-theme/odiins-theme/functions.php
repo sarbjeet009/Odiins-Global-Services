@@ -564,7 +564,12 @@ add_filter('pre_get_document_title', 'odiins_custom_document_title', 20);
 function odiins_legacy_redirects() {
     if (!isset($_SERVER['REQUEST_URI'])) return;
     $request_uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-    if ($request_uri === 'staffing-services-in-bhubaneswar') {
+    if (
+        $request_uri === 'staffing-services-in-bhubaneswar' ||
+        $request_uri === 'staffing-services-bhubaneswar' ||
+        $request_uri === 'staffing-solutions-bhubaneswar' ||
+        $request_uri === 'staffing-solutions-in-bhubaneswar'
+    ) {
         wp_redirect(home_url('/services-employers/'), 301);
         exit;
     }

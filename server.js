@@ -571,7 +571,12 @@ const server = http.createServer((req, res) => {
   }
 
   // 301 Permanent Redirects for Legacy Google-Indexed URLs
-  if (pathname === '/staffing-services-in-bhubaneswar' || pathname === '/staffing-services-in-bhubaneswar/' || pathname === '/staffing-services-in-bhubaneswar.html') {
+  if (
+    pathname === '/staffing-services-bhubaneswar' || pathname === '/staffing-services-bhubaneswar/' || pathname === '/staffing-services-bhubaneswar.html' ||
+    pathname === '/staffing-services-in-bhubaneswar' || pathname === '/staffing-services-in-bhubaneswar/' || pathname === '/staffing-services-in-bhubaneswar.html' ||
+    pathname === '/staffing-solutions-bhubaneswar' || pathname === '/staffing-solutions-bhubaneswar/' ||
+    pathname === '/staffing-solutions-in-bhubaneswar' || pathname === '/staffing-solutions-in-bhubaneswar/'
+  ) {
     res.writeHead(301, { 'Location': '/services-employers' });
     res.end();
     return;
