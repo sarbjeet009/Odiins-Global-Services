@@ -3,4 +3,4 @@ Allow: /
 Disallow: /dashboard.html
 Disallow: /dashboard
 
-Sitemap: https://odiins.in/sitemap.xml
+Sitemap: https://www.odiins.in/sitemap.xml
