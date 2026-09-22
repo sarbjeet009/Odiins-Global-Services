@@ -19,16 +19,16 @@ get_header();
         <div style="background:var(--bg-light-blue); padding:2.5rem; display:flex; flex-direction:column; justify-content:center;">
           <div style="display:inline-flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
             <span class="section-badge" style="background:var(--primary-green); color:#FFFFFF; border:none;">FEATURED GUIDE</span>
-            <span style="font-size:0.8rem; color:var(--text-muted);">March 2026 • 6 min read</span>
+            <span style="font-size:0.8rem; color:var(--text-muted);">March 2026 • 7 min read</span>
           </div>
           <h2 style="font-size:1.85rem; margin-bottom:1rem; line-height:1.3;">
-            <a href="<?php echo esc_url(home_url('/blog-detail/')); ?>" style="color:var(--text-charcoal);">The Complete 2026 Guide to Hiring Reliable Staff for Your Odisha Business</a>
+            <a href="<?php echo esc_url(home_url('/how-to-hire-sales-managers-manpower-in-bhubaneswar/')); ?>" style="color:var(--text-charcoal);">How to Hire Verified Sales Managers &amp; Manpower in Bhubaneswar: 2026 Employer Guide</a>
           </h2>
           <p style="color:var(--text-muted); font-size:1.05rem; line-height:1.6; margin-bottom:1.5rem;">
-            From retail showrooms in Bhubaneswar to transport hubs in Cuttack and Sambalpur, here is how Odisha entrepreneurs are attracting local talent and reducing staff turnover.
+            From retail showrooms in Saheed Nagar to logistics hubs in Mancheswar and corporate offices in Patia, learn how top Odisha businesses source sales managers, back-office staff, and reduce turnover within 24 hours.
           </p>
           <div>
-            <a href="<?php echo esc_url(home_url('/blog-detail/')); ?>" class="btn btn-green">Read Featured Article &rarr;</a>
+            <a href="<?php echo esc_url(home_url('/how-to-hire-sales-managers-manpower-in-bhubaneswar/')); ?>" class="btn btn-green">Read Complete Guide &rarr;</a>
           </div>
         </div>
       </div>
@@ -68,11 +68,11 @@ get_header();
                 <div class="blog-meta">
                   <span style="color:var(--primary-green); font-weight:700;">Hiring Tips</span>
                   <span>•</span>
-                  <span>4 min read</span>
+                  <span>7 min read</span>
                 </div>
-                <h3>Hiring in Bhubaneswar: Top Skills Small Businesses are Looking for in 2026</h3>
-                <p>Learn how retail, hospitality, and office businesses evaluate practical communication and computer skills over mere paper degrees.</p>
-                <a href="<?php echo esc_url(home_url('/blog-detail/')); ?>" style="color:var(--primary-green); font-weight:600; font-size:0.88rem; margin-top:auto;">Read Article &rarr;</a>
+                <h3>How to Hire Verified Sales Managers &amp; Manpower in Bhubaneswar</h3>
+                <p>The definitive 2026 employer framework for evaluating Tier-1 sales leadership, back-office accountants, and conducting 4-step background checks.</p>
+                <a href="<?php echo esc_url(home_url('/how-to-hire-sales-managers-manpower-in-bhubaneswar/')); ?>" style="color:var(--primary-green); font-weight:600; font-size:0.88rem; margin-top:auto;">Read Article &rarr;</a>
               </div>
             </article>
 

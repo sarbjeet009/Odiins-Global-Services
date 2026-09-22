@@ -537,6 +537,8 @@ function odiins_custom_seo_meta() {
         $desc = "Hire pre-screened office staff, accountants, sales executives, security guards, and commercial drivers across Odisha. 24-hour fast matching with local support | Odiins";
     } elseif (is_page('services-job-seekers') || is_page_template('page-services-job-seekers.php')) {
         $desc = "Apply for verified private jobs in Bhubaneswar & Odisha. Openings for Sales Managers, accountants, data entry, office staff, telecallers & delivery fleet.";
+    } elseif (is_page('how-to-hire-sales-managers-manpower-in-bhubaneswar') || is_page_template('page-how-to-hire-sales-managers-manpower-in-bhubaneswar.php')) {
+        $desc = "Learn how Odisha businesses hire pre-screened sales managers, accountants, and verified workforce in Bhubaneswar & Cuttack. 24h matching guide.";
     }
     if (!empty($desc)) {
         echo '<meta name="description" content="' . esc_attr($desc) . '">' . "\n";
@@ -553,6 +555,8 @@ function odiins_custom_document_title($title) {
         return "Hire Staff in Odisha | Manpower & Staffing Solutions in Bhubaneswar | Odiins";
     } elseif (is_page('services-job-seekers') || is_page_template('page-services-job-seekers.php')) {
         return "Private Jobs in Bhubaneswar | Sales Manager, Office & Staff Careers | Odiins";
+    } elseif (is_page('how-to-hire-sales-managers-manpower-in-bhubaneswar') || is_page_template('page-how-to-hire-sales-managers-manpower-in-bhubaneswar.php')) {
+        return "How to Hire Verified Sales Managers & Manpower in Bhubaneswar | Odiins Guide";
     }
     return $title;
 }

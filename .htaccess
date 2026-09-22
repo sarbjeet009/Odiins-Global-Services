@@ -16,6 +16,7 @@
   RewriteRule ^staffing-and-manpower-solutions-in-bhubaneswar/?$ staffing-and-manpower-solutions-in-bhubaneswar.html [L]
   RewriteRule ^bank-csp/?$ bank-csp-odisha.html [L]
   RewriteRule ^csp/?$ bank-csp-odisha.html [L]
+  RewriteRule ^how-to-hire-sales-managers-manpower-in-bhubaneswar/?$ how-to-hire-sales-managers-manpower-in-bhubaneswar.html [L]
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME}\.html -f
   RewriteRule ^(.*)$ $1.html [L]
