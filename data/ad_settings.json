@@ -1,7 +1,53 @@
 {
   "googleAdsId": "AW-11452908312",
   "googleAdsLabel": "wKxPCMK954EZEKi9o9Uq",
-  "metaPixelId": "982347102938475",
+  "metaPixelId": "2059018191609052",
   "trackConversions": true,
-  "lastUpdated": "2026-09-18T20:39:31.480Z"
+  "meta": {
+    "connected": true,
+    "adAccountId": "act_1060505796783425",
+    "businessPortfolioId": "1412272150853565",
+    "accountName": "Odiins Meta ad account",
+    "currency": "INR",
+    "spendCap": "338.98",
+    "amountSpent": "277.45",
+    "balance": "269.52",
+    "metrics": {
+      "impressions": 4506,
+      "clicks": 167,
+      "spend": 277.45,
+      "cpc": 1.66,
+      "cpm": 61.57,
+      "ctr": 3.71,
+      "dateStart": "2026-09-22",
+      "dateStop": "2026-09-24"
+    },
+    "campaigns": [
+      {
+        "id": "120250263786600477",
+        "name": "CSP FORM FILL",
+        "status": "ACTIVE",
+        "objective": "OUTCOME_LEADS"
+      },
+      {
+        "id": "120250275756890477",
+        "name": "CSP_lead_02",
+        "status": "ACTIVE",
+        "objective": "OUTCOME_LEADS"
+      },
+      {
+        "id": "120250278490350477",
+        "name": "New Leads campaign",
+        "status": "ACTIVE",
+        "objective": "OUTCOME_LEADS"
+      },
+      {
+        "id": "120250266701980477",
+        "name": "Instagram post: Tell us what your business...",
+        "status": "PAUSED",
+        "objective": "LINK_CLICKS"
+      }
+    ]
+  },
+  "lastUpdated": "2026-09-24T02:40:00.000Z"
 }
