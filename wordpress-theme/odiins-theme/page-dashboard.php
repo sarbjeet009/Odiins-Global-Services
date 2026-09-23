@@ -341,7 +341,7 @@
             <span style="color:#F5820D;">Firestore DB:</span> <strong>Connected &amp; Live</strong>
           </div>
           <div style="background:rgba(255,255,255,0.1); padding:0.4rem 0.8rem; border-radius:8px; border:1px solid rgba(255,255,255,0.15);">
-            <span style="color:#F472B6;">Google &amp; Meta Tags:</span> <strong>Active</strong>
+            <span style="color:#F472B6;">Google Analytics:</span> <strong>G-VR0G0V11MN</strong>
           </div>
         </div>
       </div>
@@ -1248,7 +1248,7 @@
       storageBucket: "odiins-global-services.firebasestorage.app",
       messagingSenderId: "567871011253",
       appId: "1:567871011253:web:7e66ebe926adcded53c1fc",
-      measurementId: "G-Z8ZVGVE4EY"
+      measurementId: "G-VR0G0V11MN"
     };
 
     let allLeads = [];

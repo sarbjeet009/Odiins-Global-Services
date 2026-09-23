@@ -21,7 +21,7 @@ const FIREBASE_CONFIG = {
   storageBucket: "odiins-global-services.firebasestorage.app",
   messagingSenderId: "567871011253",
   appId: "1:567871011253:web:7e66ebe926adcded53c1fc",
-  measurementId: "G-Z8ZVGVE4EY"
+  measurementId: "G-VR0G0V11MN"
 };
 
 document.addEventListener('DOMContentLoaded', () => {

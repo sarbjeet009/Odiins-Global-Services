@@ -7,6 +7,15 @@
   <link rel="icon" type="image/svg+xml" href="<?php echo esc_url(get_template_directory_uri() . '/assets/icons/favicon.svg'); ?>">
   <?php wp_head(); ?>
 
+    <!-- Google tag (gtag.js) - Google Analytics 4 & Google Ads -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VR0G0V11MN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-VR0G0V11MN");
+    gtag("config", "AW-11452908312");
+  </script>
   <!-- Meta Pixel Code -->
   <script>
     !function(f,b,e,v,n,t,s)
