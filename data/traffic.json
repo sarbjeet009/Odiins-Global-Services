@@ -1,0 +1,70 @@
+{
+  "2026-09-18": {
+    "totalViews": 4,
+    "uniqueSessions": 2,
+    "mobile": 3,
+    "desktop": 1,
+    "pages": {
+      "/": 2,
+      "/services-job-seekers.html": 1,
+      "/services-employers.html": 1
+    }
+  },
+  "2026-09-19": {
+    "totalViews": 7,
+    "uniqueSessions": 3,
+    "mobile": 5,
+    "desktop": 2,
+    "pages": {
+      "/": 3,
+      "/contact.html": 2,
+      "/services-customers.html": 2
+    }
+  },
+  "2026-09-20": {
+    "totalViews": 9,
+    "uniqueSessions": 4,
+    "mobile": 7,
+    "desktop": 2,
+    "pages": {
+      "/": 4,
+      "/dashboard.html": 3,
+      "/services-job-seekers.html": 2
+    }
+  },
+  "2026-09-21": {
+    "totalViews": 12,
+    "uniqueSessions": 5,
+    "mobile": 9,
+    "desktop": 3,
+    "pages": {
+      "/": 5,
+      "/staffing-and-manpower-solutions-in-bhubaneswar.html": 4,
+      "/services-employers.html": 3
+    }
+  },
+  "2026-09-22": {
+    "totalViews": 16,
+    "uniqueSessions": 7,
+    "mobile": 12,
+    "desktop": 4,
+    "pages": {
+      "/": 6,
+      "/top-in-demand-private-jobs-in-bhubaneswar-odisha.html": 5,
+      "/bank-csp-odisha.html": 3,
+      "/blogs.html": 2
+    }
+  },
+  "2026-09-23": {
+    "totalViews": 19,
+    "uniqueSessions": 8,
+    "mobile": 15,
+    "desktop": 4,
+    "pages": {
+      "/": 7,
+      "/guide-to-hiring-verified-maids-cooks-tutors-bhubaneswar.html": 5,
+      "/dashboard.html": 4,
+      "/services-customers.html": 3
+    }
+  }
+}

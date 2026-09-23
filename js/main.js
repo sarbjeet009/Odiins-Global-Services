@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroInteractiveParallax();
   initCard3DTilt();
   initScrollParallax();
+  initVisitorTracker();
 });
 
 /* 1. Mobile Menu Drawer */
@@ -495,5 +496,45 @@ function initScrollParallax() {
       ticking = true;
     }
   }, { passive: true });
+}
+
+/* ==========================================================================
+   13. LIGHTWEIGHT PRIVACY-FRIENDLY VISITOR & TRAFFIC TRACKER
+   ========================================================================== */
+function initVisitorTracker() {
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    const path = window.location.pathname || '/';
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    let traffic = {};
+    try {
+      traffic = JSON.parse(localStorage.getItem('odiins_traffic_analytics') || '{}');
+    } catch (e) { traffic = {}; }
+
+    if (!traffic[today]) {
+      traffic[today] = { totalViews: 0, uniqueSessions: 0, mobile: 0, desktop: 0, pages: {} };
+    }
+
+    traffic[today].totalViews = (traffic[today].totalViews || 0) + 1;
+    if (isMobile) {
+      traffic[today].mobile = (traffic[today].mobile || 0) + 1;
+    } else {
+      traffic[today].desktop = (traffic[today].desktop || 0) + 1;
+    }
+
+    if (!traffic[today].pages) traffic[today].pages = {};
+    traffic[today].pages[path] = (traffic[today].pages[path] || 0) + 1;
+
+    const sessionKey = 'odiins_session_' + today;
+    if (!sessionStorage.getItem(sessionKey)) {
+      sessionStorage.setItem(sessionKey, '1');
+      traffic[today].uniqueSessions = (traffic[today].uniqueSessions || 0) + 1;
+    }
+
+    localStorage.setItem('odiins_traffic_analytics', JSON.stringify(traffic));
+  } catch (err) {
+    // Non-blocking fail-safe
+  }
 }
 
