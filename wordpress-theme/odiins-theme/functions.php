@@ -92,6 +92,10 @@ function odiins_run_auto_setup() {
             'title'    => 'Top In-Demand Private Jobs in Bhubaneswar & Odisha (2026)',
             'template' => 'page-top-in-demand-private-jobs-in-bhubaneswar-odisha.php',
         ),
+        'guide-to-hiring-verified-maids-cooks-tutors-bhubaneswar' => array(
+            'title'    => 'Guide to Hiring Verified Maids, Cooks & Tutors in Bhubaneswar',
+            'template' => 'page-guide-to-hiring-verified-maids-cooks-tutors-bhubaneswar.php',
+        ),
         'contact' => array(
             'title'    => 'Contact Us',
             'template' => 'page-contact.php',
@@ -545,6 +549,8 @@ function odiins_custom_seo_meta() {
         $desc = "Learn how Odisha businesses hire pre-screened sales managers, accountants, and verified workforce in Bhubaneswar & Cuttack. 24h matching guide.";
     } elseif (is_page('top-in-demand-private-jobs-in-bhubaneswar-odisha') || is_page_template('page-top-in-demand-private-jobs-in-bhubaneswar-odisha.php')) {
         $desc = "Discover top private jobs in Bhubaneswar & Odisha for 2026. Explore salaries, qualifications, and direct hiring for sales, accounting, office, IT & banking roles.";
+    } elseif (is_page('guide-to-hiring-verified-maids-cooks-tutors-bhubaneswar') || is_page_template('page-guide-to-hiring-verified-maids-cooks-tutors-bhubaneswar.php')) {
+        $desc = "A complete 2026 checklist for hiring background-verified domestic help, Odia home cooks, CBSE tutors, and patient care attendants in Bhubaneswar & Cuttack.";
     }
     if (!empty($desc)) {
         echo '<meta name="description" content="' . esc_attr($desc) . '">' . "\n";
@@ -565,6 +571,8 @@ function odiins_custom_document_title($title) {
         return "How to Hire Verified Sales Managers & Manpower in Bhubaneswar | Odiins Guide";
     } elseif (is_page('top-in-demand-private-jobs-in-bhubaneswar-odisha') || is_page_template('page-top-in-demand-private-jobs-in-bhubaneswar-odisha.php')) {
         return "Top In-Demand Private Jobs in Bhubaneswar & Odisha: 2026 Salary Guide | Odiins";
+    } elseif (is_page('guide-to-hiring-verified-maids-cooks-tutors-bhubaneswar') || is_page_template('page-guide-to-hiring-verified-maids-cooks-tutors-bhubaneswar.php')) {
+        return "Guide to Hiring Verified Maids, Cooks & Home Tutors in Bhubaneswar | Odiins";
     }
     return $title;
 }

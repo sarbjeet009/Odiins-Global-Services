@@ -83,11 +83,11 @@ get_header();
                 <div class="blog-meta">
                   <span style="color:var(--primary-green); font-weight:700;">Household Help</span>
                   <span>•</span>
-                  <span>3 min read</span>
+                  <span>8 min read</span>
                 </div>
-                <h3>How to Find a Verified, Trustworthy Cook or Maid in Cuttack &amp; Bhubaneswar</h3>
-                <p>A practical step-by-step checklist on background verification, Aadhaar authentication, and setting clear household expectations.</p>
-                <a href="<?php echo esc_url(home_url('/blog-detail/')); ?>" style="color:var(--primary-green); font-weight:600; font-size:0.88rem; margin-top:auto;">Read Article &rarr;</a>
+                <h3>Complete Guide to Hiring Verified Maids, Cooks &amp; Home Tutors in Bhubaneswar</h3>
+                <p>A practical checklist on 4-step background verification, Aadhaar authentication, 2026 salary benchmarks, and replacement guarantees.</p>
+                <a href="<?php echo esc_url(home_url('/guide-to-hiring-verified-maids-cooks-tutors-bhubaneswar/')); ?>" style="color:var(--primary-green); font-weight:600; font-size:0.88rem; margin-top:auto;">Read Article &rarr;</a>
               </div>
             </article>
 
