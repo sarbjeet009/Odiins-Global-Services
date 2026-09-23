@@ -490,7 +490,7 @@ function odiins_rest_auth_login($request) {
     $password = trim($params['password'] ?? '');
 
     // Default executive credentials
-    if (($email === 'admin@odiins.com' || $email === 'admin') && $password === 'Odiins@Admin2026') {
+    if (($email === 'admin@odiins.com' || $email === 'admin' || $email === 'corporate@odiins.in') && $password === 'Odiins@Admin2026') {
         return rest_ensure_response(array('success' => true, 'token' => 'odiins_wp_' . time()));
     }
 

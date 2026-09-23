@@ -180,7 +180,7 @@
           <label for="adminIdInput">Admin ID or Email</label>
           <div class="auth-input-wrapper">
             <span class="auth-input-icon">👤</span>
-            <input type="text" id="adminIdInput" class="auth-input-field" placeholder="corporate@odiins.in" value="corporate@odiins.in" required autocomplete="username">
+            <input type="text" id="adminIdInput" class="auth-input-field" placeholder="Enter Admin ID or Email" required autocomplete="username">
           </div>
         </div>
 
@@ -189,7 +189,7 @@
           <label for="adminPasswordInput">Password</label>
           <div class="auth-input-wrapper">
             <span class="auth-input-icon">🔑</span>
-            <input type="password" id="adminPasswordInput" class="auth-input-field" placeholder="••••••••••••" required autocomplete="current-password">
+            <input type="password" id="adminPasswordInput" class="auth-input-field" placeholder="Enter Password" required autocomplete="current-password">
             <button type="button" class="auth-toggle-pwd" onclick="togglePasswordVisibility()" aria-label="Toggle password visibility">👁️</button>
           </div>
         </div>
@@ -200,7 +200,7 @@
             <input type="checkbox" id="rememberAdminCheckbox" checked>
             <span>Remember this device</span>
           </label>
-          <a href="index.html" style="color:var(--primary-blue); font-weight:500;">&larr; Return to Website</a>
+          <a href="<?php echo esc_url(home_url('/')); ?>" style="color:var(--primary-blue); font-weight:500;">&larr; Return to Website</a>
         </div>
 
         <!-- Submit Button -->
@@ -208,13 +208,6 @@
           Unlock Command Center &rarr;
         </button>
       </form>
-
-      <!-- Security Credential Notice -->
-      <div class="auth-hint-box">
-        <div style="font-weight:700; margin-bottom:0.2rem; color:var(--primary-green);">🔑 Default Executive Credentials:</div>
-        <div>Admin ID: <code>corporate@odiins.in</code> (or <code>admin</code>)</div>
-        <div>Password: <code>Odiins@Admin2026</code></div>
-      </div>
     </div>
   </div>
 
