@@ -203,6 +203,27 @@
       border-color: var(--primary-green);
       box-shadow: 0 6px 22px rgba(9, 139, 56, 0.14);
     }
+    .dash-brand-badge {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      padding: 6px 14px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      flex-shrink: 0;
+    }
+    .dash-header-divider {
+      width: 1px;
+      height: 32px;
+      background: #E2E8F0;
+    }
+    @media (max-width: 640px) {
+      .dash-header-divider {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body style="background-color: var(--bg-light-blue);">
@@ -211,7 +232,9 @@
   <div id="adminAuthOverlay" class="admin-auth-container">
     <div class="admin-auth-card">
       <div style="display:flex; justify-content:center; margin-bottom:1.25rem;">
-        <img src="assets/icons/logo.svg" alt="Odiins Logo" height="52">
+        <div class="dash-brand-badge" style="padding:8px 18px; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.04);">
+          <img src="assets/icons/logo.svg" alt="Odiins Logo" style="height:32px; width:auto; display:block;">
+        </div>
       </div>
       <div class="admin-auth-badge">
         <span>🔒</span> Restricted • Central Odisha Admin
@@ -281,25 +304,31 @@
   <main class="container" style="padding-top: 1.5rem; padding-bottom: 3.5rem;">
     
     <!-- Top Executive Header -->
-    <div style="background:var(--bg-white); padding:1.5rem; border-radius:var(--radius-lg); box-shadow:var(--card-shadow); border:1px solid var(--border-light); margin-bottom:1.25rem;">
+    <div style="background:var(--bg-white); padding:1.1rem 1.5rem; border-radius:var(--radius-lg); box-shadow:var(--card-shadow); border:1px solid var(--border-light); margin-bottom:1.25rem;">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
-        <div style="display:flex; align-items:center; gap:0.75rem;">
-          <img src="assets/icons/logo.svg" alt="Odiins Logo" height="52">
+        <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+          <div class="dash-brand-badge">
+            <img src="assets/icons/logo.svg" alt="Odiins Logo" style="height:28px; width:auto; display:block;">
+          </div>
+          <div class="dash-header-divider"></div>
           <div>
-            <h1 style="font-size:1.5rem; line-height:1.2;">Executive Command Center</h1>
-            <p style="font-size:0.85rem; color:var(--text-muted);">Unified live monitoring: Leads, Paid Ads, Web Analytics, SEO Rankings, Instagram &amp; YouTube</p>
+            <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+              <h1 style="font-size:1.25rem; font-weight:700; color:var(--primary-navy); margin:0; line-height:1.2;">Executive Command Center</h1>
+              <span style="background:rgba(9,139,56,0.1); color:var(--primary-green); font-size:0.68rem; font-weight:700; padding:0.18rem 0.55rem; border-radius:9999px; text-transform:uppercase; letter-spacing:0.5px; border:1px solid rgba(9,139,56,0.2);">Live v2.4</span>
+            </div>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin:0.2rem 0 0 0;">Unified live monitoring: Leads CRM, Meta Ads, Search Console, GA4 &amp; Social Reach</p>
           </div>
         </div>
 
-        <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
-          <a href="/api/leads/export.csv" id="exportCsvBtn" class="btn btn-green btn-sm" download>
-            📥 Export Leads Spreadsheet
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+          <a href="/api/leads/export.csv" id="exportCsvBtn" class="btn btn-green btn-sm" download style="display:inline-flex; align-items:center; gap:0.35rem; font-size:0.8rem; font-weight:600; padding:0.45rem 0.85rem; border-radius:8px;">
+            <span>📥</span> Export CSV
           </a>
-          <button id="printReportBtn" class="btn btn-white btn-sm" onclick="switchToTab('infographic'); setTimeout(() => window.print(), 250);">
-            🖨️ Export Infographic (PDF)
+          <button id="printReportBtn" class="btn btn-white btn-sm" onclick="switchToTab('infographic'); setTimeout(() => window.print(), 250);" style="display:inline-flex; align-items:center; gap:0.35rem; font-size:0.8rem; font-weight:600; padding:0.45rem 0.85rem; border-radius:8px; border:1px solid #E2E8F0; color:var(--primary-navy); background:#FFFFFF;">
+            <span>🖨️</span> PDF Report
           </button>
-          <button id="refreshAllBtn" class="btn btn-white btn-sm" onclick="refreshAllData()">
-            🔄 Refresh All
+          <button id="refreshAllBtn" class="btn btn-white btn-sm" onclick="refreshAllData()" style="display:inline-flex; align-items:center; gap:0.35rem; font-size:0.8rem; font-weight:600; padding:0.45rem 0.85rem; border-radius:8px; border:1px solid #E2E8F0; color:var(--primary-navy); background:#FFFFFF;">
+            <span>🔄</span> Refresh
           </button>
         </div>
       </div>
@@ -1159,8 +1188,10 @@
         <!-- Header -->
         <div class="infographic-header">
           <div class="infographic-title">
-            <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;">
-              <img src="assets/icons/logo.svg" alt="Odiins Logo" height="52">
+            <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem;">
+              <div class="dash-brand-badge" style="padding:4px 10px; border-radius:8px;">
+                <img src="assets/icons/logo.svg" alt="Odiins Logo" style="height:24px; width:auto; display:block;">
+              </div>
               <span class="section-badge" style="margin:0;">EXECUTIVE SUMMARY REPORT</span>
             </div>
             <h2>Odiins All-In-One Unified Performance Report</h2>
