@@ -194,29 +194,38 @@ function getPageTitleFromPath(p) {
 
 // Social Media Data (Real Status)
 function getSocialMediaData() {
+  if (fs.existsSync(SOCIAL_SETTINGS_FILE)) {
+    try {
+      const saved = JSON.parse(fs.readFileSync(SOCIAL_SETTINGS_FILE, 'utf8'));
+      if (saved.instagram && saved.youtube) {
+        return saved;
+      }
+    } catch (e) {
+      console.warn('Error reading social settings:', e);
+    }
+  }
   return {
     instagram: {
-      handle: "@odiins.odisha",
-      status: "Official Handle Registered",
-      connected: false,
-      followers: "Connect Meta Graph API",
-      totalPostsAndReels: 0,
-      profileVisits30d: 0,
-      dmLeads30d: 0,
-      profileUrl: "https://www.instagram.com/odiins.odisha",
-      message: "Ready to connect. Input your Meta Graph API access token in the modal to sync live followers and reels."
+      handle: "@odiins_in",
+      name: "Odiins Global Services",
+      status: "Verified Brand Handle",
+      profileUrl: "https://www.instagram.com/odiins_in/",
+      facebookPageId: "1205282452678466",
+      facebookPageName: "Odiins Global Services",
+      metaAdAccount: "act_1060505796783425",
+      metaPixel: "2059018191609052",
+      adPlacementsActive: true
     },
     youtube: {
-      channelName: "Odiins - Odisha Jobs & Manpower",
-      channelHandle: "@OdiinsOdisha",
-      status: "Official Channel Registered",
-      connected: false,
-      subscribers: "Connect YouTube API",
-      totalVideos: 0,
-      totalViews: 0,
-      watchTimeHours: 0,
-      channelUrl: "https://www.youtube.com/@OdiinsOdisha",
-      message: "Ready to connect. Input your Google Cloud YouTube Data API v3 key to sync live subscriber and video metrics."
+      channelName: "Odiins Global Services",
+      channelHandle: "@odinspvtltd",
+      channelId: "UCG35a0zBtw_M4uv34gbDT5Q",
+      channelUrl: "https://www.youtube.com/@odinspvtltd",
+      status: "Active Official Channel",
+      subscribers: 5,
+      subscriberText: "5 Subscribers",
+      totalVideos: 6,
+      totalViews: 251
     }
   };
 }

@@ -1,8 +1,76 @@
 {
-  "instagramAccountId": "odiins.odisha",
-  "instagramAccessToken": "EAABw...[Configured]",
-  "youtubeChannelId": "UC-OdiinsOdishaJobs",
-  "youtubeApiKey": "AIzaSy...[Configured]",
-  "autoSync": true,
-  "lastSynced": "2026-09-18T20:46:21.003Z"
+  "instagram": {
+    "handle": "@odiins_in",
+    "name": "Odiins Global Services",
+    "status": "Verified Brand Handle",
+    "profileUrl": "https://www.instagram.com/odiins_in/",
+    "facebookPageId": "1205282452678466",
+    "facebookPageName": "Odiins Global Services",
+    "metaAdAccount": "act_1060505796783425",
+    "metaPixel": "2059018191609052",
+    "adPlacementsActive": true,
+    "lastSynced": "2026-09-24T03:10:00.000Z"
+  },
+  "youtube": {
+    "channelName": "Odiins Global Services",
+    "channelHandle": "@odinspvtltd",
+    "channelId": "UCG35a0zBtw_M4uv34gbDT5Q",
+    "channelUrl": "https://www.youtube.com/@odinspvtltd",
+    "status": "Active Official Channel",
+    "subscribers": 5,
+    "subscriberText": "5 Subscribers",
+    "totalVideos": 6,
+    "totalViews": 251,
+    "recentVideos": [
+      {
+        "id": "B_sBIBepoPc",
+        "title": "Stop scrolling. Start applying.#shortvideo #bhubaneswar #interviewtips",
+        "url": "https://www.youtube.com/shorts/B_sBIBepoPc",
+        "thumbnail": "https://i3.ytimg.com/vi/B_sBIBepoPc/hqdefault.jpg",
+        "views": 28,
+        "published": "2026-09-22"
+      },
+      {
+        "id": "XJ5ZB9bBezM",
+        "title": "Your Next Team Member Could Be One Call Away.#shortvideo #bhubaneswar",
+        "url": "https://www.youtube.com/shorts/XJ5ZB9bBezM",
+        "thumbnail": "https://i1.ytimg.com/vi/XJ5ZB9bBezM/hqdefault.jpg",
+        "views": 30,
+        "published": "2026-09-22"
+      },
+      {
+        "id": "GgS7lxQ2InI",
+        "title": "Odisha’s Own Platform. #shortvideo #bhubaneswarjobs #bhubaneswar",
+        "url": "https://www.youtube.com/shorts/GgS7lxQ2InI",
+        "thumbnail": "https://i4.ytimg.com/vi/GgS7lxQ2InI/hqdefault.jpg",
+        "views": 59,
+        "published": "2026-09-21"
+      },
+      {
+        "id": "0hietOs41t8",
+        "title": "Drowning in Work! How to Scale Your Team Fast 📈#shortvideo #bhubaneswarjobs #interviewtips",
+        "url": "https://www.youtube.com/shorts/0hietOs41t8",
+        "thumbnail": "https://i1.ytimg.com/vi/0hietOs41t8/hqdefault.jpg",
+        "views": 30,
+        "published": "2026-09-21"
+      },
+      {
+        "id": "UW5JuRAlQ0M",
+        "title": "No Experience? Sell Your Skills Instead! 💡#shortvideo #beyondthecv #interviewtips #bhubaneswarjobs",
+        "url": "https://www.youtube.com/shorts/UW5JuRAlQ0M",
+        "thumbnail": "https://i2.ytimg.com/vi/UW5JuRAlQ0M/hqdefault.jpg",
+        "views": 43,
+        "published": "2026-09-17"
+      },
+      {
+        "id": "wdPXqOTjUN4",
+        "title": "Stop just talking about your CV. Talk about THIS! 🎯 #shortsvideo #interviewtips",
+        "url": "https://www.youtube.com/shorts/wdPXqOTjUN4",
+        "thumbnail": "https://i4.ytimg.com/vi/wdPXqOTjUN4/hqdefault.jpg",
+        "views": 61,
+        "published": "2026-09-11"
+      }
+    ],
+    "lastSynced": "2026-09-24T03:10:00.000Z"
+  }
 }

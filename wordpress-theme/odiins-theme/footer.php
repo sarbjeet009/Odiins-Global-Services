@@ -10,10 +10,10 @@
           </p>
           <div class="footer-social-icons">
             <a href="#" class="social-icon-btn" aria-label="Facebook">f</a>
-            <a href="#" class="social-icon-btn" aria-label="Instagram">📸</a>
+            <a href="https://www.instagram.com/odiins_in/" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Instagram">📸</a>
             <a href="#" class="social-icon-btn" aria-label="LinkedIn">in</a>
             <a href="#" class="social-icon-btn" aria-label="X / Twitter">𝕏</a>
-            <a href="#" class="social-icon-btn" aria-label="YouTube">▶</a>
+            <a href="https://www.youtube.com/@odinspvtltd" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="YouTube">▶</a>
           </div>
         </div>
 
