@@ -98,11 +98,11 @@ get_header();
                 <div class="blog-meta">
                   <span style="color:var(--primary-green); font-weight:700;">Odisha Job Market</span>
                   <span>•</span>
-                  <span>5 min read</span>
+                  <span>6 min read</span>
                 </div>
-                <h3>5 Back-Office Roles Growing Rapidly Across Odisha's Tier-2 Cities</h3>
-                <p>Why businesses in Rourkela, Sambalpur, Balasore, and Berhampur are actively recruiting billing, data entry, and accounting assistants.</p>
-                <a href="<?php echo esc_url(home_url('/blog-detail/')); ?>" style="color:var(--primary-green); font-weight:600; font-size:0.88rem; margin-top:auto;">Read Article &rarr;</a>
+                <h3>Top In-Demand Private Jobs in Bhubaneswar &amp; Odisha: 2026 Salary &amp; Career Guide</h3>
+                <p>Explore highest-paying private sector roles in Bhubaneswar, Cuttack &amp; Odisha—from sales managers and accountants to bank CSP operators, with verified salary benchmarks.</p>
+                <a href="<?php echo esc_url(home_url('/top-in-demand-private-jobs-in-bhubaneswar-odisha/')); ?>" style="color:var(--primary-green); font-weight:600; font-size:0.88rem; margin-top:auto;">Read Article &rarr;</a>
               </div>
             </article>
 

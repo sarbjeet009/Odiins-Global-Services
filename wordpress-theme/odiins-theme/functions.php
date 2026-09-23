@@ -88,6 +88,10 @@ function odiins_run_auto_setup() {
             'title'    => 'Hiring in Bhubaneswar Guide',
             'template' => 'page-blog-detail.php',
         ),
+        'top-in-demand-private-jobs-in-bhubaneswar-odisha' => array(
+            'title'    => 'Top In-Demand Private Jobs in Bhubaneswar & Odisha (2026)',
+            'template' => 'page-top-in-demand-private-jobs-in-bhubaneswar-odisha.php',
+        ),
         'contact' => array(
             'title'    => 'Contact Us',
             'template' => 'page-contact.php',
@@ -539,6 +543,8 @@ function odiins_custom_seo_meta() {
         $desc = "Apply for verified private jobs in Bhubaneswar & Odisha. Openings for Sales Managers, accountants, data entry, office staff, telecallers & delivery fleet.";
     } elseif (is_page('how-to-hire-sales-managers-manpower-in-bhubaneswar') || is_page_template('page-how-to-hire-sales-managers-manpower-in-bhubaneswar.php')) {
         $desc = "Learn how Odisha businesses hire pre-screened sales managers, accountants, and verified workforce in Bhubaneswar & Cuttack. 24h matching guide.";
+    } elseif (is_page('top-in-demand-private-jobs-in-bhubaneswar-odisha') || is_page_template('page-top-in-demand-private-jobs-in-bhubaneswar-odisha.php')) {
+        $desc = "Discover top private jobs in Bhubaneswar & Odisha for 2026. Explore salaries, qualifications, and direct hiring for sales, accounting, office, IT & banking roles.";
     }
     if (!empty($desc)) {
         echo '<meta name="description" content="' . esc_attr($desc) . '">' . "\n";
@@ -557,6 +563,8 @@ function odiins_custom_document_title($title) {
         return "Private Jobs in Bhubaneswar | Sales Manager, Office & Staff Careers | Odiins";
     } elseif (is_page('how-to-hire-sales-managers-manpower-in-bhubaneswar') || is_page_template('page-how-to-hire-sales-managers-manpower-in-bhubaneswar.php')) {
         return "How to Hire Verified Sales Managers & Manpower in Bhubaneswar | Odiins Guide";
+    } elseif (is_page('top-in-demand-private-jobs-in-bhubaneswar-odisha') || is_page_template('page-top-in-demand-private-jobs-in-bhubaneswar-odisha.php')) {
+        return "Top In-Demand Private Jobs in Bhubaneswar & Odisha: 2026 Salary Guide | Odiins";
     }
     return $title;
 }
