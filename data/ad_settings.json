@@ -19,35 +19,55 @@
       "cpc": 1.66,
       "cpm": 61.57,
       "ctr": 3.71,
+      "leads": 39,
+      "cpl": 7.11,
+      "leadGenFormId": "1483711920470487",
+      "leadGenFormName": "CSP Form 01",
       "dateStart": "2026-09-22",
       "dateStop": "2026-09-24"
     },
     "campaigns": [
       {
-        "id": "120250263786600477",
-        "name": "CSP FORM FILL",
-        "status": "ACTIVE",
-        "objective": "OUTCOME_LEADS"
-      },
-      {
         "id": "120250275756890477",
         "name": "CSP_lead_02",
         "status": "ACTIVE",
-        "objective": "OUTCOME_LEADS"
+        "objective": "OUTCOME_LEADS",
+        "leads": 22,
+        "spend": 186.39,
+        "cpl": 8.47,
+        "clicks": 58
       },
       {
         "id": "120250278490350477",
         "name": "New Leads campaign",
         "status": "ACTIVE",
-        "objective": "OUTCOME_LEADS"
+        "objective": "OUTCOME_LEADS",
+        "leads": 13,
+        "spend": 67.36,
+        "cpl": 5.18,
+        "clicks": 17
+      },
+      {
+        "id": "120250263786600477",
+        "name": "CSP FORM FILL",
+        "status": "ACTIVE",
+        "objective": "OUTCOME_LEADS",
+        "leads": 2,
+        "spend": 7.82,
+        "cpl": 3.91,
+        "clicks": 6
       },
       {
         "id": "120250266701980477",
-        "name": "Instagram post: Tell us what your business...",
+        "name": "Instagram post: 💬 Tell us what your business...",
         "status": "PAUSED",
-        "objective": "LINK_CLICKS"
+        "objective": "LINK_CLICKS",
+        "leads": 0,
+        "spend": 17.21,
+        "cpl": 0,
+        "clicks": 21
       }
     ]
   },
-  "lastUpdated": "2026-09-24T02:40:00.000Z"
+  "lastUpdated": "2026-09-24T03:35:00.000Z"
 }
