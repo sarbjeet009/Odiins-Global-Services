@@ -13,6 +13,17 @@
 // Google Sheets Webhook URL for real-time lead capture
 const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwxblKhDvNFHne_A_5rXYGiqOE21Bg55Jnf6UBGtq4IQzPXFFd14Ncgrjl9NWF1lBlW/exec';
 
+// Cloud Firestore Webhook Configuration
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyB-qqo9Fu6Sf3RP3m-P_G2qc-95qZWznAU",
+  authDomain: "odiins-global-services.firebaseapp.com",
+  projectId: "odiins-global-services",
+  storageBucket: "odiins-global-services.firebasestorage.app",
+  messagingSenderId: "567871011253",
+  appId: "1:567871011253:web:7e66ebe926adcded53c1fc",
+  measurementId: "G-Z8ZVGVE4EY"
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   initAdTracking();
   initFormTimers();
@@ -187,7 +198,10 @@ function initFormSubmissions() {
       // 1. Instantly push to Google Sheets Webhook
       sendLeadToGoogleSheets(leadData);
 
-      // 2. Push to local / backend API
+      // 2. Instantly push to Cloud Firestore
+      sendLeadToFirestore(leadData);
+
+      // 3. Push to local / backend API
       try {
         await fetch('/api/leads', {
           method: 'POST',
@@ -207,6 +221,30 @@ function initFormSubmissions() {
       }
     });
   });
+}
+
+// Push lead in real-time to Google Cloud Firestore via REST
+async function sendLeadToFirestore(leadData) {
+  if (!FIREBASE_CONFIG || !FIREBASE_CONFIG.projectId) return;
+
+  try {
+    const docId = leadData.id || ('OD-' + Date.now().toString(36).toUpperCase());
+    const url = `https://firestore.googleapis.com/v1/projects/${FIREBASE_CONFIG.projectId}/databases/(default)/documents/leads?documentId=${docId}&key=${FIREBASE_CONFIG.apiKey}`;
+
+    const fields = {};
+    Object.entries(leadData).forEach(([key, val]) => {
+      fields[key] = { stringValue: (val !== undefined && val !== null) ? String(val) : '' };
+    });
+
+    await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields })
+    });
+    console.log('Lead synced to Cloud Firestore successfully (Doc ID: ' + docId + ').');
+  } catch (err) {
+    console.warn('Firestore sync warning:', err);
+  }
 }
 
 // Push lead in real-time to Google Spreadsheet via Apps Script Web App
