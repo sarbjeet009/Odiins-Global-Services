@@ -33,8 +33,8 @@ function odiins_enqueue_scripts() {
     wp_enqueue_style('odiins-google-fonts', 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap', array(), null);
 
     // Main Style
-    wp_enqueue_style('odiins-main-style', get_template_directory_uri() . '/css/style.css', array(), '2.1.0');
-    wp_enqueue_style('odiins-theme-style', get_stylesheet_uri(), array('odiins-main-style'), '2.1.0');
+    wp_enqueue_style('odiins-main-style', get_template_directory_uri() . '/css/style.css', array(), '2.2.0');
+    wp_enqueue_style('odiins-theme-style', get_stylesheet_uri(), array('odiins-main-style'), '2.2.0');
 
     // Firebase App & Authentication SDKs (Compat)
     wp_enqueue_script('firebase-app', 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js', array(), '10.8.0', true);

@@ -245,27 +245,27 @@
         // Logged-in state
         const firstName = (user.displayName || 'User').split(' ')[0];
         const avatarHtml = user.photoURL
-          ? `<img src="${user.photoURL}" alt="${user.displayName}" class="user-nav-avatar" referrerpolicy="no-referrer">`
-          : `<span class="user-nav-avatar-initial">${firstName.charAt(0).toUpperCase()}</span>`;
+          ? `<img src="${user.photoURL}" alt="${user.displayName || 'User'}" class="user-nav-avatar" width="28" height="28" style="width:28px!important;height:28px!important;min-width:28px!important;max-width:28px!important;border-radius:50%!important;object-fit:cover!important;display:inline-block!important;vertical-align:middle!important;border:1.5px solid #28A745!important;box-shadow:0 1px 3px rgba(0,0,0,0.12)!important;flex-shrink:0!important;" referrerpolicy="no-referrer">`
+          : `<span class="user-nav-avatar-initial" style="width:28px!important;height:28px!important;min-width:28px!important;border-radius:50%!important;background:#28A745!important;color:#FFFFFF!important;font-weight:700!important;font-size:0.8rem!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;vertical-align:middle!important;box-shadow:0 1px 3px rgba(0,0,0,0.12)!important;flex-shrink:0!important;">${firstName.charAt(0).toUpperCase()}</span>`;
 
         slot.innerHTML = `
-          <div class="user-nav-dropdown-wrapper">
-            <button type="button" class="user-nav-chip" aria-label="User Account Menu" aria-expanded="false">
+          <div class="user-nav-dropdown-wrapper" style="position:relative;display:inline-flex;align-items:center;vertical-align:middle;">
+            <button type="button" class="user-nav-chip" aria-label="User Account Menu" aria-expanded="false" style="display:inline-flex;align-items:center;gap:6px;background:#FFFFFF;border:1.5px solid #E2E8F0;border-radius:30px;padding:3px 10px 3px 4px;cursor:pointer;font-size:0.82rem;font-weight:600;color:#1E293B;box-shadow:0 1px 3px rgba(0,0,0,0.06);transition:all 0.2s ease;white-space:nowrap;line-height:1;vertical-align:middle;height:34px;max-height:34px;box-sizing:border-box;">
               ${avatarHtml}
-              <span class="user-nav-name">Hi, ${firstName}</span>
-              <span class="user-nav-arrow">▾</span>
+              <span class="user-nav-name" style="max-width:85px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;color:#1E293B;display:inline-block;vertical-align:middle;font-size:0.82rem;">Hi, ${firstName}</span>
+              <span class="user-nav-arrow" style="font-size:0.65rem;color:#64748B;display:inline-block;vertical-align:middle;">▾</span>
             </button>
-            <div class="user-nav-dropdown-menu" style="display:none;">
-              <div class="user-dropdown-header">
-                <strong>${user.displayName}</strong>
-                <span class="user-dropdown-email">${user.email}</span>
-                <span class="user-dropdown-badge">✓ Google Verified</span>
+            <div class="user-nav-dropdown-menu" style="display:none;position:absolute;top:calc(100% + 8px);right:0;width:240px;background:#FFFFFF;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.15);border:1px solid #E2E8F0;padding:12px;z-index:9999;box-sizing:border-box;text-align:left;">
+              <div class="user-dropdown-header" style="display:flex;flex-direction:column;gap:3px;padding-bottom:10px;border-bottom:1px solid #F1F5F9;">
+                <strong style="font-size:0.9rem;color:#1E293B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${user.displayName || 'Valued User'}</strong>
+                <span class="user-dropdown-email" style="font-size:0.75rem;color:#64748B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${user.email || ''}</span>
+                <span class="user-dropdown-badge" style="display:inline-block;align-self:flex-start;margin-top:4px;background:#ECFDF5;color:#059669;font-size:0.7rem;font-weight:600;padding:2px 6px;border-radius:6px;">✓ Google Verified</span>
               </div>
-              <div class="user-dropdown-info">
+              <div class="user-dropdown-info" style="padding:8px 0;font-size:0.75rem;color:#475569;line-height:1.4;">
                 <span>⚡ Forms auto-fill your contact details automatically.</span>
               </div>
-              <div class="user-dropdown-divider"></div>
-              <button type="button" class="user-dropdown-logout-btn">
+              <div class="user-dropdown-divider" style="height:1px;background:#F1F5F9;margin:4px 0 8px 0;"></div>
+              <button type="button" class="user-dropdown-logout-btn" style="width:100%;display:flex;align-items:center;gap:6px;padding:8px 10px;background:#FEF2F2;color:#DC2626;border:1px solid #FCA5A5;border-radius:8px;font-size:0.8rem;font-weight:600;cursor:pointer;justify-content:center;transition:background 0.2s ease;">
                 <span>🚪 Sign Out</span>
               </button>
             </div>
@@ -296,8 +296,8 @@
       } else {
         // Logged-out state: Clean, non-intrusive Google Sign-in button
         slot.innerHTML = `
-          <button type="button" class="btn btn-google-nav" aria-label="Sign In with Google" title="Optional: Sign in with your Google account">
-            <svg class="google-icon-svg" viewBox="0 0 24 24" width="16" height="16">
+          <button type="button" class="btn btn-google-nav" aria-label="Sign In with Google" title="Optional: Sign in with your Google account" style="display:inline-flex;align-items:center;gap:6px;background:#FFFFFF;color:#3C4043;border:1.5px solid #DADCE0;border-radius:24px;padding:4px 12px;font-size:0.82rem;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.06);white-space:nowrap;height:34px;box-sizing:border-box;vertical-align:middle;line-height:1;">
+            <svg class="google-icon-svg" viewBox="0 0 24 24" width="16" height="16" style="display:block;flex-shrink:0;">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
               <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
