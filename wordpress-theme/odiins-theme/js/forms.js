@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFormTimers();
   initFormSubmissions();
   initNewsletterForm();
+  initAuthFormAutoFill();
 });
 
 // Sniff and persist UTM parameters and Click IDs across page navigations
@@ -156,6 +157,8 @@ function initFormSubmissions() {
         requirement = 'General Manpower';
       }
 
+      const authUser = (window.OdiinsAuth && window.OdiinsAuth.getUser()) || null;
+
       const leadData = {
         id: 'OD-' + Date.now().toString(36).toUpperCase(),
         timestamp: new Date().toISOString(),
@@ -163,6 +166,8 @@ function initFormSubmissions() {
         status: 'New',
         name: (formData.get('name') || formData.get('businessName') || '').toString().trim(),
         phone: (formData.get('phone') || '').toString().trim(),
+        email: (formData.get('email') || (authUser ? authUser.email : '') || '').toString().trim(),
+        userUid: authUser ? authUser.uid : '',
         district: district,
         areaCity: areaCity,
         location: location,
@@ -380,3 +385,76 @@ function initNewsletterForm() {
     }
   });
 }
+
+// Automatically populate form fields when user is signed in with Google
+function initAuthFormAutoFill() {
+  function applyUserToForms(user) {
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+      if (form.id === 'newsletterForm') return;
+
+      let notice = form.querySelector('.form-autofill-notice');
+      if (user) {
+        // Name field: find and prefill
+        const nameInput = form.querySelector('input[name="name"], input[name="fullName"], input[name="applicantName"], input[name="businessName"], #name, #empName, #seekerName, #custName, #cspName');
+        if (nameInput && (!nameInput.value || nameInput.dataset.autofilled === 'true')) {
+          nameInput.value = user.displayName || '';
+          nameInput.dataset.autofilled = 'true';
+        }
+
+        // Email field: find and prefill
+        const emailInput = form.querySelector('input[name="email"], input[type="email"], #email, #empEmail, #seekerEmail');
+        if (emailInput && (!emailInput.value || emailInput.dataset.autofilled === 'true')) {
+          emailInput.value = user.email || '';
+          emailInput.dataset.autofilled = 'true';
+        }
+
+        // Add auto-fill visual indicator
+        if (!notice) {
+          notice = document.createElement('div');
+          notice.className = 'form-autofill-notice';
+          const firstField = form.querySelector('.form-group, .input-group, input, select');
+          if (firstField) {
+            firstField.parentNode.insertBefore(notice, firstField);
+          } else {
+            form.prepend(notice);
+          }
+        }
+        if (notice) {
+          const firstName = (user.displayName || 'User').split(' ')[0];
+          notice.innerHTML = `<span>👤 Signed in as <strong>${firstName}</strong> (${user.email}) &bull; Details auto-filled</span>`;
+          notice.style.display = 'inline-flex';
+        }
+      } else {
+        if (notice) notice.remove();
+        // Clear only if it was automatically prefilled
+        const nameInput = form.querySelector('input[data-autofilled="true"]');
+        if (nameInput) {
+          nameInput.value = '';
+          delete nameInput.dataset.autofilled;
+        }
+        const emailInput = form.querySelector('input[type="email"][data-autofilled="true"], input[name="email"][data-autofilled="true"]');
+        if (emailInput) {
+          emailInput.value = '';
+          delete emailInput.dataset.autofilled;
+        }
+      }
+    });
+  }
+
+  // Check initial state
+  if (window.OdiinsAuth && window.OdiinsAuth.getUser()) {
+    applyUserToForms(window.OdiinsAuth.getUser());
+  } else {
+    try {
+      const cached = localStorage.getItem('odiins_auth_user');
+      if (cached) applyUserToForms(JSON.parse(cached));
+    } catch (e) {}
+  }
+
+  // Listen for live state changes from firebase-auth.js
+  window.addEventListener('odiins:auth-state-changed', (e) => {
+    applyUserToForms(e.detail ? e.detail.user : null);
+  });
+}
+

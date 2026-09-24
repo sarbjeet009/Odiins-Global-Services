@@ -36,9 +36,14 @@ function odiins_enqueue_scripts() {
     wp_enqueue_style('odiins-main-style', get_template_directory_uri() . '/css/style.css', array(), '2.1.0');
     wp_enqueue_style('odiins-theme-style', get_stylesheet_uri(), array('odiins-main-style'), '2.1.0');
 
+    // Firebase App & Authentication SDKs (Compat)
+    wp_enqueue_script('firebase-app', 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js', array(), '10.8.0', true);
+    wp_enqueue_script('firebase-auth', 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js', array('firebase-app'), '10.8.0', true);
+    wp_enqueue_script('odiins-auth-js', get_template_directory_uri() . '/js/firebase-auth.js', array('firebase-auth'), '2.2.0', true);
+
     // Main Scripts (deferred in footer)
     wp_enqueue_script('odiins-main-js', get_template_directory_uri() . '/js/main.js', array(), '2.1.0', true);
-    wp_enqueue_script('odiins-forms-js', get_template_directory_uri() . '/js/forms.js', array('odiins-main-js'), '2.1.0', true);
+    wp_enqueue_script('odiins-forms-js', get_template_directory_uri() . '/js/forms.js', array('odiins-main-js', 'odiins-auth-js'), '2.2.0', true);
 
     // Pass dynamic configuration to frontend JavaScript
     wp_localize_script('odiins-forms-js', 'odiins_wp', array(
