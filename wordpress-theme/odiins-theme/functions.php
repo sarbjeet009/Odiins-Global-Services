@@ -96,6 +96,18 @@ function odiins_run_auto_setup() {
             'title'    => 'Guide to Hiring Verified Maids, Cooks & Tutors in Bhubaneswar',
             'template' => 'page-guide-to-hiring-verified-maids-cooks-tutors-bhubaneswar.php',
         ),
+        'patient-care-home-nursing-services-in-bhubaneswar' => array(
+            'title'    => 'Patient Care, Home Nursing & Elderly Attendant Services in Bhubaneswar',
+            'template' => 'page-patient-care-home-nursing-services-in-bhubaneswar.php',
+        ),
+        'showroom-retail-manpower-staffing-solutions-bhubaneswar' => array(
+            'title'    => 'Showroom & Retail Manpower Staffing Solutions in Bhubaneswar',
+            'template' => 'page-showroom-retail-manpower-staffing-solutions-bhubaneswar.php',
+        ),
+        'how-to-apply-bank-csp-operator-odisha' => array(
+            'title'    => 'Bank CSP Operator & Banking Correspondent Opportunities in Odisha',
+            'template' => 'page-how-to-apply-bank-csp-operator-odisha.php',
+        ),
         'contact' => array(
             'title'    => 'Contact Us',
             'template' => 'page-contact.php',
