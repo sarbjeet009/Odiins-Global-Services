@@ -79,9 +79,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=2.2.0">
-  
-  <!-- Google tag (gtag.js) -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Google tag (gtag.js) - Google Analytics 4 & Google Ads -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VR0G0V11MN"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -90,6 +90,23 @@
     gtag("config", "G-VR0G0V11MN");
     gtag("config", "AW-11452908312");
   </script>
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2059018191609052');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height=1 width=1 style=display:none
+    src="https://www.facebook.com/tr?id=2059018191609052&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -97,20 +114,21 @@
   <header class="topbar">
     <div class="container topbar-content">
       <div class="topbar-left">
-        <span>📍 <strong>Odisha Financial Inclusion &amp; Career Opportunities</strong></span>
+        <span>📍 <strong>Odisha Banking, Financial Inclusion &amp; Career Insights</strong></span>
       </div>
       <div class="topbar-right">
         <a href="tel:+919938079601">📞 +91 99380 79601</a>
         <a href="mailto:corporate@odiins.in">✉️ corporate@odiins.in</a>
+        <button class="lang-toggle">ଓଡ଼ିଆ | English</button>
       </div>
     </div>
   </header>
 
   <!-- NAVBAR -->
   <nav class="navbar">
-    <div class="container navbar-content">
-      <a href="index.html" class="brand-logo">
-        <img src="assets/icons/logo.svg" alt="Odiins Logo" height="42">
+    <div class="container navbar-inner">
+      <a href="index.html" class="brand-logo" aria-label="Odiins Home">
+        <img src="assets/icons/logo.svg" alt="Odiins Logo" height="64">
       </a>
       <ul class="nav-menu">
         <li><a href="index.html" class="nav-link">Home</a></li>
@@ -133,7 +151,7 @@
         <li><a href="contact.html" class="nav-link">Contact</a></li>
       </ul>
       <div class="navbar-actions">
-        <a href="bank-csp-odisha.html" class="btn btn-green btn-sm">Apply for CSP</a>
+        <a href="bank-csp-odisha.html" class="btn btn-green btn-sm">Apply CSP</a>
         <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Open Navigation Menu">
           <span></span><span></span><span></span>
         </button>
@@ -146,7 +164,7 @@
   <aside class="mobile-drawer" id="mobileDrawer">
     <div class="drawer-header">
       <img src="assets/icons/logo.svg" alt="Odiins Logo" height="52">
-      <button class="drawer-close" id="drawerCloseBtn" aria-label="Close Navigation Menu">&times;</button>
+      <button class="drawer-close" id="drawerCloseBtn">&times;</button>
     </div>
     <div class="drawer-links">
       <a href="index.html" class="drawer-link">Home</a>
@@ -158,254 +176,311 @@
       <a href="blogs.html" class="drawer-link active">Blogs</a>
       <a href="contact.html" class="drawer-link">Contact Us</a>
     </div>
-    <div class="drawer-footer">
-      <a href="tel:+919938079601" class="btn btn-green btn-block">📞 Call +91 99380 79601</a>
-    </div>
   </aside>
 
-  <!-- BREADCRUMBS -->
-  <div class="breadcrumbs-strip">
-    <div class="container">
-      <ul class="breadcrumbs-list" itemscope itemtype="https://schema.org/BreadcrumbList">
-        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <a href="index.html" itemprop="item"><span itemprop="name">Home</span></a>
-          <meta itemprop="position" content="1" />
-        </li>
-        <li>/</li>
-        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <a href="blogs.html" itemprop="item"><span itemprop="name">Blog</span></a>
-          <meta itemprop="position" content="2" />
-        </li>
-        <li>/</li>
-        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <span itemprop="name">Bank CSP Operator Guide Odisha</span>
-          <meta itemprop="position" content="3" />
-        </li>
-      </ul>
-    </div>
-  </div>
+  <!-- ARTICLE DETAIL CONTENT -->
+  <article class="section section-white" style="padding-top: 3rem; padding-bottom: 4rem;">
+    <div class="container" style="max-width: 860px;">
+      
+      <div style="margin-bottom: 1.5rem;">
+        <a href="blogs.html" style="color:var(--primary-green); font-weight:600; font-size:0.9rem;">&larr; Back to All Articles</a>
+      </div>
 
-  <!-- ARTICLE HEADER -->
-  <article class="blog-article-section">
-    <div class="container">
-      <div class="article-header">
-        <div class="article-category-badge">Banking Correspondent &amp; Career Guide</div>
-        <h1 class="article-title">Bank CSP Operator &amp; Banking Correspondent Opportunities in Odisha: Complete Eligibility, Earnings &amp; Application Guide (2026)</h1>
-        <div class="article-meta">
-          <span>By <strong>Odiins Banking Desk</strong></span>
-          <span>•</span>
-          <span>Published March 2026</span>
-          <span>•</span>
-          <span>7 min read</span>
-          <span>•</span>
-          <span>Official Career Guide</span>
+      <div style="display:inline-flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
+        <span class="section-badge" style="background:#EBF5F0; color:var(--primary-green); font-weight:700;">Banking Correspondent</span>
+        <span class="section-badge" style="background:#EEF2FF; color:#4F46E5; font-weight:700;">Odisha Career Guide</span>
+      </div>
+
+      <h1 style="font-size: 2.35rem; margin: 0.75rem 0 1rem 0; line-height: 1.25; color: var(--text-charcoal); font-weight: 700;">
+        Bank CSP Operator &amp; Banking Correspondent Opportunities in Odisha: Complete Eligibility, Earnings &amp; Application Guide (2026)
+      </h1>
+
+      <div style="display:flex; align-items:center; gap:1rem; font-size:0.85rem; color:var(--text-muted); margin-bottom:2.25rem; padding-bottom:1rem; border-bottom:1px solid var(--border-light); flex-wrap:wrap;">
+        <span>By <strong>Odiins Banking &amp; Financial Desk</strong></span>
+        <span>•</span>
+        <span>Updated March 2026</span>
+        <span>•</span>
+        <span>7 min read</span>
+        <span>•</span>
+        <span style="color:var(--primary-green); font-weight:600;">Official Career Guide</span>
+      </div>
+
+      <!-- Article Body -->
+      <div style="font-size: 1.08rem; line-height: 1.85; color: var(--text-charcoal); display: flex; flex-direction: column; gap: 1.75rem;">
+        
+        <p>
+          Financial inclusion across Odisha is advancing at extraordinary speed. From semi-urban hubs like Khurda, Jatni, and Pipili to rural gram panchayats in Mayurbhanj, Ganjam, Balasore, and Koraput, the demand for accessible doorstep banking has turned the Bank CSP (Customer Service Point) / Bank Mitra model into one of the most lucrative and respected self-employment careers for Odisha youth.
+        </p>
+
+        <p>
+          Yet despite high demand, thousands of aspiring entrepreneurs fall prey to fake online portals, unauthorized middlemen, or incomplete applications that get rejected by partner bank review committees.
+        </p>
+
+        <p>
+          In this authoritative 2026 operational guide, Odiins Global Services breaks down the official eligibility criteria, physical infrastructure requirements, real monthly commission earnings, and the step-by-step application procedure to establish a thriving public sector or private bank CSP outlet in Odisha.
+        </p>
+
+        <!-- SECTION 1 -->
+        <h2 style="font-size: 1.65rem; color: var(--text-charcoal); margin-top: 1.5rem; font-weight: 700; border-bottom: 2px solid #E5E7EB; padding-bottom: 0.5rem;">
+          1. What is a Bank CSP (Customer Service Point)?
+        </h2>
+
+        <p>
+          A Bank CSP (also known as a Business Correspondent or Bank Mitra) acts as an authorized mini-branch of a major commercial bank—such as State Bank of India (SBI), Bank of India (BOI), Punjab National Bank (PNB), or Odisha Gramya Bank (OGB).
+        </p>
+
+        <p>
+          Instead of villagers traveling 10 to 15 kilometers to a crowded block-level bank branch, they visit their local village CSP kiosk to perform essential daily financial transactions:
+        </p>
+
+        <!-- Services Box -->
+        <div style="background:#E0E7FF; border-left: 4px solid #4338CA; padding: 1.5rem; border-radius: 8px;">
+          <h3 style="margin-top:0; font-size:1.25rem; color:#3730A3;">Core Financial Services Handled at an Odisha Bank CSP:</h3>
+          <ul style="margin-bottom:0; padding-left:1.25rem; display:flex; flex-direction:column; gap:0.5rem; font-size:0.95rem;">
+            <li><strong>Instant Savings Account Opening:</strong> Jan Dhan and regular savings accounts opened in minutes via Aadhaar biometric e-KYC.</li>
+            <li><strong>AePS Cash Withdrawals &amp; Deposits:</strong> Biometric Micro-ATM cash transactions for all banks across India.</li>
+            <li><strong>Direct Benefit Transfer (DBT) Payouts:</strong> Subhadra Yojana, PM-KISAN, Kalia Yojana, and monthly elderly/widow pension distributions.</li>
+            <li><strong>Domestic Money Remittances:</strong> Real-time IMPS and NEFT fund transfers anywhere in India.</li>
+            <li><strong>Micro-Insurance &amp; Social Security:</strong> PMJJBY, PMSBY, and Atal Pension Yojana (APY) registrations.</li>
+            <li><strong>Passbook Updates &amp; Loan Referrals:</strong> Sourcing SHG, Mudra, and Kisan Credit Card (KCC) loan files with partner banks.</li>
+          </ul>
         </div>
+
+        <p>
+          Explore active allocation zones on the <a href="bank-csp-odisha.html" style="color:var(--primary-green); font-weight:600; text-decoration:underline;">Odiins Bank CSP Portal</a>.
+        </p>
+
+        <!-- SECTION 2 -->
+        <h2 style="font-size: 1.65rem; color: var(--text-charcoal); margin-top: 1.5rem; font-weight: 700; border-bottom: 2px solid #E5E7EB; padding-bottom: 0.5rem;">
+          2. Official Eligibility Criteria for Odisha Applicants
+        </h2>
+
+        <p>
+          To receive formal authorization from partner commercial banks and the Reserve Bank of India framework, candidates must satisfy these baseline conditions:
+        </p>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1rem 0;">
+          <div style="background:var(--bg-light-blue); padding:1.25rem; border-radius:8px; border:1px solid #BFDBFE;">
+            <h4 style="margin:0 0 0.5rem 0; color:#1E40AF;">1. Age &amp; Education</h4>
+            <p style="margin:0; font-size:0.92rem; color:var(--text-charcoal);">Minimum 18 years of age. Must have passed 10th or 12th standard (BSE Odisha / CBSE) with basic computer literacy.</p>
+          </div>
+          <div style="background:var(--bg-light-blue); padding:1.25rem; border-radius:8px; border:1px solid #BFDBFE;">
+            <h4 style="margin:0 0 0.5rem 0; color:#1E40AF;">2. IIBF Certification</h4>
+            <p style="margin:0; font-size:0.92rem; color:var(--text-charcoal);">Indian Institute of Banking &amp; Finance (IIBF) BC/BF Certificate. Odiins guides enrolled candidates through preparation.</p>
+          </div>
+          <div style="background:var(--bg-light-blue); padding:1.25rem; border-radius:8px; border:1px solid #BFDBFE;">
+            <h4 style="margin:0 0 0.5rem 0; color:#1E40AF;">3. Police Record (PVC)</h4>
+            <p style="margin:0; font-size:0.92rem; color:var(--text-charcoal);">Clean antecedents verified by local district police station with zero pending criminal cases.</p>
+          </div>
+          <div style="background:var(--bg-light-blue); padding:1.25rem; border-radius:8px; border:1px solid #BFDBFE;">
+            <h4 style="margin:0 0 0.5rem 0; color:#1E40AF;">4. Credit Score &amp; Integrity</h4>
+            <p style="margin:0; font-size:0.92rem; color:var(--text-charcoal);">Satisfactory CIBIL score with zero willful defaults on past commercial or educational loans.</p>
+          </div>
+        </div>
+
+        <!-- SECTION 3 -->
+        <h2 style="font-size: 1.65rem; color: var(--text-charcoal); margin-top: 1.5rem; font-weight: 700; border-bottom: 2px solid #E5E7EB; padding-bottom: 0.5rem;">
+          3. Shop &amp; Hardware Infrastructure Requirements
+        </h2>
+
+        <p>
+          You do not require an expensive commercial showroom. A compact retail shop, cyber cafe, CSC center, or village road frontage easily qualifies:
+        </p>
+
+        <ul style="padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
+          <li><strong>Counter Space:</strong> 80 to 150 sq. ft. room (owned or leased with formal rent agreement).</li>
+          <li><strong>Location Compliance:</strong> Situated preferably at least 3 km away from the parent base branch to prevent territorial cannibalization.</li>
+          <li><strong>Computer Hardware:</strong> Desktop PC or Laptop running Windows 10/11 with antivirus.</li>
+          <li><strong>Biometric Device:</strong> UIDAI RD-Service compliant scanner (Morpho MSO 1300 E3 or Mantra MFS 100).</li>
+          <li><strong>Printer &amp; Scanner:</strong> All-in-one printer for printing receipts and scanning customer KYC forms.</li>
+          <li><strong>Connectivity &amp; Power Backup:</strong> Fiber broadband / 4G router and minimum 2-hour UPS/inverter backup.</li>
+        </ul>
+
+        <!-- SECTION 4 -->
+        <h2 style="font-size: 1.65rem; color: var(--text-charcoal); margin-top: 1.5rem; font-weight: 700; border-bottom: 2px solid #E5E7EB; padding-bottom: 0.5rem;">
+          4. How Much Does a Bank CSP Operator Earn in Odisha?
+        </h2>
+
+        <p>
+          A Bank CSP kiosk operates on a recurring transaction-based commission model paid directly by partner financial institutions:
+        </p>
+
+        <!-- Earnings Table -->
+        <div style="overflow-x:auto; margin:1rem 0;">
+          <table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.95rem;">
+            <thead>
+              <tr style="background:#F1F5F9; border-bottom:2px solid #CBD5E1;">
+                <th style="padding:0.75rem 1rem;">Service Type</th>
+                <th style="padding:0.75rem 1rem;">Per-Transaction Commission Range</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #E2E8F0;">
+                <td style="padding:0.75rem 1rem;"><strong>Jan Dhan / Savings Account Opening</strong></td>
+                <td style="padding:0.75rem 1rem; color:var(--primary-green); font-weight:600;">₹25 – ₹40 per verified active account</td>
+              </tr>
+              <tr style="border-bottom:1px solid #E2E8F0; background:#F8FAFC;">
+                <td style="padding:0.75rem 1rem;"><strong>AePS Cash Withdrawal / Deposit</strong></td>
+                <td style="padding:0.75rem 1rem; color:var(--primary-green); font-weight:600;">0.20% to 0.45% of transaction volume</td>
+              </tr>
+              <tr style="border-bottom:1px solid #E2E8F0;">
+                <td style="padding:0.75rem 1rem;"><strong>Domestic Money Transfer (IMPS/NEFT)</strong></td>
+                <td style="padding:0.75rem 1rem; color:var(--primary-green); font-weight:600;">Slab-based (₹15 – ₹45 per transfer)</td>
+              </tr>
+              <tr style="border-bottom:1px solid #E2E8F0; background:#F8FAFC;">
+                <td style="padding:0.75rem 1rem;"><strong>Social Security Schemes (PMJJBY / PMSBY / APY)</strong></td>
+                <td style="padding:0.75rem 1rem; color:var(--primary-green); font-weight:600;">₹15 – ₹50 per policy enrolled</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem 1rem;"><strong>Loan Sourcing (SHG / Mudra / KCC)</strong></td>
+                <td style="padding:0.75rem 1rem; color:var(--primary-green); font-weight:600;">0.50% to 1.50% on disbursed loan amounts</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Monthly Earning Projections -->
+        <div style="background:#DCFCE7; border-left: 4px solid #16A34A; padding: 1.5rem; border-radius: 8px;">
+          <h3 style="margin-top:0; font-size:1.25rem; color:#166534;">Realistic Monthly Net Earnings in Odisha:</h3>
+          <p style="margin-bottom:0.5rem; font-size:0.95rem; color:#14532D;">
+            <strong>New Kiosk (First 60 Days):</strong> ₹15,000 – ₹25,000/month as local villagers discover your kiosk.
+          </p>
+          <p style="margin-bottom:0; font-size:0.95rem; color:#14532D;">
+            <strong>Established Kiosk (Village Center / Market Town):</strong> ₹35,000 – ₹65,000+/month with 1,500+ monthly transactions, Subhadra Yojana DBT disbursements, and regular remittances.
+          </p>
+        </div>
+
+        <p>
+          Compare earnings with other private career tracks on our <a href="top-in-demand-private-jobs-in-bhubaneswar-odisha.html" style="color:var(--primary-green); font-weight:600; text-decoration:underline;">Odisha Private Jobs Salary Guide</a>.
+        </p>
+
+        <!-- SECTION 5 -->
+        <h2 style="font-size: 1.65rem; color: var(--text-charcoal); margin-top: 1.5rem; font-weight: 700; border-bottom: 2px solid #E5E7EB; padding-bottom: 0.5rem;">
+          5. Step-by-Step Application Workflow via Odiins
+        </h2>
+
+        <p>
+          Navigating corporate business correspondent channels independently can take months of bureaucratic back-and-forth. Odiins Global Services simplifies your application into a clear 4-step path:
+        </p>
+
+        <ul style="padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
+          <li><strong>Step 1: Online Application:</strong> Submit your details, shop location, and preferred bank on the <a href="bank-csp-odisha.html" style="color:var(--primary-green); font-weight:600; text-decoration:underline;">Odiins Bank CSP Application Desk</a>.</li>
+          <li><strong>Step 2: Feasibility &amp; Distance Audit:</strong> Our operations coordinators verify that your shop meets the minimum distance compliance from nearest physical branches.</li>
+          <li><strong>Step 3: Document Assembly &amp; IIBF Support:</strong> We assist you with assembling KYC records, Aadhaar authentication, police verification, and IIBF exam scheduling.</li>
+          <li><strong>Step 4: Terminal Authorization &amp; Deployment:</strong> Your biometric terminal credentials, Bank CSP portal login, and transaction limits are formally activated.</li>
+        </ul>
+
+        <!-- FAQS -->
+        <h2 style="font-size: 1.65rem; color: var(--text-charcoal); margin-top: 1.5rem; font-weight: 700; border-bottom: 2px solid #E5E7EB; padding-bottom: 0.5rem;">
+          Frequently Asked Questions (FAQs)
+        </h2>
+
+        <div class="accordion" style="margin-top: 1.5rem;">
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <h4>Can existing cyber cafe or CSC Center owners apply for a Bank CSP?</h4>
+              <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+              <p>Yes! Cyber cafe, CSC Jan Seva Kendra, and telecom shop owners are ideal candidates because they already possess shop space, computers, internet, and daily footfall.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <h4>What is the minimum investment required to start?</h4>
+              <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+              <p>The primary investment covers hardware (PC, biometric scanner, printer) and working cash liquidity (₹20,000 to ₹50,000) kept in your bank account for daily customer cash withdrawals.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <h4>Does Odiins allocate CSP kiosks across all districts of Odisha?</h4>
+              <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+              <p>Yes. We coordinate allocations across Khurda, Cuttack, Puri, Ganjam, Balasore, Bhadrak, Mayurbhanj, Jajpur, Keonjhar, Sambalpur, and all other Odisha districts.</p>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <!-- MAIN ARTICLE CONTENT WITH SIDEBAR -->
-      <div class="article-layout">
-        <main class="article-body">
-          <p class="lead-text">
-            Financial inclusion across Odisha is advancing at extraordinary speed. From semi-urban hubs like Khurda, Jatni, and Pipili to rural gram panchayats in Mayurbhanj, Ganjam, Balasore, and Koraput, the demand for accessible doorstep banking has turned the Bank CSP (Customer Service Point) / Bank Mitra model into one of the most lucrative and respected self-employment careers for Odisha youth.
-          </p>
-
-          <p>
-            Yet despite high demand, thousands of aspiring entrepreneurs fall prey to fake online portals, unauthorized middlemen, or incomplete applications that get rejected by partner bank review committees.
-          </p>
-
-          <p>
-            In this authoritative 2026 operational guide, Odiins Global Services breaks down the official eligibility criteria, physical infrastructure requirements, real monthly commission earnings, and the step-by-step application procedure to establish a thriving public sector or private bank CSP outlet in Odisha.
-          </p>
-
-          <hr class="section-divider">
-
-          <h2>1. What is a Bank CSP (Customer Service Point)?</h2>
-          <p>
-            A Bank CSP (also known as a Business Correspondent or Bank Mitra) acts as a mini-branch of a major commercial bank—such as State Bank of India (SBI), Bank of India (BOI), Punjab National Bank (PNB), or Odisha Gramya Bank (OGB).
-          </p>
-          <p>
-            Instead of villagers traveling 10 to 15 kilometers to a crowded block-level bank branch, they visit their local village CSP kiosk to perform essential financial transactions:
-          </p>
-          <div class="info-card">
-            <h4>Core Services Offered at an Odisha Bank CSP:</h4>
-            <ul>
-              <li><strong>Instant Savings Account Opening:</strong> Jan Dhan / Regular Savings accounts opened in minutes via biometric e-KYC.</li>
-              <li><strong>AePS Cash Withdrawals &amp; Deposits:</strong> Aadhaar-enabled Biometric Micro-ATM transactions for all banks.</li>
-              <li><strong>Direct Benefit Transfer (DBT) Payouts:</strong> Subhadra Yojana, PM-KISAN, Kalia Yojana, and elderly pension disbursements.</li>
-              <li><strong>Domestic Money Remittances:</strong> Instant IMPS/NEFT transfers to any bank account across India.</li>
-              <li><strong>Micro-Insurance &amp; Pension:</strong> Enrolling villagers in PMJJBY, PMSBY, and Atal Pension Yojana (APY).</li>
-              <li><strong>Loan Referrals &amp; Passbook Printing:</strong> Facilitating Mudra loans, KCC loans, and printing transaction statements.</li>
-            </ul>
-          </div>
-          <p>
-            Explore our dedicated <a href="bank-csp-odisha.html" class="in-text-link">Bank CSP Recruitment Portal</a> for active allocation areas.
-          </p>
-
-          <hr class="section-divider">
-
-          <h2>2. Eligibility Criteria for Applicants in Odisha</h2>
-          <p>
-            To be approved by partner financial institutions, applicants must meet these baseline credentials:
-          </p>
-          <ul>
-            <li><strong>Age:</strong> Minimum 18 years and above.</li>
-            <li><strong>Education:</strong> Minimum 10th or 12th pass from a recognized board (BSE Odisha / CBSE). Basic computer literacy is mandatory.</li>
-            <li><strong>Mandatory Certification:</strong> IIBF (Indian Institute of Banking &amp; Finance) BC/BF Certification. (Candidates in the process of clearing IIBF can initiate application matching through Odiins).</li>
-            <li><strong>Clean Background Check:</strong> Valid Police Verification Certificate (PVC) from the local district police station with zero criminal record.</li>
-            <li><strong>Credit History:</strong> Satisfactory personal CIBIL score (free of willful bank loan defaults).</li>
-          </ul>
-
-          <hr class="section-divider">
-
-          <h2>3. Shop &amp; Infrastructure Requirements</h2>
-          <p>
-            You do not need an expensive commercial complex to operate a Bank CSP kiosk. A compact, clean counter space satisfies operational compliance:
-          </p>
-          <ol class="styled-list">
-            <li><strong>Space:</strong> 80 to 150 sq. ft. commercial or semi-commercial room (owned or rented with formal lease agreement).</li>
-            <li><strong>Location:</strong> Situated at least 3 to 5 km away from the nearest physical base branch of the designated bank, preferably near a village chowk, market center, or bus stand.</li>
-            <li><strong>Hardware Equipment Required:</strong>
-              <ul>
-                <li>Laptop or Desktop PC with Windows 10/11 operating system.</li>
-                <li>Morpho or Mantra Biometric Fingerprint Scanner (RD Service compliant).</li>
-                <li>All-in-One Printer, Scanner &amp; Copier.</li>
-                <li>Stable Internet Connectivity (Fiber Broadband or 4G/5G mobile hotspot).</li>
-                <li>Power Inverter / UPS backup (minimum 2 hours battery life for rural areas).</li>
-              </ul>
-            </li>
-          </ol>
-
-          <hr class="section-divider">
-
-          <h2>4. How Much Does a Bank CSP Operator Earn in Odisha?</h2>
-          <p>
-            A Bank CSP is a high-earning, recurring commission model. Operators do not receive a fixed corporate salary; instead, partner banks pay per-transaction commissions:
-          </p>
-          <ul>
-            <li><strong>Account Opening Commission:</strong> ₹25 – ₹40 per verified active account.</li>
-            <li><strong>AePS Cash Withdrawal &amp; Deposit:</strong> 0.20% to 0.45% of transaction volume (capped per transaction).</li>
-            <li><strong>Money Remittance (IMPS/NEFT):</strong> Structured commission based on transfer slabs.</li>
-            <li><strong>Social Security Schemes (PMJJBY / PMSBY / APY):</strong> ₹15 – ₹50 per policy enrolled.</li>
-            <li><strong>Loan Application Referrals:</strong> Lucrative percentage payouts upon successful disbursement.</li>
-          </ul>
-
-          <div class="info-card">
-            <h4>Realistic Monthly Net Earnings in Odisha:</h4>
-            <p><strong>Beginner Kiosk (Rural / Developing GP):</strong> ₹15,000 – ₹25,000/month within the first 60 days.</p>
-            <p><strong>Established Kiosk (Village Center / Market Town):</strong> ₹35,000 – ₹65,000+/month with 1,500+ monthly transactions.</p>
-          </div>
-
-          <p>
-            Read our <a href="top-in-demand-private-jobs-in-bhubaneswar-odisha.html" class="in-text-link">Odisha Private Jobs and Career Guide</a> for salary comparisons.
-          </p>
-
-          <hr class="section-divider">
-
-          <h2>5. Step-by-Step Application Workflow via Odiins</h2>
-          <p>
-            Navigating corporate business correspondent channels independently can take months of bureaucratic back-and-forth. Odiins Global Services simplifies your application into a clear 4-step path:
-          </p>
-          <ol class="styled-list">
-            <li><strong>Online Application Submission:</strong> Fill out your basic details, educational background, and target district/block location on the <a href="bank-csp-odisha.html" class="in-text-link">Odiins Bank CSP Portal</a>.</li>
-            <li><strong>Location Feasibility &amp; Branch Distance Check:</strong> Our team verifies whether your location falls within an approved unbanked rural center or semi-urban allocation zone.</li>
-            <li><strong>Documentation &amp; Verification:</strong> We guide you through assembling your KYC documents, Aadhaar authentication, IIBF preparation, and police verification.</li>
-            <li><strong>Terminal Approval &amp; Deployment:</strong> Once authorized by the partner institution, your terminal ID, micro-ATM credentials, and software portal are activated.</li>
-          </ol>
-
-          <hr class="section-divider">
-
-          <h2>Frequently Asked Questions (FAQs)</h2>
-          <div class="faq-accordion">
-            <div class="faq-item">
-              <h3 class="faq-question">Can existing cyber cafe or CSC Center owners apply for a Bank CSP?</h3>
-              <div class="faq-answer">
-                <p>Yes! Cyber cafe, CSC Jan Seva Kendra, and telecom shop owners are ideal candidates because they already possess shop space, computers, internet, and daily footfall.</p>
-              </div>
-            </div>
-            <div class="faq-item">
-              <h3 class="faq-question">What is the minimum investment required to start?</h3>
-              <div class="faq-answer">
-                <p>The primary investment covers hardware (PC, biometric scanner, printer) and working cash liquidity (₹20,000 to ₹50,000) kept in your bank account for daily customer cash withdrawals.</p>
-              </div>
-            </div>
-            <div class="faq-item">
-              <h3 class="faq-question">Does Odiins allocate CSP kiosks across all districts of Odisha?</h3>
-              <div class="faq-answer">
-                <p>Yes. We coordinate allocations across Khurda, Cuttack, Puri, Ganjam, Balasore, Bhadrak, Mayurbhanj, Jajpur, Keonjhar, Sambalpur, and all other Odisha districts.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="article-cta-box">
-            <h3>Start Your Journey as an Authorized Bank CSP Operator</h3>
-            <p>Transform your shop or village center into a thriving banking point. Apply through Odiins Global Services today.</p>
-            <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:1rem;">
-              <a href="bank-csp-odisha.html" class="btn btn-green">Apply for Bank CSP Online</a>
-              <a href="tel:+919938079601" class="btn btn-white">📞 Call Operations Desk</a>
-              <a href="https://wa.me/919938079601?text=Hello%20Odiins%2C%20I%20want%20to%20apply%20for%20a%20Bank%20CSP%20in%20Odisha" target="_blank" class="btn btn-whatsapp">💬 WhatsApp Us</a>
-            </div>
-          </div>
-        </main>
-
-        <!-- SIDEBAR -->
-        <aside class="article-sidebar">
-          <div class="sidebar-card">
-            <h4>Apply for Bank CSP</h4>
-            <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:1rem;">
-              Open a mini-bank kiosk in your village or shop across any district in Odisha.
-            </p>
-            <a href="bank-csp-odisha.html" class="btn btn-green btn-block" style="margin-bottom:0.5rem;">Apply Now Online</a>
-            <a href="tel:+919938079601" class="btn btn-white btn-block">📞 +91 99380 79601</a>
-          </div>
-
-          <div class="sidebar-card" style="margin-top:1.5rem;">
-            <h4>Explore More Careers</h4>
-            <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.75rem;">
-              <li><a href="top-in-demand-private-jobs-in-bhubaneswar-odisha.html" style="color:var(--text-charcoal); font-size:0.9rem; font-weight:600; text-decoration:none;">• Top Private Jobs in Odisha &rarr;</a></li>
-              <li><a href="services-job-seekers.html" style="color:var(--text-charcoal); font-size:0.9rem; font-weight:600; text-decoration:none;">• Register as Job Seeker &rarr;</a></li>
-              <li><a href="how-to-hire-sales-managers-manpower-in-bhubaneswar.html" style="color:var(--text-charcoal); font-size:0.9rem; font-weight:600; text-decoration:none;">• Employer Hiring Guide &rarr;</a></li>
-            </ul>
-          </div>
-        </aside>
+      <!-- HIGH-CONVERTING POST-LEVEL CTA BOX -->
+      <div class="blog-cta-box" style="margin-top: 3.5rem; background: #F8FAFC; border: 2px solid #E2E8F0; border-radius: 12px; padding: 2.5rem; text-align: center;">
+        <span class="section-badge" style="background:var(--primary-green); color:#FFFFFF; margin-bottom:1rem; display:inline-block;">Banking Franchise Allocation</span>
+        <h3 style="font-size: 1.75rem; margin-bottom: 0.75rem; color:var(--text-charcoal); font-weight:700;">Start Your Journey as an Authorized Bank CSP Operator</h3>
+        <p style="color: var(--text-muted); margin-bottom: 1.75rem; max-width: 600px; margin-left: auto; margin-right: auto; line-height:1.6;">
+          Transform your shop or village center into a thriving banking point. Apply through Odiins Global Services today for verified allotment across Odisha.
+        </p>
+        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+          <a href="bank-csp-odisha.html" class="btn btn-green btn-lg">🏦 Apply for Bank CSP Online</a>
+          <a href="https://wa.me/919938079601?text=Hello%20Odiins%2C%20I%20want%20to%20apply%20for%20a%20Bank%20CSP%20in%20Odisha" target="_blank" class="btn btn-dark btn-lg">💬 Chat on WhatsApp</a>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-top:1.25rem; margin-bottom:0;">
+          📞 Direct Banking Operations Helpline: <strong>+91 99380 79601</strong> • Allocations Across 30 Odisha Districts
+        </p>
       </div>
+
     </div>
   </article>
 
   <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer-content">
-      <div class="footer-col">
-        <img src="assets/icons/logo-white.svg" alt="Odiins Logo" height="38" style="margin-bottom: 1rem;">
-        <p style="color: #94A3B8; font-size: 0.9rem; line-height: 1.6;">
-          Odiins Global Services is Odisha's verified platform for corporate staffing, domestic support, and employment opportunities across all 30 districts.
-        </p>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <img src="assets/icons/logo-white.svg" alt="Odiins Logo" height="50" style="margin-bottom: 1rem;">
+          <p>Odisha's own HR &amp; manpower connection platform.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="services-job-seekers.html">For Job Seekers</a>
+            <a href="services-employers.html">For Employers</a>
+            <a href="blogs.html">All Blogs</a>
+            <a href="contact.html">Contact Us</a>
+            <a href="dashboard.html">🔒 Admin Portal</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <div class="footer-links">
+            <a href="services-employers.html">Corporate Staffing</a>
+            <a href="services-job-seekers.html">Candidate Registration</a>
+            <a href="services-customers.html">Home Care &amp; Cooks</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <p>📞 +91 99380 79601</p>
+          <p>✉️ corporate@odiins.in</p>
+          <p>📍 Plot 220/3482, lane no. 3, bairagi nagar, 751006</p>
+        </div>
       </div>
-      <div class="footer-col">
-        <h4>Quick Links</h4>
-        <ul class="footer-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="services-job-seekers.html">For Job Seekers</a></li>
-          <li><a href="services-employers.html">For Employers</a></li>
-          <li><a href="services-customers.html">For Customers</a></li>
-          <li><a href="blogs.html">Blogs &amp; Insights</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Contact Desk</h4>
-        <p style="color: #94A3B8; font-size: 0.9rem; line-height: 1.6;">
-          Plot No. 1215/1500, Bank of India Building, Khandagiri, Bhubaneswar, Odisha 751030<br>
-          <strong>Phone:</strong> +91 99380 79601<br>
-          <strong>Email:</strong> corporate@odiins.in
-        </p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="container" style="text-align: center; color: #64748B; font-size: 0.85rem;">
-        &copy; 2026 Odiins Global Services Pvt Ltd. All rights reserved.
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <span>|</span>
+          <a href="terms.html">Terms</a>
+          <span>|</span>
+          <a href="disclaimer.html">Disclaimer</a>
+          <span>|</span>
+          <a href="dashboard.html" style="color:rgba(255,255,255,0.75);">🔒 Admin Login</a>
+        </div>
+        <p>&copy; 2026 Odiins. All rights reserved.</p>
       </div>
     </div>
   </footer>
+
+  <a href="https://wa.me/919938079601" target="_blank" rel="noopener" class="floating-whatsapp" aria-label="Chat on WhatsApp">💬</a>
+
+  <div class="mobile-bottom-bar">
+    <a href="tel:+919938079601" class="mobile-action-btn mobile-btn-call"><span>📞</span> Call Now</a>
+    <a href="https://wa.me/919938079601" target="_blank" rel="noopener" class="mobile-action-btn mobile-btn-wa"><span>💬</span> WhatsApp</a>
+  </div>
 
   <script src="js/main.js" defer></script>
   <script src="js/forms.js" defer></script>
