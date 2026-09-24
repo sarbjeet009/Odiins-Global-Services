@@ -22,6 +22,42 @@
   let authInstance = null;
   let currentUser = null;
 
+  // Helper: Show notification toast with fallback
+  function showAuthNotice(message, type = 'info', duration = 4000) {
+    if (typeof window.showToast === 'function') {
+      window.showToast(message, type, duration);
+    } else {
+      console.log(`[Odiins Auth ${type.toUpperCase()}] ${message}`);
+    }
+  }
+
+  // Helper: Handle human-readable Firebase Auth errors
+  function handleAuthError(error) {
+    if (!error) return;
+    console.warn('Firebase Auth notice:', error.code, error.message);
+
+    if (error.code === 'auth/popup-closed-by-user') {
+      // User closed the popup window deliberately; no alert needed
+      return;
+    }
+    if (error.code === 'auth/unauthorized-domain') {
+      showAuthNotice('Firebase domain setup syncing. If you just added odiins.in in Firebase Console, please wait 2-3 minutes for Google DNS cache to update, or try in an Incognito window.', 'info', 7000);
+      return;
+    }
+    if (error.code === 'auth/network-request-failed') {
+      showAuthNotice('Network connection issue. Please check your internet connection and try again.', 'error', 4500);
+      return;
+    }
+    if (error.code === 'auth/operation-not-allowed') {
+      showAuthNotice('Google Sign-in is currently disabled in Firebase Console. Please verify Authentication > Sign-in method.', 'error', 6000);
+      return;
+    }
+
+    // Generic fallback
+    const msg = error.message || 'Unable to complete sign-in. Please try again.';
+    showAuthNotice(msg, 'error', 5000);
+  }
+
   // Initialize Firebase App & Auth
   function initAuth() {
     if (typeof firebase === 'undefined') {
@@ -38,6 +74,20 @@
 
       // Listen for live Auth changes
       authInstance.onAuthStateChanged(handleAuthStateChange);
+
+      // Handle redirect sign-in result (mobile browser fallback)
+      authInstance.getRedirectResult()
+        .then((result) => {
+          if (result && result.user) {
+            handleAuthStateChange(result.user);
+            showAuthNotice(`Welcome back, ${result.user.displayName || 'valued customer'}!`, 'success');
+          }
+        })
+        .catch((err) => {
+          if (err && err.code) {
+            handleAuthError(err);
+          }
+        });
 
       // Render cached user immediately for 0ms visual flicker
       const cached = getCachedUser();
@@ -92,11 +142,24 @@
     }));
   }
 
-  // 1-Click Google Sign In (Popup with Redirect Fallback)
-  async function signInWithGoogle() {
+  // 1-Click Google Sign In (Popup with Redirect Fallback & Visual Indicator)
+  async function signInWithGoogle(triggerBtn) {
     if (!authInstance) {
-      alert('Authentication is initializing. Please try again in a moment.');
+      showAuthNotice('Authentication is initializing. Please try again in a moment.', 'info');
       return;
+    }
+
+    let originalHtml = '';
+    if (triggerBtn) {
+      originalHtml = triggerBtn.innerHTML;
+      triggerBtn.disabled = true;
+      triggerBtn.classList.add('loading');
+      triggerBtn.innerHTML = `
+        <svg class="google-icon-svg auth-loading-spinner" viewBox="0 0 24 24" width="16" height="16">
+          <circle cx="12" cy="12" r="10" stroke="#4285F4" stroke-width="3" fill="none" stroke-dasharray="31.4" stroke-dashoffset="10"/>
+        </svg>
+        <span>Connecting...</span>
+      `;
     }
 
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -106,15 +169,27 @@
 
     try {
       const result = await authInstance.signInWithPopup(provider);
+      if (result && result.user) {
+        showAuthNotice(`Signed in as ${result.user.displayName || result.user.email}!`, 'success');
+      }
       return result.user;
     } catch (error) {
-      console.warn('Popup sign in failed or was blocked, attempting redirect:', error.message);
       if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
         try {
+          showAuthNotice('Opening Google Sign-in...', 'info', 2000);
           await authInstance.signInWithRedirect(provider);
+          return;
         } catch (redirectErr) {
-          console.error('Redirect sign-in error:', redirectErr);
+          handleAuthError(redirectErr);
         }
+      } else {
+        handleAuthError(error);
+      }
+    } finally {
+      if (triggerBtn && originalHtml) {
+        triggerBtn.disabled = false;
+        triggerBtn.classList.remove('loading');
+        triggerBtn.innerHTML = originalHtml;
       }
     }
   }
@@ -128,6 +203,7 @@
       currentUser = null;
       renderAuthUI(null);
       notifyAuthSubscribers(null);
+      showAuthNotice('You have been signed out.', 'info');
     } catch (e) {
       console.error('Sign out error:', e);
     }
@@ -174,12 +250,12 @@
 
         slot.innerHTML = `
           <div class="user-nav-dropdown-wrapper">
-            <button class="user-nav-chip" id="userNavChipBtn" aria-label="User Account Menu" aria-expanded="false">
+            <button type="button" class="user-nav-chip" aria-label="User Account Menu" aria-expanded="false">
               ${avatarHtml}
               <span class="user-nav-name">Hi, ${firstName}</span>
               <span class="user-nav-arrow">▾</span>
             </button>
-            <div class="user-nav-dropdown-menu" id="userNavDropdown" style="display:none;">
+            <div class="user-nav-dropdown-menu" style="display:none;">
               <div class="user-dropdown-header">
                 <strong>${user.displayName}</strong>
                 <span class="user-dropdown-email">${user.email}</span>
@@ -189,7 +265,7 @@
                 <span>⚡ Forms auto-fill your contact details automatically.</span>
               </div>
               <div class="user-dropdown-divider"></div>
-              <button class="user-dropdown-logout-btn" id="userNavSignOutBtn">
+              <button type="button" class="user-dropdown-logout-btn">
                 <span>🚪 Sign Out</span>
               </button>
             </div>
@@ -197,9 +273,9 @@
         `;
 
         // Wire dropdown toggle
-        const chipBtn = slot.querySelector('#userNavChipBtn');
-        const dropdown = slot.querySelector('#userNavDropdown');
-        const signOutBtn = slot.querySelector('#userNavSignOutBtn');
+        const chipBtn = slot.querySelector('.user-nav-chip');
+        const dropdown = slot.querySelector('.user-nav-dropdown-menu');
+        const signOutBtn = slot.querySelector('.user-dropdown-logout-btn');
 
         if (chipBtn && dropdown) {
           chipBtn.onclick = (e) => {
@@ -220,7 +296,7 @@
       } else {
         // Logged-out state: Clean, non-intrusive Google Sign-in button
         slot.innerHTML = `
-          <button class="btn btn-google-nav" id="googleSignInBtn" title="Optional: Sign in with your Google account">
+          <button type="button" class="btn btn-google-nav" aria-label="Sign In with Google" title="Optional: Sign in with your Google account">
             <svg class="google-icon-svg" viewBox="0 0 24 24" width="16" height="16">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -231,11 +307,11 @@
           </button>
         `;
 
-        const btn = slot.querySelector('#googleSignInBtn');
+        const btn = slot.querySelector('.btn-google-nav');
         if (btn) {
           btn.onclick = (e) => {
             e.preventDefault();
-            signInWithGoogle();
+            signInWithGoogle(btn);
           };
         }
       }
@@ -256,7 +332,9 @@
     getUser: function () {
       return currentUser || getCachedUser();
     },
-    signIn: signInWithGoogle,
+    signIn: function(triggerBtn) {
+      return signInWithGoogle(triggerBtn);
+    },
     signOut: signOut,
     isLoggedIn: function () {
       return !!(currentUser || getCachedUser());

@@ -3495,6 +3495,23 @@ h1, h2, h3, h4, h5, h6 {
   flex-shrink: 0;
 }
 
+.btn-google-nav.loading {
+  opacity: 0.8;
+  cursor: wait;
+  pointer-events: none;
+}
+
+@keyframes authSpin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.auth-loading-spinner {
+  animation: authSpin 0.8s linear infinite;
+  transform-origin: center;
+}
+
 .user-nav-dropdown-wrapper {
   position: relative;
   display: inline-block;
