@@ -2,24 +2,40 @@
 # ODIINS PLATFORM - HOSTINGER PRODUCTION CONFIGURATION (.htaccess)
 # ==============================================================================
 
-# 1. Enable URL Rewriting for Clean URLs (e.g. /contact -> /contact.html)
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  # 301 Permanent Redirects for Legacy Google-Indexed URLs
+  # 1. Force HTTPS
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # 2. Force www.odiins.in (Canonical Host to prevent duplicate non-www indexation)
+  RewriteCond %{HTTP_HOST} ^odiins\.in$ [NC]
+  RewriteRule ^(.*)$ https://www.odiins.in/$1 [L,R=301]
+
+  # 3. 301 Redirect index.html to Root
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html [NC]
+  RewriteRule ^index\.html$ https://www.odiins.in/ [R=301,L]
+
+  # 4. 301 Permanent Redirects for Legacy / Placeholder URLs
   RewriteRule ^staffing-services-bhubaneswar(\.html)?/?$ /services-employers [R=301,L]
   RewriteRule ^staffing-services-in-bhubaneswar(\.html)?/?$ /services-employers [R=301,L]
   RewriteRule ^staffing-solutions(-in)?-bhubaneswar(\.html)?/?$ /services-employers [R=301,L]
+  RewriteRule ^blog-detail(\.html)?/?$ /blogs [R=301,L]
 
-  # Clean URLs: serve .html files if path matches without extension
-  RewriteRule ^staffing-and-manpower-solutions-in-bhubaneswar/?$ staffing-and-manpower-solutions-in-bhubaneswar.html [L]
+  # 5. 301 Redirect direct .html requests to clean URLs (prevents duplicate .html content)
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^.]+)\.html(\?[^\ ]*)?\ HTTP/ [NC]
+  RewriteCond %{REQUEST_URI} !^/404\.html$
+  RewriteRule ^([^.]+)\.html$ https://www.odiins.in/$1 [R=301,L]
+
+  # 6. Specific Aliases / Clean Rewrites
   RewriteRule ^bank-csp/?$ bank-csp-odisha.html [L]
   RewriteRule ^csp/?$ bank-csp-odisha.html [L]
-  RewriteRule ^how-to-hire-sales-managers-manpower-in-bhubaneswar/?$ how-to-hire-sales-managers-manpower-in-bhubaneswar.html [L]
-  RewriteRule ^top-in-demand-private-jobs-in-bhubaneswar-odisha/?$ top-in-demand-private-jobs-in-bhubaneswar-odisha.html [L]
-  RewriteRule ^guide-to-hiring-verified-maids-cooks-tutors-bhubaneswar/?$ guide-to-hiring-verified-maids-cooks-tutors-bhubaneswar.html [L]
+
+  # 7. Internal Rewrite: Serve file.html if path exists without extension
   RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME}\.html -f
   RewriteRule ^(.*)$ $1.html [L]
 </IfModule>
@@ -35,7 +51,7 @@ ErrorDocument 404 /404.html
   AddType image/svg+xml .svg .svgz
 </IfModule>
 
-# 2. Browser Caching (Leverage Browser Cache for 98-100 PageSpeed Scores)
+# Browser Caching (Leverage Browser Cache for 98-100 PageSpeed Scores)
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresDefault "access plus 1 month"
@@ -64,12 +80,12 @@ ErrorDocument 404 /404.html
   ExpiresByType text/html "access plus 1 hour"
 </IfModule>
 
-# 3. Enable Gzip / Deflate Compression
+# Enable Gzip / Deflate Compression
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript application/json image/svg+xml
 </IfModule>
 
-# 4. Security Headers
+# Security Headers
 <IfModule mod_headers.c>
   Header set X-Content-Type-Options "nosniff"
   Header set X-XSS-Protection "1; mode=block"
@@ -77,5 +93,5 @@ ErrorDocument 404 /404.html
   Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
-# 5. Prevent directory listing
+# Prevent directory listing
 Options -Indexes

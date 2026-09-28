@@ -1,4 +1,4 @@
-# Netlify Clean URL Redirects
+# Netlify & Static Host Clean URL Redirects
 /services-job-seekers    /services-job-seekers.html    200
 /services-employers      /services-employers.html      200
 /services-customers      /services-customers.html      200
@@ -9,10 +9,17 @@
 /dashboard               /dashboard.html               200
 /staffing-services-bhubaneswar                /services-employers           301!
 /staffing-services-in-bhubaneswar             /services-employers           301!
+/staffing-solutions-bhubaneswar               /services-employers           301!
+/staffing-solutions-in-bhubaneswar            /services-employers           301!
+/blog-detail                                  /blogs                        301!
+/blog-detail.html                             /blogs                        301!
 /staffing-and-manpower-solutions-in-bhubaneswar    /staffing-and-manpower-solutions-in-bhubaneswar.html    200
-/bank-csp                /bank-csp-odisha.html         200
-/csp                     /bank-csp-odisha.html         200
+/bank-csp                                     /bank-csp-odisha.html         200
+/csp                                          /bank-csp-odisha.html         200
 /how-to-hire-sales-managers-manpower-in-bhubaneswar    /how-to-hire-sales-managers-manpower-in-bhubaneswar.html    200
 /top-in-demand-private-jobs-in-bhubaneswar-odisha    /top-in-demand-private-jobs-in-bhubaneswar-odisha.html    200
 /guide-to-hiring-verified-maids-cooks-tutors-bhubaneswar    /guide-to-hiring-verified-maids-cooks-tutors-bhubaneswar.html    200
+/patient-care-home-nursing-services-in-bhubaneswar    /patient-care-home-nursing-services-in-bhubaneswar.html    200
+/showroom-retail-manpower-staffing-solutions-bhubaneswar    /showroom-retail-manpower-staffing-solutions-bhubaneswar.html    200
+/how-to-apply-bank-csp-operator-odisha        /how-to-apply-bank-csp-operator-odisha.html        200
 /*                       /404.html                     404

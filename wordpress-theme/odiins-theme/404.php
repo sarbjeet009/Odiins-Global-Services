@@ -35,7 +35,7 @@ get_header();
         <div style="font-size: 0.82rem; color: var(--text-muted);">Hire verified maid, cook, driver or home tutor &rarr;</div>
       </a>
 
-      <a href="<?php echo esc_url(home_url('/bank-csp-odisha.html')); ?>" style="background: var(--bg-light-blue); padding: 1.25rem; border-radius: var(--radius-md); text-decoration: none; border: 1px solid var(--border-light); display: block; transition: all 0.2s;">
+      <a href="<?php echo esc_url(home_url('/bank-csp-odisha/')); ?>" style="background: var(--bg-light-blue); padding: 1.25rem; border-radius: var(--radius-md); text-decoration: none; border: 1px solid var(--border-light); display: block; transition: all 0.2s;">
         <div style="font-size: 1.5rem; margin-bottom: 0.35rem;">🏦</div>
         <div style="font-weight: 700; color: var(--text-charcoal); margin-bottom: 0.25rem;">Bank CSP Operator</div>
         <div style="font-size: 0.82rem; color: var(--text-muted);">Apply for CSP customer service points across Odisha &rarr;</div>
