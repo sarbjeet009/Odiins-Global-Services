@@ -36,7 +36,7 @@ function odiins_enqueue_scripts() {
     wp_enqueue_style('odiins-main-style', get_template_directory_uri() . '/css/style.css', array(), '2.2.0');
     wp_enqueue_style('odiins-theme-style', get_stylesheet_uri(), array('odiins-main-style'), '2.2.0');
 
-    // Firebase App & Auth SDKs + Odiins Auth Engine
+    // Firebase App & Auth SDKs + Odiins Auth Engine (for optional in-form Google Fill)
     wp_enqueue_script('firebase-app', 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js', array(), '10.13.2', true);
     wp_enqueue_script('firebase-auth', 'https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js', array('firebase-app'), '10.13.2', true);
     wp_enqueue_script('odiins-firebase-auth', get_template_directory_uri() . '/js/firebase-auth.js', array('firebase-auth'), '2.2.0', true);
