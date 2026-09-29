@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Odiins Sales Executive CRM - Interactive Demo</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    /* Custom styling for Odiins theme */
+    :root {
+      --odiins-green: #157347;
+      --odiins-green-dark: #0f5132;
+      --odiins-green-light: #e8f5e9;
+    }
+    .badge-job { background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+    .badge-csp { background-color: #f5f3ff; color: #6d28d9; border: 1px solid #ddd6fe; }
+    .badge-home { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+    .badge-corp { background-color: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+    
+    .status-new { background-color: #fef3c7; color: #b45309; }
+    .status-progress { background-color: #dbeafe; color: #1e40af; }
+    .status-interview { background-color: #ede9fe; color: #5b21b6; }
+    .status-closed { background-color: #dcfce7; color: #15803d; }
+    .status-lost { background-color: #f3f4f6; color: #4b5563; }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased min-h-screen p-3 md:p-6 font-sans">
+
+  <!-- Top Navigation & Brand Header -->
+  <header class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 md:p-5 shadow-sm mb-6">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center space-x-3">
+        <div class="w-12 h-12 rounded-xl bg-emerald-700 flex items-center justify-center text-white font-bold text-xl shadow-md">
+          O
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-xl font-bold tracking-tight text-[var(--foreground)]">Odiins Sales CRM</h1>
+            <span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">Live Demo</span>
+          </div>
+          <p class="text-xs text-[var(--muted-foreground)]">Lead Distribution & Follow-up Portal for Sales Executives</p>
+        </div>
+      </div>
+
+      <!-- Live Sync & Quick Actions -->
+      <div class="flex flex-wrap items-center gap-3">
+        <div class="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-[var(--background)] border border-[var(--border)] text-xs text-[var(--muted-foreground)]">
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
+          </span>
+          <span>Google Sheet Synced</span>
+        </div>
+
+        <!-- Executive Selector -->
+        <div class="flex items-center space-x-2">
+          <label class="text-xs text-[var(--muted-foreground)]">Logged In:</label>
+          <select id="currentExecutive" onchange="renderLeads()" class="bg-[var(--background)] border border-[var(--border)] text-xs font-medium rounded-lg px-2.5 py-1.5 focus:ring-2 focus:ring-emerald-500">
+            <option value="All">All Executives (Admin View)</option>
+            <option value="Sarbjeet Parija">Sarbjeet Parija (Admin)</option>
+            <option value="Priya Sharma">Priya Sharma (Field Sales)</option>
+            <option value="Rajesh Nayak">Rajesh Nayak (Corporate Desk)</option>
+          </select>
+        </div>
+
+        <!-- Google Sheet Button -->
+        <a href="https://docs.google.com/spreadsheets/d/1cwfI94iE50ohBeOD4eOxK5RrUfsJIxVEZ0ftGS6Leis/edit?gid=0#gid=0" target="_blank" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-medium shadow-sm transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          <span>Open Sheet</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Metric KPI Cards -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 mb-6">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 shadow-sm">
+      <div class="text-xs text-[var(--muted-foreground)] uppercase font-semibold">Total Leads</div>
+      <div class="text-2xl font-bold mt-1 text-[var(--foreground)]" id="kpiTotal">15</div>
+      <div class="text-[11px] text-emerald-600 font-medium mt-0.5">All 30 Districts</div>
+    </div>
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 shadow-sm border-l-4 border-l-amber-500">
+      <div class="text-xs text-[var(--muted-foreground)] uppercase font-semibold">New / Uncontacted</div>
+      <div class="text-2xl font-bold mt-1 text-amber-600" id="kpiNew">13</div>
+      <div class="text-[11px] text-amber-600 font-medium mt-0.5">Needs 1st Call</div>
+    </div>
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 shadow-sm border-l-4 border-l-blue-500">
+      <div class="text-xs text-[var(--muted-foreground)] uppercase font-semibold">In Calling</div>
+      <div class="text-2xl font-bold mt-1 text-blue-600" id="kpiProgress">1</div>
+      <div class="text-[11px] text-blue-600 font-medium mt-0.5">Discussion ongoing</div>
+    </div>
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 shadow-sm border-l-4 border-l-purple-500">
+      <div class="text-xs text-[var(--muted-foreground)] uppercase font-semibold">Interview Scheduled</div>
+      <div class="text-2xl font-bold mt-1 text-purple-600" id="kpiInterview">0</div>
+      <div class="text-[11px] text-purple-600 font-medium mt-0.5">Pipeline ready</div>
+    </div>
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 shadow-sm border-l-4 border-l-emerald-500">
+      <div class="text-xs text-[var(--muted-foreground)] uppercase font-semibold">Closed / Placed</div>
+      <div class="text-2xl font-bold mt-1 text-emerald-600" id="kpiClosed">1</div>
+      <div class="text-[11px] text-emerald-600 font-medium mt-0.5">Verified success</div>
+    </div>
+  </div>
+
+  <!-- Search, Filter & View Controls -->
+  <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 shadow-sm mb-6 space-y-4">
+    
+    <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+      <!-- Search Input -->
+      <div class="relative flex-1">
+        <svg class="w-4 h-4 absolute left-3 top-3 text-[var(--muted-foreground)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="text" id="searchInput" oninput="renderLeads()" placeholder="Search by Candidate Name, Phone, Role, or District (e.g. Puri, Sales, Boby)..." class="w-full pl-9 pr-4 py-2 bg-[var(--background)] border border-[var(--border)] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+      </div>
+
+      <!-- District Filter -->
+      <div class="flex items-center space-x-2">
+        <select id="districtFilter" onchange="renderLeads()" class="bg-[var(--background)] border border-[var(--border)] text-xs font-medium rounded-xl px-3 py-2 focus:ring-2 focus:ring-emerald-500">
+          <option value="All">All Locations / Districts</option>
+          <option value="Bhubaneswar">Bhubaneswar</option>
+          <option value="Puri">Puri</option>
+          <option value="Berhampur">Berhampur / Ganjam</option>
+          <option value="Sambalpur">Sambalpur</option>
+          <option value="Bhadrak">Bhadrak</option>
+          <option value="Bargarh">Bargarh</option>
+          <option value="Rourkela">Rourkela</option>
+          <option value="Mayurbhanj">Mayurbhanj</option>
+          <option value="Nabarangpur">Nabarangpur</option>
+          <option value="Begunia, Khurda">Begunia / Khurda</option>
+        </select>
+
+        <!-- Status Filter -->
+        <select id="statusFilter" onchange="renderLeads()" class="bg-[var(--background)] border border-[var(--border)] text-xs font-medium rounded-xl px-3 py-2 focus:ring-2 focus:ring-emerald-500">
+          <option value="All">All Statuses</option>
+          <option value="New">New</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Interview Scheduled">Interview Scheduled</option>
+          <option value="Closed / Placed">Closed / Placed</option>
+          <option value="Not Interested">Not Interested</option>
+        </select>
+
+        <!-- View Switcher -->
+        <div class="flex bg-[var(--background)] border border-[var(--border)] rounded-xl p-0.5">
+          <button id="cardViewBtn" onclick="switchView('card')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-700 text-white transition">Cards</button>
+          <button id="tableViewBtn" onclick="switchView('table')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition">Table</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Filter Tabs -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
+      <button onclick="setCategoryFilter('All')" class="category-pill active px-3 py-1.5 rounded-lg font-medium transition bg-emerald-700 text-white" data-category="All">All Leads (15)</button>
+      <button onclick="setCategoryFilter('Job Seeker')" class="category-pill px-3 py-1.5 rounded-lg font-medium transition bg-[var(--background)] border border-[var(--border)] hover:bg-emerald-50" data-category="Job Seeker">Job Seekers (13)</button>
+      <button onclick="setCategoryFilter('Bank CSP Operator')" class="category-pill px-3 py-1.5 rounded-lg font-medium transition bg-[var(--background)] border border-[var(--border)] hover:bg-purple-50" data-category="Bank CSP Operator">Bank CSP (1)</button>
+      <button onclick="setCategoryFilter('Household / Home Help')" class="category-pill px-3 py-1.5 rounded-lg font-medium transition bg-[var(--background)] border border-[var(--border)] hover:bg-blue-50" data-category="Household / Home Help">Household / Home Help (1)</button>
+      <button onclick="setCategoryFilter('Corporate / Employer')" class="category-pill px-3 py-1.5 rounded-lg font-medium transition bg-[var(--background)] border border-[var(--border)] hover:bg-orange-50" data-category="Corporate / Employer">Corporate Staffing (0)</button>
+    </div>
+
+  </div>
+
+  <!-- Leads Container: Card View (Default) -->
+  <div id="cardViewContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+    <!-- Populated dynamically via JS -->
+  </div>
+
+  <!-- Leads Container: Table View -->
+  <div id="tableViewContainer" class="hidden bg-[var(--card)] border border-[var(--border)] rounded-2xl shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-[var(--background)] border-b border-[var(--border)] text-[var(--muted-foreground)] uppercase">
+          <tr>
+            <th class="p-3 font-semibold">Lead ID & Date</th>
+            <th class="p-3 font-semibold">Candidate / Client</th>
+            <th class="p-3 font-semibold">Category & Requirement</th>
+            <th class="p-3 font-semibold">District</th>
+            <th class="p-3 font-semibold">Traffic Source</th>
+            <th class="p-3 font-semibold">Status</th>
+            <th class="p-3 font-semibold">Assigned To</th>
+            <th class="p-3 font-semibold text-right">Instant Action</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody" class="divide-y divide-[var(--border)]">
+          <!-- Populated dynamically via JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Follow-up / Notes Modal -->
+  <div id="notesModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl w-full max-w-lg p-5 shadow-xl space-y-4">
+      <div class="flex items-center justify-between border-b border-[var(--border)] pb-3">
+        <h3 class="font-bold text-base" id="modalTitle">Candidate Follow-up & Remarks</h3>
+        <button onclick="closeNotesModal()" class="text-[var(--muted-foreground)] hover:text-[var(--foreground)] text-lg">&times;</button>
+      </div>
+      <div>
+        <p class="text-xs text-[var(--muted-foreground)] mb-1">Lead ID: <span id="modalLeadId" class="font-semibold text-[var(--foreground)]"></span> | <span id="modalCandidateName" class="font-semibold"></span></p>
+        <textarea id="modalNotesText" rows="4" placeholder="Enter remarks (e.g. Called candidate. They have 2 years of retail sales experience. Ready for interview on Wednesday at Bhubaneswar branch...)" class="w-full p-3 bg-[var(--background)] border border-[var(--border)] rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+      </div>
+      <div class="flex items-center justify-between pt-2">
+        <span class="text-[11px] text-[var(--muted-foreground)]">Updates sync to Google Sheet</span>
+        <div class="flex space-x-2">
+          <button onclick="closeNotesModal()" class="px-3 py-1.5 rounded-lg border border-[var(--border)] text-xs font-medium hover:bg-[var(--background)]">Cancel</button>
+          <button onclick="saveModalNotes()" class="px-4 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold shadow-sm">Save Remark</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-emerald-800 text-white px-4 py-2.5 rounded-xl shadow-lg text-xs font-medium flex items-center space-x-2 transition-all transform translate-y-20 opacity-0 pointer-events-none">
+    <svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+    <span id="toastMsg">Lead status updated successfully!</span>
+  </div>
+
+  <script>
+    // 15 Standardized Historical Leads Dataset
+    let leadsData = [
+      {
+        id: "OD-MU7G7DS1",
+        date: "2026-09-19 02:36",
+        category: "Household / Home Help",
+        name: "Sarbjeet Parija",
+        phone: "6372186709",
+        district: "Bhubaneswar",
+        location: "Khandagiri",
+        requirement: "Domestic Help (Maid/Cook)",
+        source: "Direct / Organic",
+        campaign: "Direct",
+        status: "In Progress",
+        assignedTo: "Sarbjeet Parija",
+        notes: "Verified contact. Follow-up scheduled for home cook requirements."
+      },
+      {
+        id: "OD-MUCKFD5W",
+        date: "2026-09-22 16:33",
+        category: "Bank CSP Operator",
+        name: "Debasis Mohanty",
+        phone: "9861234567",
+        district: "Begunia, Khurda",
+        location: "Begunia Center",
+        requirement: "Bank CSP Operator [Grad / Own Shop]",
+        source: "Meta Ads (Instagram)",
+        campaign: "bank_csp_odisha_campaign",
+        status: "New",
+        assignedTo: "Unassigned",
+        notes: "Applying for Khurda CSP Center vacancy. Has desktop & high-speed internet."
+      },
+      {
+        id: "OD-MUEJGSNP",
+        date: "2026-09-24 01:41",
+        category: "Job Seeker",
+        name: "Sarbjeet Parija",
+        phone: "9938079601",
+        district: "Bhubaneswar",
+        location: "Bhubaneswar HQ",
+        requirement: "Sales Manager",
+        source: "Direct / Organic",
+        campaign: "Direct",
+        status: "Closed / Placed",
+        assignedTo: "Sarbjeet Parija",
+        notes: "Executive candidate onboarding complete."
+      },
+      {
+        id: "OD-MUEOPWFF",
+        date: "2026-09-24 04:08",
+        category: "Job Seeker",
+        name: "Tripati Bissoyi",
+        phone: "9337097014",
+        district: "Nabarangpur",
+        location: "Nabarangpur",
+        requirement: "Telecaller / BPO",
+        source: "Campaign (fb)",
+        campaign: "120250275756890477",
+        status: "New",
+        assignedTo: "Priya Sharma",
+        notes: "Prefers morning shifts. Good communication skills."
+      },
+      {
+        id: "OD-MUGZWQ9B",
+        date: "2026-09-25 18:57",
+        category: "Job Seeker",
+        name: "Bhakta Prahalad dhal",
+        phone: "6371452689",
+        district: "Mayurbhanj",
+        location: "Baripada",
+        requirement: "Office Peon / Support Staff",
+        source: "Campaign (fb)",
+        campaign: "120250278490350477",
+        status: "New",
+        assignedTo: "Unassigned",
+        notes: "Available for immediate joining in Cuttack/Bhubaneswar."
+      },
+      {
+        id: "OD-MUH0YL5P",
+        date: "2026-09-25 19:26",
+        category: "Job Seeker",
+        name: "RAHUL DAS",
+        phone: "9090365066",
+        district: "Berhampur",
+        location: "Berhampur City",
+        requirement: "Office Peon",
+        source: "Campaign (fb)",
+        campaign: "120250278490350477",
+        status: "New",
+        assignedTo: "Unassigned",
+        notes: "10th pass, looking for office support vacancy."
+      },
+      {
+        id: "OD-MUH168PV",
+        date: "2026-09-25 19:32",
+        category: "Job Seeker",
+        name: "Harihar Meher",
+        phone: "8906074375",
+        district: "Bargarh",
+        location: "Bargarh Town",
+        requirement: "Data Entry Operator",
+        source: "Direct / Organic",
+        campaign: "Direct",
+        status: "New",
+        assignedTo: "Priya Sharma",
+        notes: "Organic Applicant. Typing speed 35 WPM. Has PGDCA."
+      },
+      {
+        id: "OD-MUH3XW4B",
+        date: "2026-09-25 20:50",
+        category: "Job Seeker",
+        name: "Prakash Kumar sahoo",
+        phone: "9658620364",
+        district: "Puri",
+        location: "Puri Town",
+        requirement: "Sales Manager",
+        source: "Campaign (fb)",
+        campaign: "120250278490350477",
+        status: "New",
+        assignedTo: "Rajesh Nayak",
+        notes: "3 years experience in FMCG field distribution."
+      },
+      {
+        id: "OD-MUH45ZCM",
+        date: "2026-09-25 20:56",
+        category: "Job Seeker",
+        name: "Manasa Kumar Dangua",
+        phone: "8149643766",
+        district: "Berhampur",
+        location: "Ganjam District",
+        requirement: "Data Entry Operator",
+        source: "Direct / Organic",
+        campaign: "Direct",
+        status: "New",
+        assignedTo: "Priya Sharma",
+        notes: "Organic Applicant. Proficient in MS Excel and billing software."
+      },
+      {
+        id: "OD-MUH91J8V",
+        date: "2026-09-25 23:13",
+        category: "Job Seeker",
+        name: "SUMANTA KUMAR PRADHAN",
+        phone: "7787827076",
+        district: "Keshapur",
+        location: "Keshapur",
+        requirement: "Office Peon",
+        source: "Campaign (ig)",
+        campaign: "120250278490350477",
+        status: "New",
+        assignedTo: "Unassigned",
+        notes: "Immediate availability."
+      },
+      {
+        id: "OD-MUH9ZS5M",
+        date: "2026-09-25 23:39",
+        category: "Job Seeker",
+        name: "Ajay Bibhar",
+        phone: "6371555762",
+        district: "Rourkela",
+        location: "Rourkela Steel City",
+        requirement: "Sales Manager",
+        source: "Campaign (fb)",
+        campaign: "120250278490350477",
+        status: "New",
+        assignedTo: "Rajesh Nayak",
+        notes: "Experienced in industrial equipment and retail sales."
+      },
+      {
+        id: "OD-MUI4ACI8",
+        date: "2026-09-26 13:47",
+        category: "Job Seeker",
+        name: "Prakash Kumar sahoo",
+        phone: "9658620364",
+        district: "Puri",
+        location: "Puri",
+        requirement: "Sales Manager",
+        source: "Direct / Organic",
+        campaign: "Direct",
+        status: "New",
+        assignedTo: "Rajesh Nayak",
+        notes: "Returning organic applicant, high intent."
+      },
+      {
+        id: "OD-MUL7LUUY",
+        date: "2026-09-28 17:44",
+        category: "Job Seeker",
+        name: "Sumanta kumar Mohanty",
+        phone: "9040486845",
+        district: "Bhubaneswar",
+        location: "Bhubaneswar",
+        requirement: "Sales Manager",
+        source: "Campaign (fb)",
+        campaign: "120250278490350477",
+        status: "New",
+        assignedTo: "Rajesh Nayak",
+        notes: "Bhubaneswar candidate with direct vehicle and local market knowledge."
+      },
+      {
+        id: "OD-MULE7XOG",
+        date: "2026-09-28 20:49",
+        category: "Job Seeker",
+        name: "Sanjeet Kumar Das",
+        phone: "9090222920",
+        district: "Bhadrak",
+        location: "Bhadrak",
+        requirement: "Data Entry Operator",
+        source: "Direct / Organic",
+        campaign: "Direct",
+        status: "New",
+        assignedTo: "Priya Sharma",
+        notes: "Organic Applicant. Seeking office job in Bhadrak / Bhubaneswar."
+      },
+      {
+        id: "OD-MULF0FB0",
+        date: "2026-09-28 21:11",
+        category: "Job Seeker",
+        name: "Boby Patel",
+        phone: "7894181615",
+        district: "Sambalpur",
+        location: "Sambalpur",
+        requirement: "Sales Manager",
+        source: "Direct / Organic",
+        campaign: "Direct",
+        status: "New",
+        assignedTo: "Unassigned",
+        notes: "Organic Applicant from Western Odisha. High priority lead."
+      }
+    ];
+
+    let currentCategoryFilter = "All";
+    let activeView = "card";
+    let activeEditingLeadId = null;
+
+    function getCategoryBadgeClass(category) {
+      if (category.includes("Job")) return "badge-job";
+      if (category.includes("Bank CSP")) return "badge-csp";
+      if (category.includes("Household")) return "badge-home";
+      return "badge-corp";
+    }
+
+    function getStatusBadgeClass(status) {
+      switch (status) {
+        case "New": return "status-new";
+        case "In Progress": return "status-progress";
+        case "Interview Scheduled": return "status-interview";
+        case "Closed / Placed": return "status-closed";
+        default: return "status-lost";
+      }
+    }
+
+    function generateWhatsAppUrl(lead) {
+      let executive = document.getElementById("currentExecutive").value;
+      if (executive === "All") executive = "Odiins Recruitment Team";
+      
+      let msg = "";
+      if (lead.category.includes("Job")) {
+        msg = `Namaskar ${lead.name} ji! Greetings from Odiins Global Services, Bhubaneswar.\n\nWe received your application for the ${lead.requirement} position in ${lead.district}. When is a good time today for a quick 5-minute introductory call?`;
+      } else if (lead.category.includes("Bank CSP")) {
+        msg = `Namaskar ${lead.name} ji! This is regarding your Bank CSP Center application for ${lead.district} with Odiins. We would like to verify your shop location and documents. Please let us know when we can connect.`;
+      } else {
+        msg = `Namaskar ${lead.name} ji! Greetings from Odiins Global Services. Regarding your requirement for ${lead.requirement}, our service coordinator is ready to assist you.`;
+      }
+      return `https://wa.me/91${lead.phone}?text=${encodeURIComponent(msg)}`;
+    }
+
+    function setCategoryFilter(cat) {
+      currentCategoryFilter = cat;
+      document.querySelectorAll(".category-pill").forEach(el => {
+        if (el.getAttribute("data-category") === cat) {
+          el.className = "category-pill active px-3 py-1.5 rounded-lg font-medium transition bg-emerald-700 text-white";
+        } else {
+          el.className = "category-pill px-3 py-1.5 rounded-lg font-medium transition bg-[var(--background)] border border-[var(--border)] hover:bg-[var(--card)]";
+        }
+      });
+      renderLeads();
+    }
+
+    function switchView(view) {
+      activeView = view;
+      const cardContainer = document.getElementById("cardViewContainer");
+      const tableContainer = document.getElementById("tableViewContainer");
+      const cardBtn = document.getElementById("cardViewBtn");
+      const tableBtn = document.getElementById("tableViewBtn");
+
+      if (view === "card") {
+        cardContainer.classList.remove("hidden");
+        tableContainer.classList.add("hidden");
+        cardBtn.className = "px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-700 text-white transition";
+        tableBtn.className = "px-2.5 py-1.5 rounded-lg text-xs font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition";
+      } else {
+        cardContainer.classList.add("hidden");
+        tableContainer.classList.remove("hidden");
+        tableBtn.className = "px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-700 text-white transition";
+        cardBtn.className = "px-2.5 py-1.5 rounded-lg text-xs font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition";
+      }
+    }
+
+    function updateKPIs(filtered) {
+      document.getElementById("kpiTotal").innerText = leadsData.length;
+      document.getElementById("kpiNew").innerText = leadsData.filter(l => l.status === "New").length;
+      document.getElementById("kpiProgress").innerText = leadsData.filter(l => l.status === "In Progress").length;
+      document.getElementById("kpiInterview").innerText = leadsData.filter(l => l.status === "Interview Scheduled").length;
+      document.getElementById("kpiClosed").innerText = leadsData.filter(l => l.status === "Closed / Placed").length;
+    }
+
+    function renderLeads() {
+      const search = document.getElementById("searchInput").value.toLowerCase().trim();
+      const district = document.getElementById("districtFilter").value;
+      const status = document.getElementById("statusFilter").value;
+      const executive = document.getElementById("currentExecutive").value;
+
+      let filtered = leadsData.filter(lead => {
+        // Search filter
+        const matchSearch = lead.name.toLowerCase().includes(search) ||
+                            lead.phone.includes(search) ||
+                            lead.district.toLowerCase().includes(search) ||
+                            lead.requirement.toLowerCase().includes(search) ||
+                            lead.id.toLowerCase().includes(search);
+        
+        // Category filter
+        const matchCat = currentCategoryFilter === "All" || lead.category === currentCategoryFilter;
+
+        // District filter
+        const matchDist = district === "All" || lead.district.includes(district);
+
+        // Status filter
+        const matchStatus = status === "All" || lead.status === status;
+
+        // Executive filter
+        const matchExec = executive === "All" || lead.assignedTo === executive;
+
+        return matchSearch && matchCat && matchDist && matchStatus && matchExec;
+      });
+
+      updateKPIs(filtered);
+
+      // Render Card View
+      const cardContainer = document.getElementById("cardViewContainer");
+      if (filtered.length === 0) {
+        cardContainer.innerHTML = `
+          <div class="col-span-full py-12 text-center text-[var(--muted-foreground)] bg-[var(--card)] border border-[var(--border)] rounded-2xl">
+            <svg class="w-10 h-10 mx-auto text-[var(--muted-foreground)] mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <p class="font-medium text-sm">No leads found matching your criteria</p>
+            <p class="text-xs mt-1">Try resetting your search query or location filter.</p>
+          </div>
+        `;
+      } else {
+        cardContainer.innerHTML = filtered.map(lead => `
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between space-y-3">
+            
+            <!-- Top Card Header -->
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="px-2 py-0.5 rounded-md text-[11px] font-bold ${getCategoryBadgeClass(lead.category)}">
+                  ${lead.category}
+                </span>
+                <span class="text-[11px] text-[var(--muted-foreground)] font-mono">${lead.id}</span>
+              </div>
+              
+              <div class="flex items-start justify-between">
+                <div>
+                  <h3 class="font-bold text-base text-[var(--foreground)]">${lead.name}</h3>
+                  <div class="flex items-center space-x-1.5 text-xs text-[var(--muted-foreground)] mt-0.5">
+                    <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <span>${lead.district}</span>
+                    <span class="text-[10px] px-1.5 py-0.2 rounded bg-[var(--background)] border border-[var(--border)]">${lead.source}</span>
+                  </div>
+                </div>
+                
+                <!-- Status Dropdown -->
+                <select onchange="updateLeadStatus('${lead.id}', this.value)" class="text-xs font-semibold px-2 py-1 rounded-lg border border-[var(--border)] ${getStatusBadgeClass(lead.status)} focus:outline-none">
+                  <option value="New" ${lead.status === 'New' ? 'selected' : ''}>New</option>
+                  <option value="In Progress" ${lead.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                  <option value="Interview Scheduled" ${lead.status === 'Interview Scheduled' ? 'selected' : ''}>Interview Scheduled</option>
+                  <option value="Closed / Placed" ${lead.status === 'Closed / Placed' ? 'selected' : ''}>Closed / Placed</option>
+                  <option value="Not Interested" ${lead.status === 'Not Interested' ? 'selected' : ''}>Not Interested</option>
+                </select>
+              </div>
+
+              <!-- Requirement & Notes Box -->
+              <div class="mt-3 p-2.5 bg-[var(--background)] rounded-xl border border-[var(--border)] text-xs">
+                <div class="text-[var(--muted-foreground)] text-[10px] uppercase font-bold tracking-wider">Requirement / Position</div>
+                <div class="font-medium text-[var(--foreground)] mt-0.5">${lead.requirement}</div>
+                ${lead.notes ? `
+                  <div class="mt-2 pt-2 border-t border-[var(--border)] text-[11px] text-[var(--muted-foreground)] italic flex items-start space-x-1">
+                    <span>💬</span>
+                    <span>"${lead.notes}"</span>
+                  </div>
+                ` : ''}
+              </div>
+            </div>
+
+            <!-- Footer: Executive & Quick Action Buttons -->
+            <div class="pt-2 border-t border-[var(--border)] flex items-center justify-between gap-2">
+              
+              <!-- Assigned Exec Dropdown -->
+              <div class="flex items-center space-x-1 text-xs">
+                <span class="text-[10px] text-[var(--muted-foreground)]">Assigned:</span>
+                <select onchange="assignExecutive('${lead.id}', this.value)" class="bg-[var(--background)] border border-[var(--border)] text-[11px] font-medium rounded-lg px-2 py-1 focus:ring-1 focus:ring-emerald-500">
+                  <option value="Unassigned" ${lead.assignedTo === 'Unassigned' ? 'selected' : ''}>Unassigned</option>
+                  <option value="Sarbjeet Parija" ${lead.assignedTo === 'Sarbjeet Parija' ? 'selected' : ''}>Sarbjeet</option>
+                  <option value="Priya Sharma" ${lead.assignedTo === 'Priya Sharma' ? 'selected' : ''}>Priya</option>
+                  <option value="Rajesh Nayak" ${lead.assignedTo === 'Rajesh Nayak' ? 'selected' : ''}>Rajesh</option>
+                </select>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="flex items-center space-x-1.5">
+                <!-- Notes Button -->
+                <button onclick="openNotesModal('${lead.id}')" title="Add / View Remarks" class="p-2 rounded-lg bg-[var(--background)] hover:bg-emerald-50 text-[var(--foreground)] border border-[var(--border)] hover:border-emerald-300 transition">
+                  <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                </button>
+
+                <!-- Phone Call Button -->
+                <a href="tel:+91${lead.phone}" onclick="logCallAction('${lead.id}')" title="Call Candidate" class="p-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 transition">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                </a>
+
+                <!-- 1-Click WhatsApp Button -->
+                <a href="${generateWhatsAppUrl(lead)}" target="_blank" onclick="logWhatsAppAction('${lead.id}')" title="Open WhatsApp Message" class="inline-flex items-center space-x-1 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs shadow-sm transition">
+                  <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.001.572 1.777.853 2.806.853 3.178 0 5.767-2.587 5.767-5.766.001-3.182-2.585-5.766-5.767-5.766zm9.969 5.766c0 5.523-4.477 10-10 10-1.758 0-3.411-.453-4.857-1.246l-7.143 1.869 1.905-6.953c-.886-1.503-1.405-3.252-1.405-5.12 0-5.523 4.477-10 10-10s10 4.477 10 10z"/></svg>
+                  <span>WhatsApp</span>
+                </a>
+              </div>
+
+            </div>
+
+          </div>
+        `).join("");
+      }
+
+      // Render Table View
+      const tableBody = document.getElementById("tableBody");
+      tableBody.innerHTML = filtered.map(lead => `
+        <tr class="hover:bg-[var(--background)] transition">
+          <td class="p-3">
+            <div class="font-bold text-[var(--foreground)] font-mono">${lead.id}</div>
+            <div class="text-[10px] text-[var(--muted-foreground)]">${lead.date}</div>
+          </td>
+          <td class="p-3">
+            <div class="font-bold text-[var(--foreground)]">${lead.name}</div>
+            <div class="text-[11px] text-[var(--muted-foreground)] font-mono">+91 ${lead.phone}</div>
+          </td>
+          <td class="p-3">
+            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold ${getCategoryBadgeClass(lead.category)} mb-0.5">
+              ${lead.category}
+            </span>
+            <div class="text-xs text-[var(--foreground)] font-medium">${lead.requirement}</div>
+          </td>
+          <td class="p-3">
+            <div class="font-medium">${lead.district}</div>
+            <div class="text-[10px] text-[var(--muted-foreground)]">${lead.location}</div>
+          </td>
+          <td class="p-3">
+            <span class="px-2 py-0.5 rounded bg-[var(--background)] border border-[var(--border)] text-[10px]">${lead.source}</span>
+          </td>
+          <td class="p-3">
+            <select onchange="updateLeadStatus('${lead.id}', this.value)" class="text-xs font-semibold px-2 py-1 rounded-lg border border-[var(--border)] ${getStatusBadgeClass(lead.status)}">
+              <option value="New" ${lead.status === 'New' ? 'selected' : ''}>New</option>
+              <option value="In Progress" ${lead.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+              <option value="Interview Scheduled" ${lead.status === 'Interview Scheduled' ? 'selected' : ''}>Interview Scheduled</option>
+              <option value="Closed / Placed" ${lead.status === 'Closed / Placed' ? 'selected' : ''}>Closed / Placed</option>
+              <option value="Not Interested" ${lead.status === 'Not Interested' ? 'selected' : ''}>Not Interested</option>
+            </select>
+          </td>
+          <td class="p-3">
+            <select onchange="assignExecutive('${lead.id}', this.value)" class="bg-[var(--background)] border border-[var(--border)] text-[11px] font-medium rounded-lg px-2 py-1">
+              <option value="Unassigned" ${lead.assignedTo === 'Unassigned' ? 'selected' : ''}>Unassigned</option>
+              <option value="Sarbjeet Parija" ${lead.assignedTo === 'Sarbjeet Parija' ? 'selected' : ''}>Sarbjeet</option>
+              <option value="Priya Sharma" ${lead.assignedTo === 'Priya Sharma' ? 'selected' : ''}>Priya</option>
+              <option value="Rajesh Nayak" ${lead.assignedTo === 'Rajesh Nayak' ? 'selected' : ''}>Rajesh</option>
+            </select>
+          </td>
+          <td class="p-3 text-right space-x-1 whitespace-nowrap">
+            <a href="tel:+91${lead.phone}" class="inline-block p-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200" title="Call">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+            </a>
+            <a href="${generateWhatsAppUrl(lead)}" target="_blank" class="inline-block p-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm" title="WhatsApp">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.001.572 1.777.853 2.806.853 3.178 0 5.767-2.587 5.767-5.766.001-3.182-2.585-5.766-5.767-5.766zm9.969 5.766c0 5.523-4.477 10-10 10-1.758 0-3.411-.453-4.857-1.246l-7.143 1.869 1.905-6.953c-.886-1.503-1.405-3.252-1.405-5.12 0-5.523 4.477-10 10-10s10 4.477 10 10z"/></svg>
+            </a>
+            <button onclick="openNotesModal('${lead.id}')" class="inline-block p-1.5 rounded-lg bg-[var(--background)] hover:bg-emerald-50 border border-[var(--border)] text-emerald-700" title="Remarks">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            </button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    function updateLeadStatus(id, newStatus) {
+      const lead = leadsData.find(l => l.id === id);
+      if (lead) {
+        lead.status = newStatus;
+        showToast(`Lead ${id} marked as "${newStatus}"`);
+        renderLeads();
+      }
+    }
+
+    function assignExecutive(id, executive) {
+      const lead = leadsData.find(l => l.id === id);
+      if (lead) {
+        lead.assignedTo = executive;
+        showToast(`Assigned ${lead.name} to ${executive}`);
+        renderLeads();
+      }
+    }
+
+    function logCallAction(id) {
+      const lead = leadsData.find(l => l.id === id);
+      if (lead && lead.status === 'New') {
+        lead.status = 'In Progress';
+        renderLeads();
+      }
+      showToast(`Calling ${lead.name}... status set to In Progress`);
+    }
+
+    function logWhatsAppAction(id) {
+      const lead = leadsData.find(l => l.id === id);
+      if (lead && lead.status === 'New') {
+        lead.status = 'In Progress';
+        renderLeads();
+      }
+      showToast(`Opening WhatsApp chat for ${lead.name}`);
+    }
+
+    function openNotesModal(id) {
+      activeEditingLeadId = id;
+      const lead = leadsData.find(l => l.id === id);
+      if (lead) {
+        document.getElementById("modalLeadId").innerText = lead.id;
+        document.getElementById("modalCandidateName").innerText = lead.name + " (" + lead.requirement + ")";
+        document.getElementById("modalNotesText").value = lead.notes || "";
+        document.getElementById("notesModal").classList.remove("hidden");
+      }
+    }
+
+    function closeNotesModal() {
+      document.getElementById("notesModal").classList.add("hidden");
+      activeEditingLeadId = null;
+    }
+
+    function saveModalNotes() {
+      if (!activeEditingLeadId) return;
+      const lead = leadsData.find(l => l.id === activeEditingLeadId);
+      if (lead) {
+        lead.notes = document.getElementById("modalNotesText.value") || document.getElementById("modalNotesText").value;
+        showToast(`Remarks saved for ${lead.name}`);
+        closeNotesModal();
+        renderLeads();
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      document.getElementById("toastMsg").innerText = msg;
+      toast.classList.remove("translate-y-20", "opacity-0", "pointer-events-none");
+      setTimeout(() => {
+        toast.classList.add("translate-y-20", "opacity-0", "pointer-events-none");
+      }, 3000);
+    }
+
+    // Initialize UI on load
+    document.addEventListener("DOMContentLoaded", () => {
+      renderLeads();
+    });
+  </script>
+
+</body>
+</html>

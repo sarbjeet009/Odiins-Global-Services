@@ -1,11 +1,11 @@
 // ==============================================================================
-// ODIINS PLATFORM - CENTRALIZED GOOGLE SPREADSHEET LEAD CAPTURE SCRIPT
+// ODIINS PLATFORM - CENTRALIZED GOOGLE SPREADSHEET LEAD CAPTURE & CRM BACKEND
 // Spreadsheet: https://docs.google.com/spreadsheets/d/1cwfI94iE50ohBeOD4eOxK5RrUfsJIxVEZ0ftGS6Leis/edit
+// Webhook: https://script.google.com/macros/s/AKfycbxDILgSywLAoCkiHEs2s2GpBLPINg5kIEHKurjwMy60gJrckHlRIGrvwr5aJJOfd0je/exec
 // ==============================================================================
 
 /**
- * 1. REAL-TIME LEAD CAPTURE (WEBHOOK HANDLER)
- * Receives JSON payloads from Odiins website forms and logs them instantly.
+ * 1. REAL-TIME LEAD CAPTURE, CRM TWO-WAY UPDATES & TELEGRAM WEBHOOK (doPost)
  */
 function doPost(e) {
   var lock = LockService.getScriptLock();
@@ -27,6 +27,48 @@ function doPost(e) {
       data = e.parameter || {};
     }
 
+    // --------------------------------------------------------------------------
+    // A. CRM 2-WAY SYNC: UPDATE EXISTING LEAD (STATUS / ASSIGNMENT / NOTES)
+    // --------------------------------------------------------------------------
+    if (data.action === "updateLead") {
+      var leadId = data.id || data.leadId;
+      var rows = sheet.getDataRange().getValues();
+      var updated = false;
+
+      for (var i = 1; i < rows.length; i++) {
+        if (String(rows[i][1]).trim() === String(leadId).trim()) {
+          var rowIndex = i + 1; // 1-based index
+          if (data.status) {
+            sheet.getRange(rowIndex, 11).setValue(data.status); // Column K: Status
+          }
+          if (data.assignedTo) {
+            sheet.getRange(rowIndex, 12).setValue(data.assignedTo); // Column L: Assigned To
+          }
+          if (data.notes !== undefined) {
+            sheet.getRange(rowIndex, 13).setValue(data.notes); // Column M: Notes
+          }
+          updated = true;
+          break;
+        }
+      }
+
+      return ContentService.createTextOutput(JSON.stringify({ 
+        result: updated ? "success" : "not_found", 
+        message: updated ? "Lead updated successfully" : "Lead ID not found",
+        id: leadId 
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // --------------------------------------------------------------------------
+    // B. TELEGRAM BOT WEBHOOK (NATURAL LANGUAGE ASSISTANT QUERY)
+    // --------------------------------------------------------------------------
+    if (data.message && data.message.text && data.message.chat) {
+      return handleTelegramMessage(data.message, sheet);
+    }
+
+    // --------------------------------------------------------------------------
+    // C. WEBSITE FORM LEAD SUBMISSION (NEW LEAD REGISTRATION)
+    // --------------------------------------------------------------------------
     var timestamp = Utilities.formatDate(new Date(), "Asia/Kolkata", "yyyy-MM-dd HH:mm:ss");
     var category = resolveCategory(data.formType, data.requirement);
 
@@ -62,8 +104,77 @@ function doPost(e) {
   }
 }
 
+/**
+ * 2. LIVE DATA ACCESS & QUERY API (doGet)
+ */
 function doGet(e) {
-  return ContentService.createTextOutput("Odiins Lead Capture Webhook is Active & Ready!");
+  var action = (e && e.parameter && e.parameter.action) || "";
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName("Live Leads") || ss.getSheets()[0];
+
+  // A. Fetch All Leads for CRM Dashboard
+  if (action === "getLeads") {
+    var rows = sheet.getDataRange().getValues();
+    if (rows.length <= 1) {
+      return ContentService.createTextOutput(JSON.stringify({ result: "success", leads: [] }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    var leads = [];
+    for (var i = 1; i < rows.length; i++) {
+      var r = rows[i];
+      if (!r[1]) continue;
+      
+      var dateStr = "";
+      if (r[0] instanceof Date) {
+        dateStr = Utilities.formatDate(r[0], "Asia/Kolkata", "yyyy-MM-dd HH:mm");
+      } else {
+        dateStr = String(r[0] || "");
+      }
+
+      leads.push({
+        date: dateStr,
+        id: String(r[1]),
+        category: String(r[2] || ""),
+        name: String(r[3] || ""),
+        phone: String(r[4] || "").replace(/^'/, ""),
+        district: String(r[5] || ""),
+        location: String(r[6] || ""),
+        requirement: String(r[7] || ""),
+        source: String(r[8] || ""),
+        campaign: String(r[9] || ""),
+        status: String(r[10] || "New"),
+        assignedTo: String(r[11] || "Unassigned"),
+        notes: String(r[12] || "")
+      });
+    }
+
+    return ContentService.createTextOutput(JSON.stringify({ 
+      result: "success", 
+      count: leads.length, 
+      leads: leads 
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  // B. Backfill Historical Leads
+  if (action === "backfill") {
+    backfillPastLeads();
+    return ContentService.createTextOutput(JSON.stringify({ 
+      result: "success", 
+      message: "Successfully populated 15 historical leads with emerald green styling!" 
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  // C. Generate SEO Action Plan Sheet
+  if (action === "seoplan") {
+    createOrUpdateSEOPlanSheet();
+    return ContentService.createTextOutput(JSON.stringify({ 
+      result: "success", 
+      message: "Successfully created SEO Action Plan sheet!" 
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  return ContentService.createTextOutput("Odiins Lead Capture & CRM Webhook is Active & Ready!");
 }
 
 /**
@@ -118,8 +229,7 @@ function resolveCategory(formType, requirement) {
 }
 
 // ==============================================================================
-// 2. ONE-CLICK HISTORICAL BACKFILL FUNCTION
-// Run this function once from the Apps Script editor menu to import all 15 past leads!
+// 3. ONE-CLICK HISTORICAL BACKFILL FUNCTION
 // ==============================================================================
 function backfillPastLeads() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -130,21 +240,21 @@ function backfillPastLeads() {
   }
 
   var pastLeads = [
-    ["2026-09-19 02:36:01", "OD-MU7G7DS1", "Household / Home Help", "Sarbjeet Parija", "'6372186709", "Bhubaneswar", "Bhubaneswar", "Customer", "Direct / Organic", "Direct", "In Progress", "Admin", "yes!!"],
-    ["2026-09-22 16:33:03", "OD-MUCKFD5W", "Bank CSP Operator", "Debasis Mohanty", "'9861234567", "Begunia, Khurda", "Begunia, Khurda", "Bank CSP Operator [Edu: Graduate | Shop: Own | Dist: <5 KM]", "Meta Ads (Instagram)", "bank_csp_odisha_campaign", "New", "", "Applying for Khurda CSP Center vacancy"],
-    ["2026-09-24 01:41:42", "OD-MUEJGSNP", "Job Seeker", "Sarbjeet Parija", "'09938079601", "Bhubaneswar", "Bhubaneswar", "Sales Manager", "Direct / Organic", "Direct", "New", "Admin", "Platform test lead"],
-    ["2026-09-24 04:08:45", "OD-MUEOPWFF", "Job Seeker", "Tripati Bissoyi", "'9337097014", "Nabarangpur", "Nabarangpur", "Telecaller", "Campaign (fb)", "120250275756890477", "New", "", ""],
-    ["2026-09-25 18:57:32", "OD-MUGZWQ9B", "Job Seeker", "Bhakta Prahalad dhal", "'6371452689", "Mayurbhanj", "Mayurbhanj", "Office Peon", "Campaign (fb)", "120250278490350477", "New", "", ""],
-    ["2026-09-25 19:26:58", "OD-MUH0YL5P", "Job Seeker", "RAHUL DAS", "'9090365066", "BERHAMPUR", "BERHAMPUR", "Office Peon", "Campaign (fb)", "120250278490350477", "New", "", ""],
-    ["2026-09-25 19:32:56", "OD-MUH168PV", "Job Seeker", "Harihar Meher", "'8906074375", "Bargarh", "Bargarh", "Data Entry", "Direct / Organic", "Direct", "New", "", "Organic Applicant"],
-    ["2026-09-25 20:50:25", "OD-MUH3XW4B", "Job Seeker", "Prakash Kumar sahoo", "'9658620364", "Puri , odisha", "Puri , odisha", "Sales Manager", "Campaign (fb)", "120250278490350477", "New", "", ""],
-    ["2026-09-25 20:56:42", "OD-MUH45ZCM", "Job Seeker", "Manasa Kumar Dangua", "'8149643766", "Berhampur Ganjam", "Berhampur Ganjam", "Data Entry", "Direct / Organic", "Direct", "New", "", "Organic Applicant"],
-    ["2026-09-25 23:13:13", "OD-MUH91J8V", "Job Seeker", "SUMANTA KUMAR PRADHAN", "'7787827076", "Keshapur", "Keshapur", "Office Peon", "Campaign (ig)", "120250278490350477", "New", "", ""],
-    ["2026-09-25 23:39:51", "OD-MUH9ZS5M", "Job Seeker", "Ajay Bibhar", "'6371555762", "Rourkela", "Rourkela", "Sales Manager", "Campaign (fb)", "120250278490350477", "New", "", ""],
-    ["2026-09-26 13:47:52", "OD-MUI4ACI8", "Job Seeker", "Prakash Kumar sahoo", "'9658620364", "Puri Odisha", "Puri Odisha", "Sales Manager", "Direct / Organic", "Direct", "New", "", "Returning Organic Applicant"],
-    ["2026-09-28 17:44:06", "OD-MUL7LUUY", "Job Seeker", "Sumanta kumar Mohanty", "'9040486845", "Bhubaneswar", "Bhubaneswar", "Sales Manager", "Campaign (fb)", "120250278490350477", "New", "", ""],
-    ["2026-09-28 20:49:14", "OD-MULE7XOG", "Job Seeker", "Sanjeet Kumar Das", "'9090222920", "Bhadrak", "Bhadrak", "Data Entry", "Direct / Organic", "Direct", "New", "", "Organic Applicant"],
-    ["2026-09-28 21:11:23", "OD-MULF0FB0", "Job Seeker", "Boby Patel", "'7894181615", "Sambalpur", "Sambalpur", "Sales Manager", "Direct / Organic", "Direct", "New", "", "Organic Applicant"]
+    ["2026-09-19 02:36:01", "OD-MU7G7DS1", "Household / Home Help", "Sarbjeet Parija", "'6372186709", "Bhubaneswar", "Bhubaneswar", "Customer", "Direct / Organic", "Direct", "In Progress", "Sarbjeet Parija", "yes!!"],
+    ["2026-09-22 16:33:03", "OD-MUCKFD5W", "Bank CSP Operator", "Debasis Mohanty", "'9861234567", "Begunia, Khurda", "Begunia, Khurda", "Bank CSP Operator [Edu: Graduate | Shop: Own | Dist: <5 KM]", "Meta Ads (Instagram)", "bank_csp_odisha_campaign", "New", "Unassigned", "Applying for Khurda CSP Center vacancy"],
+    ["2026-09-24 01:41:42", "OD-MUEJGSNP", "Job Seeker", "Sarbjeet Parija", "'09938079601", "Bhubaneswar", "Bhubaneswar", "Sales Manager", "Direct / Organic", "Direct", "Closed / Placed", "Sarbjeet Parija", "Platform test lead"],
+    ["2026-09-24 04:08:45", "OD-MUEOPWFF", "Job Seeker", "Tripati Bissoyi", "'9337097014", "Nabarangpur", "Nabarangpur", "Telecaller", "Campaign (fb)", "120250275756890477", "New", "Priya Sharma", ""],
+    ["2026-09-25 18:57:32", "OD-MUGZWQ9B", "Job Seeker", "Bhakta Prahalad dhal", "'6371452689", "Mayurbhanj", "Mayurbhanj", "Office Peon", "Campaign (fb)", "120250278490350477", "New", "Unassigned", ""],
+    ["2026-09-25 19:26:58", "OD-MUH0YL5P", "Job Seeker", "RAHUL DAS", "'9090365066", "BERHAMPUR", "BERHAMPUR", "Office Peon", "Campaign (fb)", "120250278490350477", "New", "Unassigned", ""],
+    ["2026-09-25 19:32:56", "OD-MUH168PV", "Job Seeker", "Harihar Meher", "'8906074375", "Bargarh", "Bargarh", "Data Entry", "Direct / Organic", "Direct", "New", "Priya Sharma", "Organic Applicant"],
+    ["2026-09-25 20:50:25", "OD-MUH3XW4B", "Job Seeker", "Prakash Kumar sahoo", "'9658620364", "Puri , odisha", "Puri , odisha", "Sales Manager", "Campaign (fb)", "120250278490350477", "New", "Rajesh Nayak", ""],
+    ["2026-09-25 20:56:42", "OD-MUH45ZCM", "Job Seeker", "Manasa Kumar Dangua", "'8149643766", "Berhampur Ganjam", "Berhampur Ganjam", "Data Entry", "Direct / Organic", "Direct", "New", "Priya Sharma", "Organic Applicant"],
+    ["2026-09-25 23:13:13", "OD-MUH91J8V", "Job Seeker", "SUMANTA KUMAR PRADHAN", "'7787827076", "Keshapur", "Keshapur", "Office Peon", "Campaign (ig)", "120250278490350477", "New", "Unassigned", ""],
+    ["2026-09-25 23:39:51", "OD-MUH9ZS5M", "Job Seeker", "Ajay Bibhar", "'6371555762", "Rourkela", "Rourkela", "Sales Manager", "Campaign (fb)", "120250278490350477", "New", "Rajesh Nayak", ""],
+    ["2026-09-26 13:47:52", "OD-MUI4ACI8", "Job Seeker", "Prakash Kumar sahoo", "'9658620364", "Puri Odisha", "Puri Odisha", "Sales Manager", "Direct / Organic", "Direct", "New", "Rajesh Nayak", "Returning Organic Applicant"],
+    ["2026-09-28 17:44:06", "OD-MUL7LUUY", "Job Seeker", "Sumanta kumar Mohanty", "'9040486845", "Bhubaneswar", "Bhubaneswar", "Sales Manager", "Campaign (fb)", "120250278490350477", "New", "Rajesh Nayak", ""],
+    ["2026-09-28 20:49:14", "OD-MULE7XOG", "Job Seeker", "Sanjeet Kumar Das", "'9090222920", "Bhadrak", "Bhadrak", "Data Entry", "Direct / Organic", "Direct", "New", "Priya Sharma", "Organic Applicant"],
+    ["2026-09-28 21:11:23", "OD-MULF0FB0", "Job Seeker", "Boby Patel", "'7894181615", "Sambalpur", "Sambalpur", "Sales Manager", "Direct / Organic", "Direct", "New", "Unassigned", "Organic Applicant"]
   ];
 
   for (var i = 0; i < pastLeads.length; i++) {
@@ -155,8 +265,98 @@ function backfillPastLeads() {
 }
 
 // ==============================================================================
-// 3. 1-CLICK SEO ACTION PLAN GENERATOR (SHEET 2)
-// Run this function inside Apps Script to create / update "SEO Action Plan" on Tab 2
+// 4. TELEGRAM BOT NATURAL LANGUAGE ASSISTANT (ZERO SERVER COST)
+// ==============================================================================
+function handleTelegramMessage(message, sheet) {
+  var chatId = message.chat.id;
+  var text = (message.text || "").trim().toLowerCase();
+  var rows = sheet.getDataRange().getValues();
+  var totalLeads = Math.max(0, rows.length - 1);
+
+  var reply = "";
+
+  if (text === "/start" || text === "hi" || text === "hello" || text === "help") {
+    reply = "👋 *Namaskar Sarbjeet! Welcome to Odiins Lead AI Bot.*\n\n" +
+            "I am directly connected to your website and leads database. Ask me anything:\n\n" +
+            "• *today* - Count & details of leads received today\n" +
+            "• *total* - Total leads breakdown by status\n" +
+            "• *bhubaneswar* or *puri* or *sambalpur* - Leads by location\n" +
+            "• *sales* or *csp* or *maid* - Leads by role or category\n" +
+            "• Or simply type any applicant name (e.g. *Boby Patel*) to see their details!";
+  } else if (text.indexOf("today") !== -1) {
+    var todayStr = Utilities.formatDate(new Date(), "Asia/Kolkata", "yyyy-MM-dd");
+    var todayCount = 0;
+    var todayLeads = [];
+    for (var i = 1; i < rows.length; i++) {
+      var d = String(rows[i][0]);
+      if (d.indexOf(todayStr) !== -1) {
+        todayCount++;
+        todayLeads.push("• *" + rows[i][3] + "* (" + rows[i][7] + ") - 📞 `" + String(rows[i][4]).replace(/^'/, '') + "` [" + rows[i][5] + "]");
+      }
+    }
+    reply = "📊 *Today's Leads (" + todayStr + "): " + todayCount + "*\n\n" +
+            (todayLeads.length > 0 ? todayLeads.join("\n") : "No new leads recorded today yet.");
+  } else if (text.indexOf("total") !== -1 || text.indexOf("summary") !== -1 || text.indexOf("count") !== -1) {
+    var newCount = 0, inProg = 0, closed = 0;
+    for (var i = 1; i < rows.length; i++) {
+      var s = String(rows[i][10]);
+      if (s === "New") newCount++;
+      else if (s === "In Progress") inProg++;
+      else if (s.indexOf("Closed") !== -1) closed++;
+    }
+    reply = "📈 *Odiins Leads Overview:*\n\n" +
+            "• Total Leads: *" + totalLeads + "*\n" +
+            "• New / Uncontacted: *" + newCount + "*\n" +
+            "• In Progress: *" + inProg + "*\n" +
+            "• Closed / Placed: *" + closed + "*";
+  } else {
+    // Search query across all rows
+    var matches = [];
+    for (var i = rows.length - 1; i >= 1; i--) {
+      var rowStr = (rows[i].join(" ")).toLowerCase();
+      if (rowStr.indexOf(text) !== -1) {
+        matches.push(
+          "👤 *" + rows[i][3] + "* (ID: `" + rows[i][1] + "`)\n" +
+          "📞 Phone: `" + String(rows[i][4]).replace(/^'/, '') + "`\n" +
+          "📍 Location: " + rows[i][5] + (rows[i][6] ? " (" + rows[i][6] + ")" : "") + "\n" +
+          "💼 Role: " + rows[i][7] + " [" + rows[i][2] + "]\n" +
+          "⚡ Status: *" + rows[i][10] + "* | Assigned: " + (rows[i][11] || "Unassigned") +
+          (rows[i][12] ? "\n💬 Notes: _" + rows[i][12] + "_" : "")
+        );
+        if (matches.length >= 5) break;
+      }
+    }
+    if (matches.length > 0) {
+      reply = "🔍 *Found " + matches.length + " matching leads for '" + message.text + "':*\n\n" + matches.join("\n\n---\n\n");
+    } else {
+      reply = "❓ No leads found matching '" + message.text + "'. Try searching by district (e.g. *Bhubaneswar*, *Puri*), candidate name (*Boby*), or role (*Sales Manager*).";
+    }
+  }
+
+  // Send reply via Telegram Bot API
+  var botToken = PropertiesService.getScriptProperties().getProperty("TELEGRAM_BOT_TOKEN");
+  if (botToken) {
+    try {
+      UrlFetchApp.fetch("https://api.telegram.org/bot" + botToken + "/sendMessage", {
+        method: "post",
+        contentType: "application/json",
+        payload: JSON.stringify({
+          chat_id: chatId,
+          text: reply,
+          parse_mode: "Markdown"
+        })
+      });
+    } catch (e) {
+      Logger.log("Telegram send error: " + e.toString());
+    }
+  }
+
+  return ContentService.createTextOutput(JSON.stringify({ result: "success", reply: reply }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// ==============================================================================
+// 5. 1-CLICK SEO ACTION PLAN GENERATOR (SHEET 2)
 // ==============================================================================
 function createOrUpdateSEOPlanSheet() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
