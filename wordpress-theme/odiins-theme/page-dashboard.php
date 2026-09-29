@@ -9,11 +9,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Unified Executive Command Center | Odiins Management Portal</title>
-  <link rel="icon" type="image/svg+xml" href="<?php echo esc_url(get_template_directory_uri() . '/assets/icons/favicon.svg'); ?>">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="<?php echo esc_url(get_template_directory_uri() . '/assets/icons/favicon.svg'); ?>"
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="<?php echo esc_url(get_template_directory_uri() . '/css/style.css'); ?>">
+  <link rel="stylesheet" href="<?php echo esc_url(get_template_directory_uri() . '/css/style.css'); ?>"
   <style>
     /* Admin Login Overlay Styles */
     .admin-auth-container {
@@ -229,14 +230,97 @@
         display: none !important;
       }
     }
+
+    /* CRM Table & Micro Details Styling */
+    .badge-job { background-color: #ECFDF5; color: #047857; border: 1px solid #A7F3D0; font-weight: 600; padding: 2px 8px; border-radius: 6px; font-size: 0.72rem; display: inline-block; }
+    .badge-csp { background-color: #F5F3FF; color: #6D28D9; border: 1px solid #DDD6FE; font-weight: 600; padding: 2px 8px; border-radius: 6px; font-size: 0.72rem; display: inline-block; }
+    .badge-home { background-color: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; font-weight: 600; padding: 2px 8px; border-radius: 6px; font-size: 0.72rem; display: inline-block; }
+    .badge-corp { background-color: #FFF7ED; color: #C2410C; border: 1px solid #FED7AA; font-weight: 600; padding: 2px 8px; border-radius: 6px; font-size: 0.72rem; display: inline-block; }
+
+    .status-badge-select {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.6rem;
+      border-radius: 8px;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .status-new { background-color: #FEF3C7; color: #B45309; border: 1px solid #FDE68A; }
+    .status-progress { background-color: #DBEAFE; color: #1E40AF; border: 1px solid #BFDBFE; }
+    .status-interview { background-color: #EDE9FE; color: #5B21B6; border: 1px solid #DDD6FE; }
+    .status-closed { background-color: #DCFCE7; color: #15803D; border: 1px solid #BBF7D0; }
+    .status-lost { background-color: #F3F4F6; color: #4B5563; border: 1px solid #E5E7EB; }
+
+    .assigned-select {
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.35rem 0.65rem;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      min-width: 160px;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .assigned-unassigned {
+      background-color: #FFFBEB;
+      color: #B45309;
+      border: 1.5px solid #F59E0B;
+      font-weight: 700;
+    }
+    .assigned-active {
+      background-color: #FFFFFF;
+      color: #1F2937;
+      border: 1px solid #D1E3F2;
+    }
+
+    .unassigned-pulse-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #EF4444;
+      animation: pulseAlertDot 1.5s infinite;
+      margin-right: 4px;
+    }
+    @keyframes pulseAlertDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+    }
+
+    /* Micro-Details Slide-Over Drawer */
+    .crm-drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      display: flex;
+      justify-content: flex-end;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .crm-drawer-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .crm-drawer-panel {
+      width: 100%;
+      max-width: 580px;
+      background: #FFFFFF;
+      height: 100%;
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .crm-drawer-overlay.active .crm-drawer-panel {
+      transform: translateX(0);
+    }
   </style>
-  <script>
-    window.odiins_wp = {
-      rest_url: "<?php echo esc_url_raw(rest_url('odiins/v1/')); ?>",
-      home_url: "<?php echo esc_url(home_url('/')); ?>",
-      theme_url: "<?php echo esc_url(get_template_directory_uri()); ?>"
-    };
-  </script>
 </head>
 <body style="background-color: var(--bg-light-blue);">
 
@@ -245,7 +329,7 @@
     <div class="admin-auth-card">
       <div style="display:flex; justify-content:center; margin-bottom:1.25rem;">
         <div class="dash-brand-badge" style="padding:8px 18px; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.04);">
-          <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/icons/logo.svg'); ?>" alt="Odiins Logo" style="height:32px; width:auto; display:block;">
+          <img src="assets/icons/logo.svg" alt="Odiins Logo" style="height:32px; width:auto; display:block;">
         </div>
       </div>
       <div class="admin-auth-badge">
@@ -284,7 +368,7 @@
             <input type="checkbox" id="rememberAdminCheckbox" checked>
             <span>Remember this device</span>
           </label>
-          <a href="<?php echo esc_url(home_url('/')); ?>" style="color:var(--primary-blue); font-weight:500;">&larr; Return to Website</a>
+          <a href="/" style="color:var(--primary-blue); font-weight:500;">&larr; Return to Website</a>
         </div>
 
         <!-- Submit Button -->
@@ -306,7 +390,7 @@
         </div>
         <div class="topbar-right">
           <span>Active Desk: Odisha Central</span>
-          <a href="<?php echo esc_url(home_url('/')); ?>" class="btn btn-sm btn-white" style="padding:0.2rem 0.6rem; color:var(--primary-green); font-size:0.75rem;">View Live Website &rarr;</a>
+          <a href="/" class="btn btn-sm btn-white" style="padding:0.2rem 0.6rem; color:var(--primary-green); font-size:0.75rem;">View Live Website &rarr;</a>
           <button id="adminLogoutBtn" onclick="adminLogout()" class="btn btn-sm" style="background:rgba(255,255,255,0.2); color:#FFFFFF; border:1px solid rgba(255,255,255,0.4); padding:0.2rem 0.6rem; font-size:0.75rem; border-radius:6px; cursor:pointer;">🚪 Log Out</button>
         </div>
       </div>
@@ -320,7 +404,7 @@
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
         <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
           <div class="dash-brand-badge">
-            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/icons/logo.svg'); ?>" alt="Odiins Logo" style="height:28px; width:auto; display:block;">
+            <img src="assets/icons/logo.svg" alt="Odiins Logo" style="height:28px; width:auto; display:block;">
           </div>
           <div class="dash-header-divider"></div>
           <div>
@@ -412,78 +496,158 @@
          ========================================================================= -->
     <div class="dash-panel active" id="panelLeads">
       
-      <!-- Stats Grid -->
-      <div class="dashboard-stats-grid">
-        <div class="stat-box">
+      <!-- Interactive Priority KPI Cards -->
+      <div class="dashboard-stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-bottom: 1.25rem;">
+        
+        <!-- Total Leads -->
+        <div class="stat-box" onclick="filterByQuickKpi('all')" style="cursor:pointer;" title="Click to view all leads">
           <div class="stat-box-val" id="statTotalLeads">0</div>
           <div class="stat-box-title">Total Active Enquiries</div>
+          <div style="font-size:0.75rem; color:var(--primary-green); font-weight:600; margin-top:0.25rem;">All 30 Odisha Districts</div>
         </div>
-        <div class="stat-box">
-          <div class="stat-box-val" id="statJobSeekers" style="color:#0369A1;">0</div>
-          <div class="stat-box-title">Job Seekers</div>
+
+        <!-- ⚠️ Unassigned Priority Card (Alert Pulse) -->
+        <div class="stat-box" onclick="filterByQuickKpi('unassigned')" style="cursor:pointer; border: 2px solid #FCA5A5; background: #FFF5F5;" title="Click to view leads waiting for Admin assignment">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.72rem; color:#DC2626; font-weight:700; text-transform:uppercase;">
+              <span class="unassigned-pulse-dot"></span> Needs Assignment
+            </span>
+            <span style="font-size:0.68rem; background:#FEE2E2; color:#991B1B; padding:1px 6px; border-radius:999px; font-weight:700;">URGENT</span>
+          </div>
+          <div class="stat-box-val" id="statUnassignedLeads" style="color:#DC2626; margin-top:0.35rem;">0</div>
+          <div class="stat-box-title" style="color:#991B1B; font-weight:600;">Unassigned Leads &rarr;</div>
         </div>
-        <div class="stat-box">
-          <div class="stat-box-val" id="statEmployers" style="color:#15803D;">0</div>
-          <div class="stat-box-title">Employers &amp; MSMEs</div>
+
+        <!-- In Calling / Progress -->
+        <div class="stat-box" onclick="filterByQuickKpi('in-progress')" style="cursor:pointer; border-left: 4px solid #2563EB;" title="Click to view leads in progress">
+          <div class="stat-box-val" id="statInProgressLeads" style="color:#2563EB;">0</div>
+          <div class="stat-box-title">In Calling / Progress</div>
+          <div style="font-size:0.75rem; color:#2563EB; font-weight:500; margin-top:0.25rem;">Active Discussions</div>
         </div>
-        <div class="stat-box">
-          <div class="stat-box-val" id="statCustomers" style="color:#B45309;">0</div>
-          <div class="stat-box-title">Household Inquiries</div>
+
+        <!-- Interview Scheduled -->
+        <div class="stat-box" onclick="filterByQuickKpi('interview')" style="cursor:pointer; border-left: 4px solid #7C3AED;" title="Click to view interview scheduled">
+          <div class="stat-box-val" id="statInterviewLeads" style="color:#7C3AED;">0</div>
+          <div class="stat-box-title">Interview Scheduled</div>
+          <div style="font-size:0.75rem; color:#7C3AED; font-weight:500; margin-top:0.25rem;">Pipeline Ready</div>
+        </div>
+
+        <!-- Closed / Placed -->
+        <div class="stat-box" onclick="filterByQuickKpi('closed')" style="cursor:pointer; border-left: 4px solid var(--primary-green);" title="Click to view closed leads">
+          <div class="stat-box-val" id="statClosedLeads" style="color:var(--primary-green);">0</div>
+          <div class="stat-box-title">Closed / Placed</div>
+          <div style="font-size:0.75rem; color:var(--primary-green); font-weight:500; margin-top:0.25rem;">Verified Placements</div>
         </div>
       </div>
 
-      <!-- Filters & Search Toolbar -->
-      <div style="background:var(--bg-white); padding:1.25rem; border-radius:var(--radius-md); box-shadow:var(--card-shadow); border:1px solid var(--border-light); margin-bottom:1.5rem;">
+      <!-- Advanced Filter & Bulk Assignment Toolbar -->
+      <div style="background:var(--bg-white); padding:1.25rem; border-radius:var(--radius-md); box-shadow:var(--card-shadow); border:1px solid var(--border-light); margin-bottom:1.5rem; display:flex; flex-direction:column; gap:0.85rem;">
+        
+        <!-- Search & Dropdown Filters -->
         <div style="display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center;">
-          <div style="flex-grow:1; min-width:240px;">
-            <input type="text" id="leadSearchInput" class="form-control" placeholder="Search leads by name, phone, district, requirement...">
+          <div style="flex-grow:1; min-width:260px;">
+            <input type="text" id="leadSearchInput" oninput="renderLeads()" class="form-control" placeholder="Search by Candidate Name, Phone, Role, District, or Remarks...">
           </div>
 
+          <!-- Executive Filter -->
           <div>
-            <select id="filterCategory" class="form-control" style="width:auto; min-width:160px;">
-              <option value="all">All Categories</option>
-              <option value="Job Seeker">Job Seekers</option>
-              <option value="Employer">Employers / Business</option>
-              <option value="Customer">Household Help</option>
-              <option value="Contact Enquiry">Contact Messages</option>
+            <select id="filterAssignedTo" onchange="renderLeads()" class="form-control" style="width:auto; min-width:180px; font-weight:600;">
+              <option value="all">All Assignments</option>
+              <option value="Unassigned">⚠️ Unassigned Only (Urgent)</option>
+              <option value="Sarbjeet Parija">Sarbjeet Parija (Admin)</option>
+              <option value="Priya Sharma">Priya Sharma</option>
+              <option value="Rajesh Nayak">Rajesh Nayak</option>
             </select>
           </div>
 
+          <!-- District Filter -->
           <div>
-            <select id="filterAdSource" class="form-control" style="width:auto; min-width:150px;">
-              <option value="all">All Ad Sources</option>
-              <option value="Google Ads">Google Ads</option>
-              <option value="Meta Ads">Meta Ads</option>
-              <option value="Direct / Organic">Direct / Organic</option>
+            <select id="filterDistrict" onchange="renderLeads()" class="form-control" style="width:auto; min-width:150px;">
+              <option value="all">All Districts</option>
+              <option value="Bhubaneswar">Bhubaneswar</option>
+              <option value="Puri">Puri</option>
+              <option value="Berhampur">Berhampur / Ganjam</option>
+              <option value="Sambalpur">Sambalpur</option>
+              <option value="Bhadrak">Bhadrak</option>
+              <option value="Bargarh">Bargarh</option>
+              <option value="Rourkela">Rourkela</option>
+              <option value="Mayurbhanj">Mayurbhanj</option>
+              <option value="Nabarangpur">Nabarangpur</option>
+              <option value="Khurda">Begunia / Khurda</option>
             </select>
           </div>
 
+          <!-- Status Filter -->
           <div>
-            <select id="filterStatus" class="form-control" style="width:auto; min-width:140px;">
+            <select id="filterStatus" onchange="renderLeads()" class="form-control" style="width:auto; min-width:140px;">
               <option value="all">All Statuses</option>
               <option value="New">New</option>
-              <option value="Contacted">Contacted</option>
               <option value="In Progress">In Progress</option>
-              <option value="Closed">Closed</option>
+              <option value="Interview Scheduled">Interview Scheduled</option>
+              <option value="Closed">Closed / Placed</option>
+              <option value="Not Interested">Not Interested</option>
+            </select>
+          </div>
+
+          <!-- Traffic Source Filter -->
+          <div>
+            <select id="filterAdSource" onchange="renderLeads()" class="form-control" style="width:auto; min-width:150px;">
+              <option value="all">All Traffic Sources</option>
+              <option value="Organic">Direct / Organic</option>
+              <option value="Campaign (fb)">Meta Ads (Facebook)</option>
+              <option value="Campaign (ig)">Meta Ads (Instagram)</option>
+              <option value="Google Ads">Google Ads</option>
             </select>
           </div>
         </div>
+
+        <!-- Category Pills & Bulk Assignment Bar -->
+        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:0.75rem; border-top:1px solid var(--border-light); padding-top:0.75rem;">
+          
+          <!-- Category Pills -->
+          <div style="display:flex; flex-wrap:wrap; gap:0.4rem; align-items:center;" id="categoryPillsContainer">
+            <button type="button" onclick="setCategoryFilter('all')" class="dash-tab-btn active category-filter-pill" data-cat="all" style="padding:0.35rem 0.85rem; font-size:0.78rem; border-radius:8px;">All Leads</button>
+            <button type="button" onclick="setCategoryFilter('Job Seeker')" class="dash-tab-btn category-filter-pill" data-cat="Job Seeker" style="padding:0.35rem 0.85rem; font-size:0.78rem; border-radius:8px;">Job Seekers</button>
+            <button type="button" onclick="setCategoryFilter('Bank CSP Operator')" class="dash-tab-btn category-filter-pill" data-cat="Bank CSP Operator" style="padding:0.35rem 0.85rem; font-size:0.78rem; border-radius:8px;">Bank CSP</button>
+            <button type="button" onclick="setCategoryFilter('Customer')" class="dash-tab-btn category-filter-pill" data-cat="Customer" style="padding:0.35rem 0.85rem; font-size:0.78rem; border-radius:8px;">Household / Home Help</button>
+            <button type="button" onclick="setCategoryFilter('Employer')" class="dash-tab-btn category-filter-pill" data-cat="Employer" style="padding:0.35rem 0.85rem; font-size:0.78rem; border-radius:8px;">Corporate Staffing</button>
+          </div>
+
+          <!-- Bulk Assignment Toolbar -->
+          <div id="bulkActionsToolbar" style="display:none; align-items:center; gap:0.5rem; background:#ECFDF5; border:1px solid #A7F3D0; padding:0.3rem 0.75rem; border-radius:8px;">
+            <span style="font-weight:700; color:#065F46; font-size:0.78rem;"><span id="selectedCount">0</span> selected</span>
+            <span style="color:#A7F3D0;">|</span>
+            <span style="font-size:0.75rem; color:#047857;">Assign to:</span>
+            <select id="bulkAssignSelect" style="padding:0.25rem 0.5rem; font-size:0.75rem; border-radius:6px; border:1px solid #A7F3D0;">
+              <option value="Sarbjeet Parija">Sarbjeet Parija</option>
+              <option value="Priya Sharma">Priya Sharma</option>
+              <option value="Rajesh Nayak">Rajesh Nayak</option>
+            </select>
+            <button type="button" onclick="applyBulkAssignment()" class="btn btn-green btn-sm" style="padding:0.25rem 0.65rem; font-size:0.75rem;">Apply</button>
+          </div>
+
+        </div>
+
       </div>
 
-      <!-- Leads Table -->
+      <!-- EXACT FORMAT LEADS CRM TABLE -->
       <div class="table-responsive">
         <table class="data-table" id="leadsTable">
           <thead>
             <tr>
-              <th>ID &amp; Date</th>
-              <th>Category</th>
-              <th>Name / Business</th>
-              <th>Phone / WhatsApp</th>
-              <th>District / Location</th>
-              <th>Requirement</th>
-              <th>Source / Campaign</th>
+              <th style="width:36px; text-align:center;">
+                <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this.checked)">
+              </th>
+              <th>Lead ID &amp; Date</th>
+              <th>Candidate / Client</th>
+              <th>Category &amp; Role</th>
+              <th>District</th>
+              <th>Traffic Source</th>
               <th>Status</th>
-              <th>Actions</th>
+              <th style="background:#ECFDF5; color:#065F46; border-left:2px solid #10B981; border-right:2px solid #10B981;">
+                ⚡ Assigned To (Admin)
+              </th>
+              <th style="text-align:right;">Actions</th>
             </tr>
           </thead>
           <tbody id="leadsTableBody">
@@ -960,6 +1124,9 @@
 
 
     <!-- =========================================================================
+         TAB 5: INSTAGRAM & YOUTUBE HUB (API-READY)
+         ========================================================================= -->
+    <!-- =========================================================================
          TAB 5: INSTAGRAM & YOUTUBE HUB
          ========================================================================= -->
     <div class="dash-panel" id="panelSocial">
@@ -1287,7 +1454,7 @@
           <div class="infographic-title">
             <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem;">
               <div class="dash-brand-badge" style="padding:4px 10px; border-radius:8px;">
-                <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/icons/logo.svg'); ?>" alt="Odiins Logo" style="height:24px; width:auto; display:block;">
+                <img src="assets/icons/logo.svg" alt="Odiins Logo" style="height:24px; width:auto; display:block;">
               </div>
               <span class="section-badge" style="margin:0;">EXECUTIVE SUMMARY REPORT</span>
             </div>
@@ -1596,36 +1763,72 @@
       }
     }
 
-    // 1. Leads Fetch (Cloud Firestore with static fallbacks)
+    // 1. Leads Fetch (Google Sheets Real-Time Sync & Cloud Firestore)
     async function fetchLeads() {
-      let loadedFromFirestore = false;
+      let loadedFromRemote = false;
+
+      // Try Google Sheets Webhook API first
       try {
-        const fsUrl = `https://firestore.googleapis.com/v1/projects/${FIREBASE_CONFIG.projectId}/databases/(default)/documents/leads?key=${FIREBASE_CONFIG.apiKey}`;
-        const fsRes = await fetch(fsUrl);
-        if (fsRes.ok) {
-          const data = await fsRes.json();
-          if (data && data.documents) {
-            allLeads = data.documents.map(doc => {
-              const fields = doc.fields || {};
-              const obj = {};
-              Object.entries(fields).forEach(([k, v]) => {
-                obj[k] = v.stringValue !== undefined ? v.stringValue : (v.integerValue !== undefined ? v.integerValue : (v.booleanValue !== undefined ? v.booleanValue : ''));
-              });
-              if (!obj.id && doc.name) {
-                const parts = doc.name.split('/');
-                obj.id = parts[parts.length - 1];
-              }
-              return obj;
-            });
-            allLeads.sort((a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0));
-            loadedFromFirestore = true;
+        const gsUrl = 'https://script.google.com/macros/s/AKfycbxDILgSywLAoCkiHEs2s2GpBLPINg5kIEHKurjwMy60gJrckHlRIGrvwr5aJJOfd0je/exec?action=getLeads';
+        const gsRes = await fetch(gsUrl);
+        if (gsRes.ok) {
+          const gsData = await gsRes.json();
+          if (gsData && gsData.leads && Array.isArray(gsData.leads) && gsData.leads.length > 0) {
+            allLeads = gsData.leads.map(l => ({
+              id: l.id,
+              timestamp: l.date,
+              formType: l.category,
+              category: l.category,
+              name: l.name,
+              phone: l.phone,
+              district: l.district,
+              location: l.location,
+              requirement: l.requirement,
+              adSource: l.source,
+              campaign: l.campaign,
+              status: l.status || 'New',
+              assignedTo: l.assignedTo || 'Unassigned',
+              notes: l.notes || '',
+              message: l.notes || ''
+            }));
+            loadedFromRemote = true;
           }
         }
-      } catch (err) {
-        console.warn('Firestore fetch notice:', err);
+      } catch (e) {
+        console.warn('Google Sheets sync notice:', e);
       }
 
-      if (!loadedFromFirestore) {
+      // Fallback to Cloud Firestore
+      if (!loadedFromRemote) {
+        try {
+          const fsUrl = `https://firestore.googleapis.com/v1/projects/${FIREBASE_CONFIG.projectId}/databases/(default)/documents/leads?key=${FIREBASE_CONFIG.apiKey}`;
+          const fsRes = await fetch(fsUrl);
+          if (fsRes.ok) {
+            const data = await fsRes.json();
+            if (data && data.documents) {
+              allLeads = data.documents.map(doc => {
+                const fields = doc.fields || {};
+                const obj = {};
+                Object.entries(fields).forEach(([k, v]) => {
+                  obj[k] = v.stringValue !== undefined ? v.stringValue : (v.integerValue !== undefined ? v.integerValue : (v.booleanValue !== undefined ? v.booleanValue : ''));
+                });
+                if (!obj.id && doc.name) {
+                  const parts = doc.name.split('/');
+                  obj.id = parts[parts.length - 1];
+                }
+                if (!obj.assignedTo) obj.assignedTo = 'Unassigned';
+                return obj;
+              });
+              allLeads.sort((a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0));
+              loadedFromRemote = true;
+            }
+          }
+        } catch (err) {
+          console.warn('Firestore fetch notice:', err);
+        }
+      }
+
+      if (!loadedFromRemote) {
         try {
           let res = await fetch('/api/leads');
           if (!res.ok) {
@@ -1940,8 +2143,7 @@
       try {
         let res = await fetch('/api/social-stats');
         if (!res.ok) {
-          const themeBase = (window.odiins_wp && window.odiins_wp.theme_url) ? window.odiins_wp.theme_url + '/../../data/social_settings.json' : './data/social_settings.json';
-          res = await fetch(themeBase);
+          res = await fetch('./data/social_settings.json');
         }
         if (res.ok) {
           socialData = await res.json();
@@ -1949,8 +2151,7 @@
         }
       } catch (e) {
         try {
-          const themeBase = (window.odiins_wp && window.odiins_wp.theme_url) ? window.odiins_wp.theme_url + '/../../data/social_settings.json' : './data/social_settings.json';
-          const res = await fetch(themeBase);
+          const res = await fetch('./data/social_settings.json');
           if (res.ok) {
             socialData = await res.json();
             renderSocialTab();
@@ -2024,7 +2225,7 @@
       try {
         let res = await fetch('/api/ad-settings');
         if (!res.ok) {
-          res = await fetch('<?php echo esc_url(get_template_directory_uri()); ?>/data/ad_settings.json');
+          res = await fetch('./data/ad_settings.json');
         }
         if (res.ok) {
           adSettingsData = await res.json();
@@ -2032,7 +2233,7 @@
         }
       } catch (e) {
         try {
-          const res = await fetch('<?php echo esc_url(get_template_directory_uri()); ?>/data/ad_settings.json');
+          const res = await fetch('./data/ad_settings.json');
           if (res.ok) {
             adSettingsData = await res.json();
             renderAdSettings();
@@ -2247,107 +2448,430 @@
       showToast('Campaign link copied to clipboard!', 'success');
     }
 
+    // Global CRM State
+    let currentCategoryFilter = 'all';
+    let selectedLeadIds = new Set();
+    let currentDrawerLeadId = null;
+
+    function getCategoryBadgeClass(category) {
+      const c = (category || '').toLowerCase();
+      if (c.includes('job')) return 'badge-job';
+      if (c.includes('csp') || c.includes('bank')) return 'badge-csp';
+      if (c.includes('customer') || c.includes('household') || c.includes('maid') || c.includes('cook')) return 'badge-home';
+      return 'badge-corp';
+    }
+
+    function getStatusBadgeClass(status) {
+      switch (status) {
+        case 'New': return 'status-new';
+        case 'In Progress': return 'status-progress';
+        case 'Interview Scheduled': return 'status-interview';
+        case 'Closed':
+        case 'Closed / Placed': return 'status-closed';
+        default: return 'status-lost';
+      }
+    }
+
+    function generateWhatsAppUrl(lead) {
+      const cleanPhone = (lead.phone || '').replace(/[^0-9]/g, '');
+      let msg = '';
+      if ((lead.category || lead.formType || '').includes('Job')) {
+        msg = `Namaskar ${lead.name} ji! Greetings from Odiins Global Services, Bhubaneswar.\n\nWe received your application for the ${lead.requirement || 'job'} vacancy in ${lead.district || lead.location || 'Odisha'}. When is a good time today for a quick 5-minute phone interview?`;
+      } else if ((lead.category || lead.formType || '').includes('CSP') || (lead.category || lead.formType || '').includes('Bank')) {
+        msg = `Namaskar ${lead.name} ji! This is regarding your Bank CSP Center vacancy application for ${lead.district || lead.location || 'Odisha'} with Odiins. We would like to verify your shop location and documents. Please let us know when we can connect.`;
+      } else {
+        msg = `Namaskar ${lead.name} ji! Greetings from Odiins Global Services. Regarding your requirement for ${lead.requirement || 'services'}, our coordinator is ready to assist you.`;
+      }
+      return `https://wa.me/91${cleanPhone}?text=${encodeURIComponent(msg)}`;
+    }
+
+    function updateStats() {
+      const total = allLeads.length;
+      const unassigned = allLeads.filter(l => !l.assignedTo || l.assignedTo === 'Unassigned').length;
+      const inProg = allLeads.filter(l => l.status === 'In Progress').length;
+      const interview = allLeads.filter(l => l.status === 'Interview Scheduled').length;
+      const closed = allLeads.filter(l => l.status === 'Closed' || l.status === 'Closed / Placed').length;
+
+      const elTotal = document.getElementById('statTotalLeads');
+      const elUnassigned = document.getElementById('statUnassignedLeads');
+      const elProg = document.getElementById('statInProgressLeads');
+      const elInterview = document.getElementById('statInterviewLeads');
+      const elClosed = document.getElementById('statClosedLeads');
+
+      if (elTotal) elTotal.textContent = total;
+      if (elUnassigned) elUnassigned.textContent = unassigned;
+      if (elProg) elProg.textContent = inProg;
+      if (elInterview) elInterview.textContent = interview;
+      if (elClosed) elClosed.textContent = closed;
+    }
+
+    function setCategoryFilter(cat) {
+      currentCategoryFilter = cat;
+      document.querySelectorAll('#categoryPillsContainer .category-filter-pill').forEach(btn => {
+        if (btn.getAttribute('data-cat') === cat) {
+          btn.className = 'dash-tab-btn active category-filter-pill';
+        } else {
+          btn.className = 'dash-tab-btn category-filter-pill';
+        }
+      });
+      renderLeads();
+    }
+
+    function filterByQuickKpi(type) {
+      const assignedSelect = document.getElementById('filterAssignedTo');
+      const statusSelect = document.getElementById('filterStatus');
+
+      if (type === 'unassigned') {
+        if (assignedSelect) assignedSelect.value = 'Unassigned';
+        if (statusSelect) statusSelect.value = 'all';
+      } else if (type === 'in-progress') {
+        if (statusSelect) statusSelect.value = 'In Progress';
+        if (assignedSelect) assignedSelect.value = 'all';
+      } else if (type === 'interview') {
+        if (statusSelect) statusSelect.value = 'Interview Scheduled';
+        if (assignedSelect) assignedSelect.value = 'all';
+      } else if (type === 'closed') {
+        if (statusSelect) statusSelect.value = 'Closed';
+        if (assignedSelect) assignedSelect.value = 'all';
+      } else {
+        if (assignedSelect) assignedSelect.value = 'all';
+        if (statusSelect) statusSelect.value = 'all';
+      }
+      renderLeads();
+    }
+
     function renderLeads() {
       const tbody = document.getElementById('leadsTableBody');
-      const search = (document.getElementById('leadSearchInput').value || '').toLowerCase().trim();
-      const cat = document.getElementById('filterCategory').value;
-      const adSrc = document.getElementById('filterAdSource').value;
-      const status = document.getElementById('filterStatus').value;
+      const search = (document.getElementById('leadSearchInput') ? document.getElementById('leadSearchInput').value : '').toLowerCase().trim();
+      const cat = currentCategoryFilter;
+      const assigned = document.getElementById('filterAssignedTo') ? document.getElementById('filterAssignedTo').value : 'all';
+      const district = document.getElementById('filterDistrict') ? document.getElementById('filterDistrict').value : 'all';
+      const status = document.getElementById('filterStatus') ? document.getElementById('filterStatus').value : 'all';
+      const adSrc = document.getElementById('filterAdSource') ? document.getElementById('filterAdSource').value : 'all';
 
       const filtered = allLeads.filter(lead => {
-        const matchesCat = (cat === 'all' || lead.formType === cat);
+        const leadCat = lead.category || lead.formType || '';
+        const matchesCat = (cat === 'all' || leadCat === cat || (cat === 'Job Seeker' && leadCat.includes('Job')) || (cat === 'Bank CSP Operator' && leadCat.includes('CSP')));
+        const matchesAssigned = (assigned === 'all' || (assigned === 'Unassigned' ? (!lead.assignedTo || lead.assignedTo === 'Unassigned') : lead.assignedTo === assigned));
+        const leadDist = (lead.district || lead.location || '').toLowerCase();
+        const matchesDistrict = (district === 'all' || leadDist.includes(district.toLowerCase()));
+        const matchesStatus = (status === 'all' || lead.status === status || (status === 'Closed' && (lead.status === 'Closed' || lead.status === 'Closed / Placed')));
         const matchesAd = (adSrc === 'all' || (lead.adSource || '').includes(adSrc));
-        const matchesStatus = (status === 'all' || lead.status === status);
-        const text = `${lead.name} ${lead.phone} ${lead.location} ${lead.requirement} ${lead.id} ${lead.adSource} ${lead.campaign}`.toLowerCase();
+
+        const text = `${lead.name} ${lead.phone} ${lead.location} ${lead.district} ${lead.requirement} ${lead.id} ${lead.adSource} ${lead.campaign} ${lead.notes || ''} ${lead.assignedTo || ''}`.toLowerCase();
         const matchesSearch = !search || text.includes(search);
-        return matchesCat && matchesAd && matchesStatus && matchesSearch;
+
+        return matchesCat && matchesAssigned && matchesDistrict && matchesStatus && matchesAd && matchesSearch;
       });
 
+      updateStats();
+
       if (!filtered.length) {
-        tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:2rem; color:var(--text-muted);">No leads found matching criteria.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:2.5rem; color:var(--text-muted); font-size:0.85rem;">No leads found matching criteria. Try adjusting your search query or executive assignment filter.</td></tr>`;
         return;
       }
 
       tbody.innerHTML = filtered.map(lead => {
-        const dateStr = new Date(lead.timestamp).toLocaleDateString('en-IN', {
-          day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
-        });
+        let dateStr = '';
+        try {
+          dateStr = new Date(lead.timestamp).toLocaleDateString('en-IN', {
+            day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+          });
+        } catch (e) {
+          dateStr = lead.timestamp || '';
+        }
 
-        let catBadgeClass = 'badge-job-seeker';
-        if (lead.formType === 'Employer') catBadgeClass = 'badge-employer';
-        if (lead.formType === 'Customer') catBadgeClass = 'badge-customer';
-        if (lead.formType === 'Contact Enquiry') catBadgeClass = 'badge-contact';
-
-        let adBadgeClass = 'badge-ad-organic';
-        if ((lead.adSource || '').includes('Google')) adBadgeClass = 'badge-ad-google';
-        if ((lead.adSource || '').includes('Meta')) adBadgeClass = 'badge-ad-meta';
-
+        const isUnassigned = !lead.assignedTo || lead.assignedTo === 'Unassigned';
+        const isChecked = selectedLeadIds.has(lead.id);
         const cleanPhone = (lead.phone || '').replace(/[^0-9]/g, '');
-        const waText = encodeURIComponent(`Hello ${lead.name}, this is Odiins reaching out regarding your ${lead.requirement} enquiry.`);
+        const leadCategory = lead.category || lead.formType || 'Job Seeker';
+        const leadDistrict = lead.district || lead.location || 'Bhubaneswar';
+        const waUrl = generateWhatsAppUrl(lead);
 
         return `
-          <tr>
-            <td><strong>${lead.id}</strong><br><span style="font-size:0.75rem; color:var(--text-muted);">${dateStr}</span></td>
-            <td><span class="badge-lead-type ${catBadgeClass}">${lead.formType}</span></td>
-            <td><strong>${lead.name}</strong></td>
-            <td><a href="tel:${cleanPhone}" style="color:var(--primary-green); font-weight:600;">${lead.phone}</a></td>
-            <td>${lead.location}</td>
-            <td>${lead.requirement}</td>
-            <td>
-              <span class="badge-lead-type ${adBadgeClass}">${lead.adSource || 'Organic'}</span><br>
-              <span style="font-size:0.7rem; color:var(--text-muted);">${lead.campaign || 'direct'}</span>
+          <tr style="${isUnassigned ? 'background:#FFFBEB;' : ''}">
+            
+            <!-- Checkbox -->
+            <td style="text-align:center;">
+              <input type="checkbox" onchange="toggleSelectLead('${lead.id}', this.checked)" ${isChecked ? 'checked' : ''}>
             </td>
-            <td>
-              <select onchange="changeLeadStatus('${lead.id}', this.value)" style="padding:0.25rem; font-size:0.75rem; border-radius:4px; border:1px solid var(--border-light);">
-                <option value="New" ${lead.status === 'New' ? 'selected' : ''}>New</option>
-                <option value="Contacted" ${lead.status === 'Contacted' ? 'selected' : ''}>Contacted</option>
-                <option value="In Progress" ${lead.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
-                <option value="Closed" ${lead.status === 'Closed' ? 'selected' : ''}>Closed</option>
-              </select>
+
+            <!-- 1. Lead ID & Date -->
+            <td style="white-space:nowrap;">
+              <div style="display:flex; align-items:center; gap:0.35rem;">
+                <strong style="font-family:monospace; color:#0F172A; font-size:0.8rem;">${lead.id}</strong>
+                <button type="button" onclick="copyToClipboard('${lead.id}')" title="Copy ID" style="background:none; border:none; cursor:pointer; font-size:0.75rem; color:#94A3B8; padding:0;">📋</button>
+              </div>
+              <span style="font-size:0.72rem; color:var(--text-muted); display:block; margin-top:2px;">${dateStr}</span>
             </td>
+
+            <!-- 2. Candidate / Client -->
             <td>
-              <div style="display:flex; gap:0.4rem;">
-                <a href="tel:${cleanPhone}" class="btn btn-green btn-sm" title="Call Now" style="padding:0.3rem 0.6rem;">📞</a>
-                <a href="https://wa.me/91${cleanPhone}?text=${waText}" target="_blank" class="btn btn-sm" style="background:#25D366; color:#FFF; padding:0.3rem 0.6rem;" title="WhatsApp">💬</a>
-                <button onclick="deleteLead('${lead.id}')" class="btn btn-white btn-sm" style="color:#DC2626; padding:0.3rem 0.6rem;" title="Delete">🗑️</button>
+              <div onclick="openDetailsDrawer('${lead.id}')" style="cursor:pointer; font-weight:700; color:#1E293B; display:flex; align-items:center; gap:0.25rem;">
+                <span>${lead.name}</span>
+                <span style="font-size:0.75rem; color:#10B981;" title="View Micro Details">↗</span>
+              </div>
+              <div style="font-size:0.75rem; font-family:monospace; color:#475569; margin-top:2px; display:flex; align-items:center; gap:0.35rem;">
+                <a href="tel:${cleanPhone}" style="color:var(--primary-green); font-weight:600; text-decoration:none;">${lead.phone}</a>
+                <a href="${waUrl}" target="_blank" style="text-decoration:none;" title="WhatsApp">💬</a>
               </div>
             </td>
+
+            <!-- 3. Category & Role -->
+            <td>
+              <span class="${getCategoryBadgeClass(leadCategory)}">${leadCategory}</span>
+              <div style="font-size:0.78rem; font-weight:600; color:#1E293B; margin-top:3px;">${lead.requirement || 'General'}</div>
+            </td>
+
+            <!-- 4. District -->
+            <td>
+              <div style="font-weight:600; color:#334155; display:flex; align-items:center; gap:0.25rem;">
+                <span style="color:#10B981;">📍</span>
+                <span>${leadDistrict}</span>
+              </div>
+              ${lead.location && lead.location !== leadDistrict ? `<div style="font-size:0.7rem; color:#64748B; margin-top:1px;">${lead.location}</div>` : ''}
+            </td>
+
+            <!-- 5. Traffic Source -->
+            <td style="white-space:nowrap;">
+              <span class="badge-lead-type badge-ad-organic" style="font-size:0.7rem;">${lead.adSource || 'Direct / Organic'}</span>
+              <div style="font-size:0.68rem; font-family:monospace; color:#94A3B8; margin-top:2px;">${lead.campaign || 'direct'}</div>
+            </td>
+
+            <!-- 6. Status -->
+            <td>
+              <select onchange="changeLeadStatus('${lead.id}', this.value)" class="status-badge-select ${getStatusBadgeClass(lead.status)}">
+                <option value="New" ${lead.status === 'New' ? 'selected' : ''}>New</option>
+                <option value="In Progress" ${lead.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                <option value="Interview Scheduled" ${lead.status === 'Interview Scheduled' ? 'selected' : ''}>Interview Scheduled</option>
+                <option value="Closed" ${lead.status === 'Closed' || lead.status === 'Closed / Placed' ? 'selected' : ''}>Closed / Placed</option>
+                <option value="Not Interested" ${lead.status === 'Not Interested' ? 'selected' : ''}>Not Interested</option>
+              </select>
+            </td>
+
+            <!-- 7. Assigned To (Admin Assignment Column) -->
+            <td style="background:#F0FDF4; border-left:1.5px solid #BBF7D0; border-right:1.5px solid #BBF7D0;">
+              <select onchange="assignExecutive('${lead.id}', this.value)" class="assigned-select ${isUnassigned ? 'assigned-unassigned' : 'assigned-active'}">
+                <option value="Unassigned" ${isUnassigned ? 'selected' : ''}>⚠️ Unassigned</option>
+                <option value="Sarbjeet Parija" ${lead.assignedTo === 'Sarbjeet Parija' ? 'selected' : ''}>Sarbjeet Parija (Admin)</option>
+                <option value="Priya Sharma" ${lead.assignedTo === 'Priya Sharma' ? 'selected' : ''}>Priya Sharma</option>
+                <option value="Rajesh Nayak" ${lead.assignedTo === 'Rajesh Nayak' ? 'selected' : ''}>Rajesh Nayak</option>
+              </select>
+            </td>
+
+            <!-- 8. Actions -->
+            <td style="text-align:right; white-space:nowrap;">
+              <div style="display:inline-flex; gap:0.35rem; align-items:center;">
+                <button type="button" onclick="openDetailsDrawer('${lead.id}')" class="btn btn-white btn-sm" title="View Full Details" style="padding:0.3rem 0.55rem; font-size:0.8rem;">🔍</button>
+                <a href="tel:${cleanPhone}" class="btn btn-green btn-sm" title="Call Now" style="padding:0.3rem 0.55rem; font-size:0.8rem;">📞</a>
+                <a href="${waUrl}" target="_blank" class="btn btn-sm" style="background:#25D366; color:#FFF; padding:0.3rem 0.55rem; font-size:0.8rem;" title="WhatsApp">💬</a>
+                <button type="button" onclick="deleteLead('${lead.id}')" class="btn btn-white btn-sm" style="color:#DC2626; padding:0.3rem 0.55rem; font-size:0.8rem;" title="Delete">🗑️</button>
+              </div>
+            </td>
+
           </tr>
         `;
       }).join('');
     }
 
-    async function changeLeadStatus(id, newStatus) {
-      // 1. Sync status change to Cloud Firestore
+    // Two-Way Sync to Google Sheets Webhook
+    async function syncLeadToGoogleSheet(leadId, status, assignedTo, notes) {
       try {
-        const url = `https://firestore.googleapis.com/v1/projects/${FIREBASE_CONFIG.projectId}/databases/(default)/documents/leads/${id}?updateMask.fieldPaths=status&key=${FIREBASE_CONFIG.apiKey}`;
-        await fetch(url, {
-          method: 'PATCH',
+        await fetch('https://script.google.com/macros/s/AKfycbxDILgSywLAoCkiHEs2s2GpBLPINg5kIEHKurjwMy60gJrckHlRIGrvwr5aJJOfd0je/exec', {
+          method: 'POST',
+          mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            fields: {
-              status: { stringValue: newStatus }
-            }
+            action: 'updateLead',
+            id: leadId,
+            status: status,
+            assignedTo: assignedTo,
+            notes: notes
           })
         });
-      } catch (e) {
-        console.warn('Firestore status patch warning:', e);
+      } catch (err) {
+        console.warn('Google Sheet update notice:', err);
       }
+    }
 
-      // 2. Local Node backend sync if active
-      try {
-        await fetch(`/api/leads/${id}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ status: newStatus })
-        });
-      } catch (e) {}
-
+    async function assignExecutive(id, executive) {
       const item = allLeads.find(l => l.id === id);
-      if (item) item.status = newStatus;
+      if (item) {
+        item.assignedTo = executive;
+        if (executive !== 'Unassigned' && item.status === 'New') {
+          item.status = 'In Progress';
+        }
+        renderLeads();
+        renderInfographicReport();
+
+        // 1. Sync to Google Sheets
+        syncLeadToGoogleSheet(id, item.status, item.assignedTo, item.notes || '');
+
+        // 2. Sync to Cloud Firestore
+        try {
+          const url = `https://firestore.googleapis.com/v1/projects/${FIREBASE_CONFIG.projectId}/databases/(default)/documents/leads/${id}?updateMask.fieldPaths=assignedTo&updateMask.fieldPaths=status&key=${FIREBASE_CONFIG.apiKey}`;
+          await fetch(url, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              fields: {
+                assignedTo: { stringValue: executive },
+                status: { stringValue: item.status }
+              }
+            })
+          });
+        } catch (e) {}
+
+        showToast(`✓ Assigned ${item.name} to ${executive} (Synced to Google Sheet)`, 'success');
+      }
+    }
+
+    async function changeLeadStatus(id, newStatus) {
+      const item = allLeads.find(l => l.id === id);
+      if (item) {
+        item.status = newStatus;
+        renderLeads();
+        renderInfographicReport();
+
+        // 1. Sync to Google Sheets
+        syncLeadToGoogleSheet(id, newStatus, item.assignedTo || 'Unassigned', item.notes || '');
+
+        // 2. Sync to Cloud Firestore
+        try {
+          const url = `https://firestore.googleapis.com/v1/projects/${FIREBASE_CONFIG.projectId}/databases/(default)/documents/leads/${id}?updateMask.fieldPaths=status&key=${FIREBASE_CONFIG.apiKey}`;
+          await fetch(url, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              fields: {
+                status: { stringValue: newStatus }
+              }
+            })
+          });
+        } catch (e) {}
+
+        showToast(`✓ Lead ${id} updated to ${newStatus} (Synced to Google Sheet)`, 'success');
+      }
+    }
+
+    // Micro-Details Slide-Over Drawer Functions
+    function openDetailsDrawer(id) {
+      currentDrawerLeadId = id;
+      const lead = allLeads.find(l => l.id === id);
+      if (!lead) return;
+
+      document.getElementById('drawerLeadId').textContent = lead.id;
+      document.getElementById('drawerCandidateName').textContent = lead.name;
+      document.getElementById('drawerPhone').textContent = '+91 ' + (lead.phone || '');
+      document.getElementById('drawerLocation').textContent = (lead.district || lead.location || 'Bhubaneswar') + (lead.location && lead.location !== lead.district ? ' (' + lead.location + ')' : '');
+      document.getElementById('drawerCategory').textContent = lead.category || lead.formType || 'Job Seeker';
+      document.getElementById('drawerRequirement').textContent = lead.requirement || 'General Enquiry';
+      document.getElementById('drawerSource').textContent = lead.adSource || 'Direct / Organic';
+      document.getElementById('drawerCampaign').textContent = lead.campaign || 'direct';
+      document.getElementById('drawerDate').textContent = lead.timestamp || '';
+
+      document.getElementById('drawerAssignedSelect').value = lead.assignedTo || 'Unassigned';
+      document.getElementById('drawerStatusSelect').value = lead.status || 'New';
+      document.getElementById('drawerNotes').value = lead.notes || lead.message || '';
+
+      const cleanPhone = (lead.phone || '').replace(/[^0-9]/g, '');
+      document.getElementById('drawerCallBtn').href = `tel:${cleanPhone}`;
+      document.getElementById('drawerWaBtn').href = generateWhatsAppUrl(lead);
+
+      const drawer = document.getElementById('crmDetailsDrawer');
+      if (drawer) drawer.classList.add('active');
+    }
+
+    function closeDetailsDrawer() {
+      const drawer = document.getElementById('crmDetailsDrawer');
+      if (drawer) drawer.classList.remove('active');
+      currentDrawerLeadId = null;
+    }
+
+    function handleDrawerOverlayClick(e) {
+      if (e.target && e.target.id === 'crmDetailsDrawer') {
+        closeDetailsDrawer();
+      }
+    }
+
+    function syncDrawerAssignment(val) {
+      if (currentDrawerLeadId) {
+        assignExecutive(currentDrawerLeadId, val);
+      }
+    }
+
+    function syncDrawerStatus(val) {
+      if (currentDrawerLeadId) {
+        changeLeadStatus(currentDrawerLeadId, val);
+      }
+    }
+
+    function saveDrawerNotes() {
+      if (!currentDrawerLeadId) return;
+      const lead = allLeads.find(l => l.id === currentDrawerLeadId);
+      if (lead) {
+        lead.notes = document.getElementById('drawerNotes').value.trim();
+        lead.message = lead.notes;
+        syncLeadToGoogleSheet(lead.id, lead.status, lead.assignedTo || 'Unassigned', lead.notes);
+        showToast(`✓ Remarks saved for ${lead.name} and synced to Google Sheet`, 'success');
+        renderLeads();
+      }
+    }
+
+    // Checkbox & Bulk Selection
+    function toggleSelectLead(id, checked) {
+      if (checked) {
+        selectedLeadIds.add(id);
+      } else {
+        selectedLeadIds.delete(id);
+      }
+      updateBulkToolbar();
+    }
+
+    function toggleSelectAll(checked) {
+      if (checked) {
+        allLeads.forEach(l => selectedLeadIds.add(l.id));
+      } else {
+        selectedLeadIds.clear();
+      }
+      updateBulkToolbar();
+      renderLeads();
+    }
+
+    function updateBulkToolbar() {
+      const toolbar = document.getElementById('bulkActionsToolbar');
+      const countEl = document.getElementById('selectedCount');
+      if (!toolbar || !countEl) return;
+      const count = selectedLeadIds.size;
+      countEl.textContent = count;
+      toolbar.style.display = count > 0 ? 'inline-flex' : 'none';
+    }
+
+    function applyBulkAssignment() {
+      const exec = document.getElementById('bulkAssignSelect').value;
+      if (!exec) return;
+
+      selectedLeadIds.forEach(id => {
+        const item = allLeads.find(l => l.id === id);
+        if (item) {
+          item.assignedTo = exec;
+          if (item.status === 'New') item.status = 'In Progress';
+          syncLeadToGoogleSheet(item.id, item.status, item.assignedTo, item.notes || '');
+        }
+      });
+
+      showToast(`✓ Assigned ${selectedLeadIds.size} leads to ${exec}`, 'success');
+      selectedLeadIds.clear();
+      const selectAllBox = document.getElementById('selectAllCheckbox');
+      if (selectAllBox) selectAllBox.checked = false;
+      updateBulkToolbar();
       renderLeads();
       renderInfographicReport();
-      showToast(`✓ Lead ${id} marked as ${newStatus} in Cloud Firestore`, 'success');
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text);
+      showToast(`Copied ${text}`, 'info');
     }
 
     async function deleteLead(id) {
@@ -2371,14 +2895,24 @@
       updateStats();
       updateAdsTabMetrics();
       renderInfographicReport();
-      showToast(`Lead ${id} removed from Cloud Firestore.`, 'info');
+      showToast(`Lead ${id} removed.`, 'info');
     }
 
     function setupToolbar() {
-      document.getElementById('leadSearchInput').addEventListener('input', renderLeads);
-      document.getElementById('filterCategory').addEventListener('change', renderLeads);
-      document.getElementById('filterAdSource').addEventListener('change', renderLeads);
-      document.getElementById('filterStatus').addEventListener('change', renderLeads);
+      const search = document.getElementById('leadSearchInput');
+      if (search) search.addEventListener('input', renderLeads);
+
+      const assigned = document.getElementById('filterAssignedTo');
+      if (assigned) assigned.addEventListener('change', renderLeads);
+
+      const district = document.getElementById('filterDistrict');
+      if (district) district.addEventListener('change', renderLeads);
+
+      const status = document.getElementById('filterStatus');
+      if (status) status.addEventListener('change', renderLeads);
+
+      const adSource = document.getElementById('filterAdSource');
+      if (adSource) adSource.addEventListener('change', renderLeads);
     }
 
     function renderEmailLog() {
@@ -2542,5 +3076,119 @@
       }, 3500);
     }
   </script>
+  <!-- MICRO-DETAILS SLIDE-OVER DRAWER -->
+  <div id="crmDetailsDrawer" class="crm-drawer-overlay" onclick="handleDrawerOverlayClick(event)">
+    <div class="crm-drawer-panel" onclick="event.stopPropagation()">
+      
+      <!-- Drawer Header -->
+      <div style="padding:1.25rem 1.5rem; border-bottom:1px solid #E2E8F0; background:#F8FAFC; display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <div style="width:42px; height:42px; border-radius:10px; background:#157347; color:#FFF; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;">
+            👤
+          </div>
+          <div>
+            <h3 id="drawerCandidateName" style="font-size:1.1rem; font-weight:700; color:#1E293B; margin:0;">Candidate Name</h3>
+            <div style="font-size:0.75rem; color:#64748B; font-family:monospace; margin-top:2px;">Lead ID: <span id="drawerLeadId" style="font-weight:700; color:#0F172A;">OD-XXXX</span></div>
+          </div>
+        </div>
+        <button type="button" onclick="closeDetailsDrawer()" style="background:none; border:none; font-size:1.5rem; color:#94A3B8; cursor:pointer; line-height:1;">&times;</button>
+      </div>
+
+      <!-- Drawer Body -->
+      <div style="padding:1.5rem; overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:1.25rem;">
+        
+        <!-- Assignment & Status Controls Box -->
+        <div style="background:#F0FDF4; border:1px solid #BBF7D0; border-radius:12px; padding:1rem; display:flex; flex-direction:column; gap:0.75rem;">
+          <div style="font-size:0.75rem; font-weight:700; color:#166534; text-transform:uppercase;">⚡ Admin Assignment &amp; Workflow</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+            <div>
+              <label style="display:block; font-size:0.75rem; color:#475569; font-weight:600; margin-bottom:0.25rem;">Assigned Executive:</label>
+              <select id="drawerAssignedSelect" onchange="syncDrawerAssignment(this.value)" class="form-control" style="font-size:0.8rem; font-weight:600;">
+                <option value="Unassigned">⚠️ Unassigned</option>
+                <option value="Sarbjeet Parija">Sarbjeet Parija (Admin)</option>
+                <option value="Priya Sharma">Priya Sharma</option>
+                <option value="Rajesh Nayak">Rajesh Nayak</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block; font-size:0.75rem; color:#475569; font-weight:600; margin-bottom:0.25rem;">Current Status:</label>
+              <select id="drawerStatusSelect" onchange="syncDrawerStatus(this.value)" class="form-control" style="font-size:0.8rem; font-weight:600;">
+                <option value="New">New</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Interview Scheduled">Interview Scheduled</option>
+                <option value="Closed">Closed / Placed</option>
+                <option value="Not Interested">Not Interested</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Demographics Profile -->
+        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+          <div style="font-size:0.75rem; font-weight:700; color:#94A3B8; text-transform:uppercase;">Candidate Profile</div>
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1rem; display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; font-size:0.8rem;">
+            <div>
+              <span style="font-size:0.7rem; color:#94A3B8; display:block; text-transform:uppercase;">Phone Number</span>
+              <span id="drawerPhone" style="font-weight:700; font-family:monospace; color:#0F172A; display:block; margin-top:2px;"></span>
+            </div>
+            <div>
+              <span style="font-size:0.7rem; color:#94A3B8; display:block; text-transform:uppercase;">District &amp; Location</span>
+              <span id="drawerLocation" style="font-weight:600; color:#334155; display:block; margin-top:2px;"></span>
+            </div>
+            <div>
+              <span style="font-size:0.7rem; color:#94A3B8; display:block; text-transform:uppercase;">Category</span>
+              <span id="drawerCategory" style="font-weight:600; color:#157347; display:block; margin-top:2px;"></span>
+            </div>
+            <div>
+              <span style="font-size:0.7rem; color:#94A3B8; display:block; text-transform:uppercase;">Applied Role / Requirement</span>
+              <span id="drawerRequirement" style="font-weight:700; color:#0F172A; display:block; margin-top:2px;"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Acquisition Intelligence -->
+        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+          <div style="font-size:0.75rem; font-weight:700; color:#94A3B8; text-transform:uppercase;">Acquisition Source</div>
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1rem; display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; font-size:0.8rem;">
+            <div>
+              <span style="font-size:0.7rem; color:#94A3B8; display:block; text-transform:uppercase;">Traffic Source</span>
+              <span id="drawerSource" style="display:inline-block; margin-top:2px; font-weight:600; color:#334155;"></span>
+            </div>
+            <div>
+              <span style="font-size:0.7rem; color:#94A3B8; display:block; text-transform:uppercase;">Campaign ID</span>
+              <span id="drawerCampaign" style="font-family:monospace; color:#475569; display:block; margin-top:2px;"></span>
+            </div>
+            <div style="grid-column:span 2;">
+              <span style="font-size:0.7rem; color:#94A3B8; display:block; text-transform:uppercase;">Submission Timestamp (IST)</span>
+              <span id="drawerDate" style="color:#64748B; display:block; margin-top:2px;"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin Remarks & Notes -->
+        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+          <div style="font-size:0.75rem; font-weight:700; color:#94A3B8; text-transform:uppercase;">Admin Remarks &amp; Follow-up Notes</div>
+          <div>
+            <textarea id="drawerNotes" rows="4" class="form-control" placeholder="Enter remarks (e.g. Spoke with candidate. 2 years experience in FMCG. Ready for Bhubaneswar interview on Thursday 11 AM...)" style="font-size:0.8rem;"></textarea>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem;">
+              <span style="font-size:0.7rem; color:#94A3B8;">Syncs directly to Google Sheet column M</span>
+              <button type="button" onclick="saveDrawerNotes()" class="btn btn-green btn-sm" style="font-size:0.75rem; padding:0.35rem 0.85rem;">Save Remarks</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Drawer Footer -->
+      <div style="padding:1rem 1.5rem; border-top:1px solid #E2E8F0; background:#F8FAFC; display:flex; justify-content:space-between; align-items:center; gap:0.75rem;">
+        <div style="display:flex; gap:0.5rem;">
+          <a id="drawerCallBtn" href="#" class="btn btn-sm" style="background:#EFF6FF; color:#1D4ED8; border:1px solid #BFDBFE; font-size:0.8rem; padding:0.45rem 0.85rem;">📞 Call Now</a>
+          <a id="drawerWaBtn" href="#" target="_blank" class="btn btn-sm" style="background:#25D366; color:#FFF; font-size:0.8rem; padding:0.45rem 0.85rem;">💬 WhatsApp</a>
+        </div>
+        <button type="button" onclick="closeDetailsDrawer()" class="btn btn-white btn-sm" style="font-size:0.8rem; padding:0.45rem 0.85rem;">Close</button>
+      </div>
+
+    </div>
+  </div>
 </body>
 </html>
