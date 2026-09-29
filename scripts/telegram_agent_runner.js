@@ -397,7 +397,8 @@ async function executeGeminiModel(modelName, contents) {
   const res1 = await fetch(endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(req1)
+    body: JSON.stringify(req1),
+    signal: AbortSignal.timeout(12000)
   });
 
   const data1 = await res1.json();
@@ -458,7 +459,8 @@ async function executeGeminiModel(modelName, contents) {
     const res2 = await fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(req2)
+      body: JSON.stringify(req2),
+      signal: AbortSignal.timeout(15000)
     });
 
     const data2 = await res2.json();
@@ -596,27 +598,58 @@ async function getSmartLocalFallback(rawText) {
 // ==============================================================================
 
 async function sendTelegramMessage(chatId, text, keyboard = null) {
-  const payload = {
-    chat_id: chatId,
-    text: text,
-    parse_mode: 'HTML',
-    disable_web_page_preview: true
-  };
-  if (keyboard) {
-    payload.reply_markup = keyboard;
-  }
+  if (!text) return;
 
+  // 1. First attempt: with HTML parse mode
   try {
+    const payload = {
+      chat_id: chatId,
+      text: text,
+      parse_mode: 'HTML',
+      disable_web_page_preview: true
+    };
+    if (keyboard) payload.reply_markup = keyboard;
+
     const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(10000)
     });
-    return await res.json();
+    const data = await res.json();
+    if (data.ok) return data;
+
+    console.warn(`Telegram HTML delivery failed (${data.description}). Retrying in plain text...`);
   } catch (err) {
-    console.error('Failed to send Telegram message:', err.message);
+    console.warn(`Telegram send error: ${err.message}. Retrying in plain text...`);
+  }
+
+  // 2. Guaranteed fallback: strip HTML and send as plain text
+  try {
+    const plainText = text
+      .replace(/<br\s*\/?>/gi, '\n')
+      .replace(/<\/p>/gi, '\n\n')
+      .replace(/<[^>]+>/g, '');
+
+    const payload2 = {
+      chat_id: chatId,
+      text: plainText,
+      disable_web_page_preview: true
+    };
+    if (keyboard) payload2.reply_markup = keyboard;
+
+    const res2 = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload2),
+      signal: AbortSignal.timeout(10000)
+    });
+    return await res2.json();
+  } catch (err) {
+    console.error('Final Telegram delivery error:', err.message);
   }
 }
+
 
 async function answerCallbackQuery(callbackQueryId, text = '') {
   try {
