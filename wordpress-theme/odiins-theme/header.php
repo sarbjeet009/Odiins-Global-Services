@@ -83,6 +83,7 @@
 
       <!-- Action Buttons -->
       <div class="navbar-actions">
+        <div class="auth-nav-slot"></div>
         <a href="<?php echo esc_url(home_url('/services-job-seekers/')); ?>" class="btn btn-green btn-sm">Get Started</a>
         <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Open Navigation Menu">
           <span></span><span></span><span></span>
@@ -114,7 +115,8 @@
       <a href="<?php echo esc_url(home_url('/blogs/')); ?>" class="drawer-link">Blogs</a>
       <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="drawer-link">Contact Us</a>
     </div>
-    <div class="drawer-footer">
+    <div class="drawer-footer" style="display:flex; flex-direction:column; gap:10px;">
+      <div class="auth-nav-slot" style="display:flex; justify-content:center;"></div>
       <a href="tel:+919938079601" class="btn btn-green btn-block">📞 Call +91 99380 79601</a>
     </div>
   </aside>

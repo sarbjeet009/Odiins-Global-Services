@@ -387,6 +387,7 @@ function initNewsletterForm() {
 }
 
 // Automatically populate form fields when user is signed in with Google
+// Automatically populate form fields when user is signed in with Google
 function initAuthFormAutoFill() {
   function applyUserToForms(user) {
     const forms = document.querySelectorAll('form');
@@ -396,20 +397,33 @@ function initAuthFormAutoFill() {
       let notice = form.querySelector('.form-autofill-notice');
       if (user) {
         // Name field: find and prefill
-        const nameInput = form.querySelector('input[name="name"], input[name="fullName"], input[name="applicantName"], input[name="businessName"], #name, #empName, #seekerName, #custName, #cspName');
+        const nameInput = form.querySelector('input[name="name"], input[name="fullName"], input[name="applicantName"], input[name="businessName"], #name, #empName, #seekerName, #custName, #cspName, #jsName, #cntName');
         if (nameInput && (!nameInput.value || nameInput.dataset.autofilled === 'true')) {
           nameInput.value = user.displayName || '';
           nameInput.dataset.autofilled = 'true';
         }
 
         // Email field: find and prefill
-        const emailInput = form.querySelector('input[name="email"], input[type="email"], #email, #empEmail, #seekerEmail');
+        const emailInput = form.querySelector('input[name="email"], input[type="email"], #email, #empEmail, #seekerEmail, #jsEmail, #cntEmail');
         if (emailInput && (!emailInput.value || emailInput.dataset.autofilled === 'true')) {
           emailInput.value = user.email || '';
           emailInput.dataset.autofilled = 'true';
         }
 
-        // Add auto-fill visual indicator
+        // Update email status hint in email-autofill-group
+        const emailHint = form.querySelector('.email-status-hint');
+        if (emailHint) {
+          emailHint.classList.add('success');
+          emailHint.innerHTML = `✓ <strong style="color:#059669;">Auto-filled from Google:</strong> ${user.email} <span style="font-size:0.7rem; color:var(--text-muted);">(Optional - you can edit if needed)</span>`;
+        }
+
+        // Update inline button text
+        const inlineBtn = form.querySelector('.btn-google-autofill-inline span');
+        if (inlineBtn) {
+          inlineBtn.textContent = '✓ Google Connected';
+        }
+
+        // Add auto-fill visual indicator banner
         if (!notice) {
           notice = document.createElement('div');
           notice.className = 'form-autofill-notice';
@@ -438,9 +452,117 @@ function initAuthFormAutoFill() {
           emailInput.value = '';
           delete emailInput.dataset.autofilled;
         }
+
+        const emailHint = form.querySelector('.email-status-hint');
+        if (emailHint) {
+          emailHint.classList.remove('success');
+          emailHint.innerHTML = `⚡ Tap box to auto-fill your logged-in Google email, type manually, or skip.`;
+        }
+
+        const inlineBtn = form.querySelector('.btn-google-autofill-inline span');
+        if (inlineBtn) {
+          inlineBtn.textContent = 'Auto-fill with Google';
+        }
       }
     });
   }
+
+  // Setup tap-to-autofill handlers on email inputs
+  function setupEmailTapHandlers() {
+    const emailInputs = document.querySelectorAll('.google-email-input');
+    emailInputs.forEach(input => {
+      const container = input.closest('.email-autofill-group');
+      const hint = container ? container.querySelector('.email-status-hint') : null;
+
+      // Click / tap handler directly on email input
+      input.addEventListener('click', async () => {
+        // If field already has user-typed content, do not disrupt typing
+        if (input.value && input.value.trim().length > 0 && input.dataset.autofilled !== 'true') {
+          return;
+        }
+
+        const authUser = window.OdiinsAuth ? window.OdiinsAuth.getUser() : null;
+        if (authUser && authUser.email) {
+          input.value = authUser.email;
+          input.dataset.autofilled = 'true';
+          if (hint) {
+            hint.classList.add('success');
+            hint.innerHTML = `✓ <strong style="color:#059669;">Auto-filled from Google:</strong> ${authUser.email}`;
+          }
+        } else if (window.OdiinsAuth && typeof window.OdiinsAuth.signIn === 'function') {
+          try {
+            if (hint) hint.innerHTML = `⚡ <span style="color:#1A73E8; font-weight:600;">Connecting with Google...</span>`;
+            const signedUser = await window.OdiinsAuth.signIn();
+            if (signedUser && signedUser.email) {
+              input.value = signedUser.email;
+              input.dataset.autofilled = 'true';
+              if (hint) {
+                hint.classList.add('success');
+                hint.innerHTML = `✓ <strong style="color:#059669;">Auto-filled from Google:</strong> ${signedUser.email}`;
+              }
+            } else {
+              if (hint) {
+                hint.classList.remove('success');
+                hint.innerHTML = `⚡ Tap box to auto-fill your logged-in Google email, type manually, or skip.`;
+              }
+            }
+          } catch (err) {
+            if (hint) {
+              hint.classList.remove('success');
+              hint.innerHTML = `⚡ Tap box to auto-fill your logged-in Google email, type manually, or skip.`;
+            }
+          }
+        }
+      });
+
+      // Also wire any dedicated button or icon in the container
+      if (container) {
+        const actionBtns = container.querySelectorAll('.btn-google-autofill-inline, .email-input-icon-btn');
+        actionBtns.forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const authUser = window.OdiinsAuth ? window.OdiinsAuth.getUser() : null;
+            if (authUser && authUser.email) {
+              input.value = authUser.email;
+              input.dataset.autofilled = 'true';
+              if (hint) {
+                hint.classList.add('success');
+                hint.innerHTML = `✓ <strong style="color:#059669;">Auto-filled from Google:</strong> ${authUser.email}`;
+              }
+            } else if (window.OdiinsAuth && typeof window.OdiinsAuth.signIn === 'function') {
+              try {
+                if (hint) hint.innerHTML = `⚡ <span style="color:#1A73E8; font-weight:600;">Connecting with Google...</span>`;
+                const signedUser = await window.OdiinsAuth.signIn(btn);
+                if (signedUser && signedUser.email) {
+                  input.value = signedUser.email;
+                  input.dataset.autofilled = 'true';
+                  if (hint) {
+                    hint.classList.add('success');
+                    hint.innerHTML = `✓ <strong style="color:#059669;">Auto-filled from Google:</strong> ${signedUser.email}`;
+                  }
+                } else {
+                  if (hint) {
+                    hint.classList.remove('success');
+                    hint.innerHTML = `⚡ Tap box to auto-fill your logged-in Google email, type manually, or skip.`;
+                  }
+                }
+              } catch (err) {
+                if (hint) {
+                  hint.classList.remove('success');
+                  hint.innerHTML = `⚡ Tap box to auto-fill your logged-in Google email, type manually, or skip.`;
+                }
+              }
+            }
+          });
+        });
+      }
+    });
+  }
+
+  // Setup email tap handlers
+  setupEmailTapHandlers();
 
   // Check initial state
   if (window.OdiinsAuth && window.OdiinsAuth.getUser()) {
@@ -457,4 +579,5 @@ function initAuthFormAutoFill() {
     applyUserToForms(e.detail ? e.detail.user : null);
   });
 }
+
 

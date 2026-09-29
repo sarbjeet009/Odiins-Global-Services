@@ -84,6 +84,7 @@
         <li><a href="/contact" class="nav-link">Contact</a></li>
       </ul>
       <div class="navbar-actions">
+        <div class="auth-nav-slot"></div>
         <a href="/services-job-seekers" class="btn btn-green btn-sm">Get Started</a>
         <button class="nav-toggle-btn" id="navToggleBtn" aria-label="Open Navigation Menu">
           <span></span><span></span><span></span>
@@ -110,6 +111,7 @@
       <a href="/contact" class="drawer-link">Contact Us</a>
     </div>
     <div class="drawer-footer">
+      <div class="auth-nav-slot" style="display:flex; justify-content:center; margin-bottom:8px;"></div>
       <a href="tel:+919938079601" class="btn btn-green btn-block">📞 Call +91 99380 79601</a>
     </div>
   </aside>
@@ -325,6 +327,10 @@
     <a href="https://wa.me/919938079601" target="_blank" rel="noopener" class="mobile-action-btn mobile-btn-wa"><span>💬</span> WhatsApp</a>
   </div>
 
+    <!-- Firebase & Google Auth SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="js/firebase-auth.js"></script>
   <script src="js/main.js" defer></script>
   <script src="js/forms.js" defer></script>
 </body>

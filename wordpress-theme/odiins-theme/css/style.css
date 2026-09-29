@@ -3726,4 +3726,234 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
 }
 
+/* Google Email Auto-fill Component */
+.email-autofill-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.email-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.btn-google-autofill-inline {
+  background: #F0F7FF;
+  border: 1px solid #BFDBFE;
+  color: #1A73E8;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  line-height: 1.2;
+}
+
+.btn-google-autofill-inline:hover {
+  background: #E0E7FF;
+  border-color: #93C5FD;
+  color: #1D4ED8;
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.15);
+}
+
+.btn-google-autofill-inline:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.email-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.email-input-wrapper .google-email-input {
+  padding-right: 2.5rem;
+}
+
+.email-input-wrapper .email-input-icon-btn {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.email-input-wrapper .email-input-icon-btn:hover {
+  background: #F1F5F9;
+  transform: scale(1.08);
+}
+
+.email-status-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+  line-height: 1.35;
+  transition: color 0.2s ease;
+}
+
+.email-status-hint.success {
+  color: #059669;
+  font-weight: 500;
+}
+
+/* Google One Tap Floating Component */
+.odiins-onetap-container {
+  position: fixed;
+  top: 80px;
+  right: 24px;
+  z-index: 999999;
+  opacity: 0;
+  transform: translateY(-20px) scale(0.95);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.odiins-onetap-container.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.odiins-onetap-card {
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  background: #FFFFFF;
+  border-radius: 14px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #E2E8F0;
+  padding: 16px 18px;
+  box-sizing: border-box;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.odiins-onetap-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.odiins-onetap-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.odiins-onetap-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.odiins-onetap-app {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1E293B;
+  line-height: 1.2;
+}
+
+.odiins-onetap-sub {
+  font-size: 0.74rem;
+  color: #64748B;
+  line-height: 1.2;
+}
+
+.odiins-onetap-close {
+  background: #F1F5F9;
+  border: none;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: #64748B;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.odiins-onetap-close:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+  transform: scale(1.05);
+}
+
+.odiins-onetap-body p {
+  font-size: 0.8rem;
+  color: #475569;
+  margin: 0 0 14px 0;
+  line-height: 1.45;
+}
+
+.odiins-onetap-actions {
+  margin-bottom: 10px;
+}
+
+.odiins-onetap-cta {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #FFFFFF;
+  border: 1.5px solid #4285F4;
+  color: #1A73E8;
+  padding: 10px 16px;
+  border-radius: 28px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(66, 133, 244, 0.15);
+  transition: all 0.2s ease;
+}
+
+.odiins-onetap-cta:hover {
+  background: #F8FAFC;
+  box-shadow: 0 4px 12px rgba(66, 133, 244, 0.25);
+  transform: translateY(-1px);
+}
+
+.odiins-onetap-cta:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.odiins-onetap-footer {
+  font-size: 0.7rem;
+  color: #94A3B8;
+  line-height: 1.35;
+  border-top: 1px solid #F1F5F9;
+  padding-top: 8px;
+}
+
+@media (max-width: 600px) {
+  .odiins-onetap-container {
+    top: auto;
+    bottom: 72px; /* Above mobile action bar */
+    right: 12px;
+    left: 12px;
+    transform: translateY(20px) scale(0.95);
+  }
+  .odiins-onetap-card {
+    width: 100%;
+  }
+}
+
+
+
 
