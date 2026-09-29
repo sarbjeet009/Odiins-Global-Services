@@ -66,21 +66,5 @@
       "/dashboard.html": 4,
       "/services-customers.html": 3
     }
-  },
-  "2026-09-28": {
-    "totalViews": 42,
-    "uniqueSessions": 0,
-    "mobile": 0,
-    "desktop": 42,
-    "pages": {
-      "/": 13,
-      "/spline-demo": 2,
-      "/spline-demo.html": 1,
-      "/services-job-seekers": 11,
-      "/contact": 6,
-      "/blogs": 1,
-      "/services-employers": 4,
-      "/services-customers": 4
-    }
   }
 }
