@@ -2,7 +2,10 @@
 // ODIINS PLATFORM - CENTRALIZED GOOGLE SPREADSHEET LEAD CAPTURE & CRM BACKEND
 // Spreadsheet: https://docs.google.com/spreadsheets/d/1cwfI94iE50ohBeOD4eOxK5RrUfsJIxVEZ0ftGS6Leis/edit
 // Webhook: https://script.google.com/macros/s/AKfycbxDILgSywLAoCkiHEs2s2GpBLPINg5kIEHKurjwMy60gJrckHlRIGrvwr5aJJOfd0je/exec
+// Telegram Bot: @Odiins_bot (OdiinsLeadBot)
 // ==============================================================================
+
+var DEFAULT_TELEGRAM_BOT_TOKEN = "8971100286:AAGyn87yt6xgQr0N1GFv6G4QU7HR9HfJvpc";
 
 /**
  * 1. REAL-TIME LEAD CAPTURE, CRM TWO-WAY UPDATES & TELEGRAM WEBHOOK (doPost)
@@ -60,10 +63,13 @@ function doPost(e) {
     }
 
     // --------------------------------------------------------------------------
-    // B. TELEGRAM BOT WEBHOOK (NATURAL LANGUAGE ASSISTANT QUERY)
+    // B. TELEGRAM BOT WEBHOOK (MESSAGES & INLINE BUTTON CLICKS)
     // --------------------------------------------------------------------------
-    if (data.message && data.message.text && data.message.chat) {
+    if (data.message) {
       return handleTelegramMessage(data.message, sheet);
+    }
+    if (data.callback_query) {
+      return handleTelegramCallback(data.callback_query, sheet);
     }
 
     // --------------------------------------------------------------------------
@@ -71,10 +77,11 @@ function doPost(e) {
     // --------------------------------------------------------------------------
     var timestamp = Utilities.formatDate(new Date(), "Asia/Kolkata", "yyyy-MM-dd HH:mm:ss");
     var category = resolveCategory(data.formType, data.requirement);
+    var generatedId = data.id || ("OD-" + new Date().getTime().toString(36).toUpperCase());
 
     sheet.appendRow([
       timestamp,
-      data.id || ("OD-" + new Date().getTime().toString(36).toUpperCase()),
+      generatedId,
       category,
       data.name || "",
       "'" + (data.phone || ""),
@@ -88,10 +95,27 @@ function doPost(e) {
       data.message || ""
     ]);
 
+    // Send Instant Push Alert to Telegram Admin!
+    try {
+      sendTelegramNewLeadAlert({
+        id: generatedId,
+        name: data.name,
+        phone: data.phone,
+        category: category,
+        district: data.district,
+        location: data.areaCity || data.location,
+        requirement: data.requirement || data.formType,
+        adSource: data.adSource,
+        message: data.message
+      });
+    } catch (teleErr) {
+      Logger.log("Telegram alert error: " + teleErr.toString());
+    }
+
     return ContentService.createTextOutput(JSON.stringify({ 
       result: "success", 
-      message: "Lead recorded in Google Sheet",
-      id: data.id 
+      message: "Lead recorded in Google Sheet and Telegram notified",
+      id: generatedId 
     })).setMimeType(ContentService.MimeType.JSON);
 
   } catch (error) {
@@ -174,7 +198,17 @@ function doGet(e) {
     })).setMimeType(ContentService.MimeType.JSON);
   }
 
-  return ContentService.createTextOutput("Odiins Lead Capture & CRM Webhook is Active & Ready!");
+  // D. Quick Telegram Diagnostics Check
+  if (action === "telegramTest") {
+    var chatIds = getAdminChatIds();
+    return ContentService.createTextOutput(JSON.stringify({
+      result: "success",
+      botConfigured: Boolean(getTelegramToken()),
+      registeredAdmins: chatIds
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  return ContentService.createTextOutput("Odiins Lead Capture, CRM & Telegram AI Webhook is Active & Ready!");
 }
 
 /**
@@ -213,13 +247,13 @@ function resolveCategory(formType, requirement) {
   var type = (formType || "").toLowerCase();
   var req = (requirement || "").toLowerCase();
 
-  if (type.indexOf("job") !== -1 || req.indexOf("sales manager") !== -1 || req.indexOf("data entry") !== -1 || req.indexOf("office peon") !== -1 || req.indexOf("telecaller") !== -1) {
+  if (type.indexOf("job") !== -1 || req.indexOf("sales manager") !== -1 || req.indexOf("data entry") !== -1 || req.indexOf("office peon") !== -1 || req.indexOf("telecaller") !== -1 || req.indexOf("delivery") !== -1 || req.indexOf("security") !== -1) {
     return "Job Seeker";
   }
-  if (type.indexOf("employer") !== -1 || req.indexOf("manpower") !== -1 || req.indexOf("staffing") !== -1) {
+  if (type.indexOf("employer") !== -1 || req.indexOf("manpower") !== -1 || req.indexOf("staffing") !== -1 || req.indexOf("corporate") !== -1) {
     return "Corporate / Employer";
   }
-  if (type.indexOf("customer") !== -1 || req.indexOf("maid") !== -1 || req.indexOf("cook") !== -1 || req.indexOf("driver") !== -1 || req.indexOf("patient") !== -1) {
+  if (type.indexOf("customer") !== -1 || req.indexOf("maid") !== -1 || req.indexOf("cook") !== -1 || req.indexOf("driver") !== -1 || req.indexOf("patient") !== -1 || req.indexOf("elderly") !== -1) {
     return "Household / Home Help";
   }
   if (type.indexOf("csp") !== -1 || req.indexOf("bank csp") !== -1) {
@@ -265,91 +299,463 @@ function backfillPastLeads() {
 }
 
 // ==============================================================================
-// 4. TELEGRAM BOT NATURAL LANGUAGE ASSISTANT (ZERO SERVER COST)
+// 4. TELEGRAM BOT AI COMMAND ASSISTANT (ZERO SERVER COST)
 // ==============================================================================
+
+function getTelegramToken() {
+  return PropertiesService.getScriptProperties().getProperty("TELEGRAM_BOT_TOKEN") || DEFAULT_TELEGRAM_BOT_TOKEN;
+}
+
+function getAdminChatIds() {
+  var props = PropertiesService.getScriptProperties();
+  var saved = props.getProperty("TELEGRAM_ADMIN_CHATS");
+  if (saved) {
+    try {
+      var arr = JSON.parse(saved);
+      if (Array.isArray(arr) && arr.length > 0) return arr;
+    } catch(e) {}
+  }
+  var single = props.getProperty("ADMIN_CHAT_ID");
+  if (single) return [single];
+  return [];
+}
+
+function registerAdminChatId(chatId) {
+  if (!chatId) return;
+  var strId = String(chatId);
+  var props = PropertiesService.getScriptProperties();
+  var list = getAdminChatIds();
+  if (list.indexOf(strId) === -1) {
+    list.push(strId);
+    props.setProperty("TELEGRAM_ADMIN_CHATS", JSON.stringify(list));
+    props.setProperty("ADMIN_CHAT_ID", strId); // backward compatibility
+  }
+}
+
+function escapeHtml(text) {
+  if (!text) return "";
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function sendTelegramRaw(chatId, text, replyMarkup) {
+  var token = getTelegramToken();
+  if (!token || !chatId) return;
+
+  var payload = {
+    chat_id: chatId,
+    text: text,
+    parse_mode: "HTML",
+    disable_web_page_preview: true
+  };
+  if (replyMarkup) {
+    payload.reply_markup = replyMarkup;
+  }
+
+  try {
+    UrlFetchApp.fetch("https://api.telegram.org/bot" + token + "/sendMessage", {
+      method: "post",
+      contentType: "application/json",
+      payload: JSON.stringify(payload),
+      muteHttpExceptions: true
+    });
+  } catch (err) {
+    Logger.log("Telegram send error: " + err.toString());
+  }
+}
+
+function answerTelegramCallback(callbackQueryId, notificationText) {
+  var token = getTelegramToken();
+  if (!token || !callbackQueryId) return;
+  try {
+    UrlFetchApp.fetch("https://api.telegram.org/bot" + token + "/answerCallbackQuery", {
+      method: "post",
+      contentType: "application/json",
+      payload: JSON.stringify({
+        callback_query_id: callbackQueryId,
+        text: notificationText || ""
+      }),
+      muteHttpExceptions: true
+    });
+  } catch (err) {}
+}
+
+/**
+ * Instant Telegram push alert on new lead submission from website
+ */
+function sendTelegramNewLeadAlert(lead) {
+  var chatIds = getAdminChatIds();
+  if (!chatIds || chatIds.length === 0) return;
+
+  var rawPhone = String(lead.phone || '').replace(/^'/, '');
+  var cleanPhone = rawPhone.replace(/[^0-9]/g, '');
+  if (cleanPhone.length === 10) cleanPhone = '91' + cleanPhone;
+
+  var msg = "🚨 <b>NEW LEAD RECEIVED ON ODIINS!</b> ⚡\n" +
+            "━━━━━━━━━━━━━━━━━━━━━\n" +
+            "👤 <b>Name:</b> " + escapeHtml(lead.name || "N/A") + "\n" +
+            "📞 <b>Phone:</b> <a href=\"tel:" + rawPhone + "\">" + escapeHtml(rawPhone || "N/A") + "</a>" +
+            (cleanPhone ? " | <a href=\"https://wa.me/" + cleanPhone + "\">WhatsApp Chat</a>" : "") + "\n" +
+            "💼 <b>Category:</b> " + escapeHtml(lead.category || "General") + "\n" +
+            "🎯 <b>Requirement:</b> " + escapeHtml(lead.requirement || "General Enquiry") + "\n" +
+            "📍 <b>District:</b> " + escapeHtml(lead.district || "Odisha") + 
+            (lead.location ? " (" + escapeHtml(lead.location) + ")" : "") + "\n" +
+            "🌐 <b>Traffic Source:</b> " + escapeHtml(lead.adSource || "Direct / Organic") + "\n" +
+            "🆔 <b>Lead ID:</b> <code>" + escapeHtml(lead.id || "") + "</code>\n" +
+            (lead.message ? "💬 <b>Message:</b> <i>" + escapeHtml(lead.message) + "</i>\n" : "") +
+            "━━━━━━━━━━━━━━━━━━━━━\n" +
+            "👉 <i>Quick Assign:</i> Reply\n<code>assign " + escapeHtml(lead.id) + " to Rajesh</code>";
+
+  var keyboard = {
+    inline_keyboard: [
+      [
+        { text: "📞 Call Lead", url: "tel:" + rawPhone },
+        { text: "💬 WhatsApp", url: "https://wa.me/" + cleanPhone }
+      ],
+      [
+        { text: "💼 Open Sales CRM", url: "https://www.odiins.in/crm" },
+        { text: "🌐 Admin Center", url: "https://www.odiins.in/dashboard" }
+      ]
+    ]
+  };
+
+  for (var i = 0; i < chatIds.length; i++) {
+    sendTelegramRaw(chatIds[i], msg, keyboard);
+  }
+}
+
+/**
+ * Handle Telegram inline button callbacks
+ */
+function handleTelegramCallback(callbackQuery, sheet) {
+  var callbackId = callbackQuery.id;
+  var data = callbackQuery.data || "";
+  var chat = callbackQuery.message ? callbackQuery.message.chat : null;
+  var chatId = chat ? chat.id : null;
+
+  if (chatId) {
+    registerAdminChatId(chatId);
+  }
+
+  answerTelegramCallback(callbackId, "Fetching data...");
+
+  var fakeMessage = {
+    chat: { id: chatId },
+    from: callbackQuery.from,
+    text: ""
+  };
+
+  if (data === "cb_today") fakeMessage.text = "today";
+  else if (data === "cb_unassigned") fakeMessage.text = "unassigned";
+  else if (data === "cb_summary") fakeMessage.text = "summary";
+  else if (data === "cb_recent") fakeMessage.text = "recent";
+  else fakeMessage.text = data;
+
+  return handleTelegramMessage(fakeMessage, sheet);
+}
+
+/**
+ * Natural language Telegram query & action handler
+ */
 function handleTelegramMessage(message, sheet) {
-  var chatId = message.chat.id;
-  var text = (message.text || "").trim().toLowerCase();
+  var chatId = message.chat ? message.chat.id : null;
+  if (!chatId) return ContentService.createTextOutput("OK");
+
+  registerAdminChatId(chatId);
+
+  var rawText = (message.text || "").trim();
+  var text = rawText.toLowerCase();
   var rows = sheet.getDataRange().getValues();
   var totalLeads = Math.max(0, rows.length - 1);
 
   var reply = "";
+  var keyboard = null;
 
-  if (text === "/start" || text === "hi" || text === "hello" || text === "help") {
-    reply = "👋 *Namaskar Sarbjeet! Welcome to Odiins Lead AI Bot.*\n\n" +
-            "I am directly connected to your website and leads database. Ask me anything:\n\n" +
-            "• *today* - Count & details of leads received today\n" +
-            "• *total* - Total leads breakdown by status\n" +
-            "• *bhubaneswar* or *puri* or *sambalpur* - Leads by location\n" +
-            "• *sales* or *csp* or *maid* - Leads by role or category\n" +
-            "• Or simply type any applicant name (e.g. *Boby Patel*) to see their details!";
-  } else if (text.indexOf("today") !== -1) {
-    var todayStr = Utilities.formatDate(new Date(), "Asia/Kolkata", "yyyy-MM-dd");
-    var todayCount = 0;
-    var todayLeads = [];
-    for (var i = 1; i < rows.length; i++) {
-      var d = String(rows[i][0]);
-      if (d.indexOf(todayStr) !== -1) {
-        todayCount++;
-        todayLeads.push("• *" + rows[i][3] + "* (" + rows[i][7] + ") - 📞 `" + String(rows[i][4]).replace(/^'/, '') + "` [" + rows[i][5] + "]");
+  // 1. Menu / Welcome / Help
+  if (text === "/start" || text === "hi" || text === "hello" || text === "help" || text === "/help" || text === "menu") {
+    reply = "👋 <b>Namaskar Sarbjeet! Welcome to Odiins AI Command Assistant</b> 🚀\n\n" +
+            "I am directly connected to your website, Google Sheet database, and live CRM.\n\n" +
+            "⚡ <b>Available Actions:</b>\n" +
+            "• 📊 <b>today</b> - Leads received today with contact details\n" +
+            "• ⏳ <b>unassigned</b> - Unallocated leads needing attention\n" +
+            "• 📈 <b>summary</b> / <b>total</b> - Complete pipeline & category breakdown\n" +
+            "• 🕒 <b>recent</b> - Latest 5 leads submitted to Odiins\n" +
+            "• 👤 <b>assign &lt;ID&gt; to &lt;Name&gt;</b> - Instant lead allocation\n" +
+            "• 🔄 <b>status &lt;ID&gt; &lt;Status&gt;</b> - Update status (e.g. <code>status OD-MULF0FB0 In Progress</code>)\n" +
+            "• 🔍 <b>Any Search</b> - Search candidate (<i>Boby</i>), phone (<i>9658620364</i>), location (<i>Puri</i>, <i>Sambalpur</i>), or role (<i>Sales Manager</i>, <i>Cook</i>, <i>CSP</i>)!\n\n" +
+            "<i>Tap a quick button below or type your query:</i>";
+
+    keyboard = {
+      inline_keyboard: [
+        [
+          { text: "📊 Today's Leads", callback_data: "cb_today" },
+          { text: "⏳ Unassigned Leads", callback_data: "cb_unassigned" }
+        ],
+        [
+          { text: "📈 Pipeline Summary", callback_data: "cb_summary" },
+          { text: "🕒 Recent 5 Leads", callback_data: "cb_recent" }
+        ],
+        [
+          { text: "🌐 Open Admin CRM", url: "https://www.odiins.in/dashboard" },
+          { text: "📱 Open Sales CRM", url: "https://www.odiins.in/crm" }
+        ]
+      ]
+    };
+  }
+
+  // 2. Direct Lead Assignment via Telegram: "assign <LeadID> to <ExecutiveName>"
+  else if (/^assign\s+/i.test(text)) {
+    var match = rawText.match(/^assign\s+([A-Za-z0-9_-]+)(?:\s+to)?\s+(.+)$/i);
+    if (!match) {
+      reply = "⚠️ <b>Invalid assign format.</b>\nPlease use:\n<code>assign &lt;LeadID&gt; to &lt;ExecutiveName&gt;</code>\n\nExample: <code>assign OD-MULF0FB0 to Rajesh Nayak</code>";
+    } else {
+      var targetId = match[1].trim();
+      var execName = match[2].trim();
+      var foundRow = -1;
+      var candidateName = "";
+      var role = "";
+
+      for (var i = 1; i < rows.length; i++) {
+        if (String(rows[i][1]).trim().toLowerCase() === targetId.toLowerCase()) {
+          foundRow = i + 1;
+          candidateName = String(rows[i][3] || "");
+          role = String(rows[i][7] || "");
+          break;
+        }
+      }
+
+      if (foundRow !== -1) {
+        sheet.getRange(foundRow, 12).setValue(execName); // Column L: Assigned To
+        sheet.getRange(foundRow, 11).setValue("In Progress"); // Column K: Status
+        
+        reply = "✅ <b>Lead Assigned Successfully!</b> 🎯\n\n" +
+                "🆔 <b>Lead ID:</b> <code>" + escapeHtml(targetId) + "</code>\n" +
+                "👤 <b>Candidate:</b> " + escapeHtml(candidateName) + "\n" +
+                "💼 <b>Role:</b> " + escapeHtml(role) + "\n" +
+                "⚡ <b>Assigned To:</b> <b>" + escapeHtml(execName) + "</b>\n" +
+                "📊 <b>Status:</b> Updated to <i>In Progress</i>\n\n" +
+                "<i>Sync completed across Google Sheet and CRM Dashboard.</i>";
+      } else {
+        reply = "❌ <b>Lead ID Not Found:</b> <code>" + escapeHtml(targetId) + "</code>\nPlease check the ID or type <code>unassigned</code> to list pending leads.";
       }
     }
-    reply = "📊 *Today's Leads (" + todayStr + "): " + todayCount + "*\n\n" +
-            (todayLeads.length > 0 ? todayLeads.join("\n") : "No new leads recorded today yet.");
-  } else if (text.indexOf("total") !== -1 || text.indexOf("summary") !== -1 || text.indexOf("count") !== -1) {
-    var newCount = 0, inProg = 0, closed = 0;
-    for (var i = 1; i < rows.length; i++) {
-      var s = String(rows[i][10]);
-      if (s === "New") newCount++;
-      else if (s === "In Progress") inProg++;
-      else if (s.indexOf("Closed") !== -1) closed++;
+  }
+
+  // 3. Status Update: "status <LeadID> <NewStatus>"
+  else if (/^status\s+/i.test(text)) {
+    var sMatch = rawText.match(/^status\s+([A-Za-z0-9_-]+)\s+(.+)$/i);
+    if (!sMatch) {
+      reply = "⚠️ <b>Invalid status format.</b>\nPlease use:\n<code>status &lt;LeadID&gt; &lt;New / In Progress / Closed / Rejected&gt;</code>";
+    } else {
+      var sTargetId = sMatch[1].trim();
+      var newStatus = sMatch[2].trim();
+      var sFoundRow = -1;
+      var sCandName = "";
+
+      for (var j = 1; j < rows.length; j++) {
+        if (String(rows[j][1]).trim().toLowerCase() === sTargetId.toLowerCase()) {
+          sFoundRow = j + 1;
+          sCandName = String(rows[j][3] || "");
+          break;
+        }
+      }
+
+      if (sFoundRow !== -1) {
+        sheet.getRange(sFoundRow, 11).setValue(newStatus); // Column K: Status
+        reply = "✅ <b>Status Updated!</b>\n\n" +
+                "🆔 Lead: <code>" + escapeHtml(sTargetId) + "</code> (" + escapeHtml(sCandName) + ")\n" +
+                "📊 New Status: <b>" + escapeHtml(newStatus) + "</b>";
+      } else {
+        reply = "❌ <b>Lead ID Not Found:</b> <code>" + escapeHtml(sTargetId) + "</code>";
+      }
     }
-    reply = "📈 *Odiins Leads Overview:*\n\n" +
-            "• Total Leads: *" + totalLeads + "*\n" +
-            "• New / Uncontacted: *" + newCount + "*\n" +
-            "• In Progress: *" + inProg + "*\n" +
-            "• Closed / Placed: *" + closed + "*";
-  } else {
-    // Search query across all rows
+  }
+
+  // 4. Unassigned Leads Query
+  else if (text.indexOf("unassigned") !== -1 || text.indexOf("pending") !== -1) {
+    var unassignedList = [];
+    for (var k = rows.length - 1; k >= 1; k--) {
+      var assignee = String(rows[k][11] || "").trim();
+      var st = String(rows[k][10] || "").trim();
+      if (!assignee || assignee.toLowerCase() === "unassigned" || st.toLowerCase() === "new") {
+        var rawPhoneU = String(rows[k][4] || "").replace(/^'/, '');
+        unassignedList.push(
+          "🆔 <code>" + rows[k][1] + "</code> — <b>" + escapeHtml(rows[k][3]) + "</b>\n" +
+          "💼 " + escapeHtml(rows[k][7]) + " [" + escapeHtml(rows[k][2]) + "]\n" +
+          "📍 " + escapeHtml(rows[k][5]) + " | 📞 " + rawPhoneU + "\n" +
+          "👉 <i>Quick Assign:</i> <code>assign " + rows[k][1] + " to Rajesh</code>"
+        );
+        if (unassignedList.length >= 8) break;
+      }
+    }
+
+    if (unassignedList.length > 0) {
+      reply = "⏳ <b>Unassigned / Pending Leads (" + unassignedList.length + " shown):</b>\n\n" +
+              unassignedList.join("\n\n---\n\n");
+    } else {
+      reply = "🎉 <b>All caught up!</b> There are no unassigned leads right now. All leads have an assigned executive.";
+    }
+  }
+
+  // 5. Today's Leads Query
+  else if (text.indexOf("today") !== -1) {
+    var todayStr = Utilities.formatDate(new Date(), "Asia/Kolkata", "yyyy-MM-dd");
+    var todayCount = 0;
+    var todayCards = [];
+
+    for (var m = rows.length - 1; m >= 1; m--) {
+      var d = "";
+      if (rows[m][0] instanceof Date) {
+        d = Utilities.formatDate(rows[m][0], "Asia/Kolkata", "yyyy-MM-dd");
+      } else {
+        d = String(rows[m][0] || "").substring(0, 10);
+      }
+
+      if (d === todayStr) {
+        todayCount++;
+        var tPhone = String(rows[m][4] || "").replace(/^'/, '');
+        var tCleanPhone = tPhone.replace(/[^0-9]/g, '');
+        if (tCleanPhone.length === 10) tCleanPhone = '91' + tCleanPhone;
+
+        todayCards.push(
+          "👤 <b>" + escapeHtml(rows[m][3]) + "</b> (<code>" + rows[m][1] + "</code>)\n" +
+          "💼 Role: " + escapeHtml(rows[m][7]) + " [" + escapeHtml(rows[m][2]) + "]\n" +
+          "📞 Phone: <a href=\"tel:" + tPhone + "\">" + tPhone + "</a>" +
+          (tCleanPhone ? " | <a href=\"https://wa.me/" + tCleanPhone + "\">WhatsApp</a>" : "") + "\n" +
+          "📍 " + escapeHtml(rows[m][5]) + " | ⚡ " + escapeHtml(rows[m][10]) + " (" + (rows[m][11] || "Unassigned") + ")"
+        );
+      }
+    }
+
+    reply = "📊 <b>Today's Leads (" + todayStr + "): " + todayCount + "</b>\n\n" +
+            (todayCards.length > 0 ? todayCards.join("\n\n---\n\n") : "No new leads recorded today yet. When candidates apply on odiins.in, you'll receive an instant notification here!");
+  }
+
+  // 6. Summary / Pipeline Stats
+  else if (text.indexOf("total") !== -1 || text.indexOf("summary") !== -1 || text.indexOf("stats") !== -1 || text.indexOf("count") !== -1) {
+    var newC = 0, inProgC = 0, closedC = 0, unassignedC = 0;
+    var catCounts = {};
+
+    for (var n = 1; n < rows.length; n++) {
+      var sStatus = String(rows[n][10] || "New").trim();
+      var sAssign = String(rows[n][11] || "").trim();
+      var sCat = String(rows[n][2] || "Other").trim();
+
+      if (sStatus === "New") newC++;
+      else if (sStatus === "In Progress" || sStatus === "Contacted" || sStatus === "Interview Scheduled") inProgC++;
+      else if (sStatus.indexOf("Closed") !== -1 || sStatus.indexOf("Placed") !== -1 || sStatus === "Converted") closedC++;
+
+      if (!sAssign || sAssign.toLowerCase() === "unassigned") unassignedC++;
+
+      catCounts[sCat] = (catCounts[sCat] || 0) + 1;
+    }
+
+    var topCats = Object.keys(catCounts).map(function(k){ return "• " + k + ": <b>" + catCounts[k] + "</b>"; }).join("\n");
+
+    reply = "📈 <b>Odiins Global Services - Pipeline Summary</b>\n" +
+            "━━━━━━━━━━━━━━━━━━━━━\n" +
+            "📊 <b>Total Leads:</b> <b>" + totalLeads + "</b>\n" +
+            "🆕 <b>New / Uncontacted:</b> <b>" + newC + "</b>\n" +
+            "⏳ <b>Unassigned to Staff:</b> <b>" + unassignedC + "</b>\n" +
+            "⚡ <b>In Progress / Active:</b> <b>" + inProgC + "</b>\n" +
+            "🏆 <b>Closed / Placed:</b> <b>" + closedC + "</b>\n\n" +
+            "📂 <b>By Category:</b>\n" + (topCats || "None") + "\n" +
+            "━━━━━━━━━━━━━━━━━━━━━\n" +
+            "💡 <i>Type 'unassigned' or 'today' for immediate action items.</i>";
+
+    keyboard = {
+      inline_keyboard: [
+        [
+          { text: "⏳ View Unassigned", callback_data: "cb_unassigned" },
+          { text: "📊 View Today's Leads", callback_data: "cb_today" }
+        ],
+        [
+          { text: "🌐 Open Admin CRM", url: "https://www.odiins.in/dashboard" }
+        ]
+      ]
+    };
+  }
+
+  // 7. Recent 5 Leads
+  else if (text.indexOf("recent") !== -1 || text.indexOf("latest") !== -1) {
+    var recentCards = [];
+    var count = 0;
+    for (var r = rows.length - 1; r >= 1; r--) {
+      var rDate = "";
+      if (rows[r][0] instanceof Date) {
+        rDate = Utilities.formatDate(rows[r][0], "Asia/Kolkata", "dd MMM, HH:mm");
+      } else {
+        rDate = String(rows[r][0] || "");
+      }
+      var rPhone = String(rows[r][4] || "").replace(/^'/, '');
+      var rClean = rPhone.replace(/[^0-9]/g, '');
+      if (rClean.length === 10) rClean = '91' + rClean;
+
+      recentCards.push(
+        "🆔 <code>" + rows[r][1] + "</code> — <b>" + escapeHtml(rows[r][3]) + "</b> (" + rDate + ")\n" +
+        "💼 Role: " + escapeHtml(rows[r][7]) + " [" + escapeHtml(rows[r][2]) + "]\n" +
+        "📍 District: " + escapeHtml(rows[r][5]) + (rows[r][6] ? " (" + escapeHtml(rows[r][6]) + ")" : "") + "\n" +
+        "📞 Phone: <a href=\"tel:" + rPhone + "\">" + rPhone + "</a>" +
+        (rClean ? " | <a href=\"https://wa.me/" + rClean + "\">WhatsApp</a>" : "") + "\n" +
+        "⚡ Status: <b>" + escapeHtml(rows[r][10]) + "</b> | Assigned: <i>" + (rows[r][11] || "Unassigned") + "</i>"
+      );
+      count++;
+      if (count >= 5) break;
+    }
+
+    reply = "🕒 <b>Latest 5 Leads on Odiins:</b>\n\n" + recentCards.join("\n\n---\n\n");
+  }
+
+  // 8. Natural Keyword Search across All Columns
+  else {
+    var searchTerms = text.split(/\s+/).filter(function(t){ return t.length > 1; });
     var matches = [];
-    for (var i = rows.length - 1; i >= 1; i--) {
-      var rowStr = (rows[i].join(" ")).toLowerCase();
-      if (rowStr.indexOf(text) !== -1) {
+
+    for (var q = rows.length - 1; q >= 1; q--) {
+      var rowFullStr = rows[q].join(" ").toLowerCase();
+      var isMatch = false;
+
+      if (rowFullStr.indexOf(text) !== -1) {
+        isMatch = true;
+      } else if (searchTerms.length > 0) {
+        isMatch = searchTerms.every(function(term){ return rowFullStr.indexOf(term) !== -1; });
+      }
+
+      if (isMatch) {
+        var sPhone = String(rows[q][4] || "").replace(/^'/, '');
+        var sClean = sPhone.replace(/[^0-9]/g, '');
+        if (sClean.length === 10) sClean = '91' + sClean;
+
         matches.push(
-          "👤 *" + rows[i][3] + "* (ID: `" + rows[i][1] + "`)\n" +
-          "📞 Phone: `" + String(rows[i][4]).replace(/^'/, '') + "`\n" +
-          "📍 Location: " + rows[i][5] + (rows[i][6] ? " (" + rows[i][6] + ")" : "") + "\n" +
-          "💼 Role: " + rows[i][7] + " [" + rows[i][2] + "]\n" +
-          "⚡ Status: *" + rows[i][10] + "* | Assigned: " + (rows[i][11] || "Unassigned") +
-          (rows[i][12] ? "\n💬 Notes: _" + rows[i][12] + "_" : "")
+          "👤 <b>" + escapeHtml(rows[q][3]) + "</b> (<code>" + rows[q][1] + "</code>)\n" +
+          "📞 Phone: <a href=\"tel:" + sPhone + "\">" + sPhone + "</a>" +
+          (sClean ? " | <a href=\"https://wa.me/" + sClean + "\">WhatsApp Chat</a>" : "") + "\n" +
+          "💼 Role: " + escapeHtml(rows[q][7]) + " [" + escapeHtml(rows[q][2]) + "]\n" +
+          "📍 Location: " + escapeHtml(rows[q][5]) + (rows[q][6] ? " (" + escapeHtml(rows[q][6]) + ")" : "") + "\n" +
+          "⚡ Status: <b>" + escapeHtml(rows[q][10]) + "</b> | Assigned: <i>" + (rows[q][11] || "Unassigned") + "</i>" +
+          (rows[q][12] ? "\n💬 Notes: <i>" + escapeHtml(rows[q][12]) + "</i>" : "")
         );
         if (matches.length >= 5) break;
       }
     }
+
     if (matches.length > 0) {
-      reply = "🔍 *Found " + matches.length + " matching leads for '" + message.text + "':*\n\n" + matches.join("\n\n---\n\n");
+      reply = "🔍 <b>Found " + matches.length + " lead(s) for '" + escapeHtml(rawText) + "':</b>\n\n" +
+              matches.join("\n\n---\n\n");
     } else {
-      reply = "❓ No leads found matching '" + message.text + "'. Try searching by district (e.g. *Bhubaneswar*, *Puri*), candidate name (*Boby*), or role (*Sales Manager*).";
+      reply = "❓ No leads found matching '<b>" + escapeHtml(rawText) + "</b>'.\n\n" +
+              "💡 <b>Search Tips:</b>\n" +
+              "• Candidate Name: e.g. <i>Boby</i> or <i>Prakash</i>\n" +
+              "• Phone Number: e.g. <i>9658620364</i>\n" +
+              "• District/City: e.g. <i>Sambalpur</i>, <i>Puri</i>, <i>Bhubaneswar</i>\n" +
+              "• Role / Service: e.g. <i>Sales Manager</i>, <i>Data Entry</i>, <i>Cook</i>, <i>CSP</i>\n" +
+              "• Type <b>menu</b> or <b>/start</b> to see all options.";
     }
   }
 
-  // Send reply via Telegram Bot API
-  var botToken = PropertiesService.getScriptProperties().getProperty("TELEGRAM_BOT_TOKEN");
-  if (botToken) {
-    try {
-      UrlFetchApp.fetch("https://api.telegram.org/bot" + botToken + "/sendMessage", {
-        method: "post",
-        contentType: "application/json",
-        payload: JSON.stringify({
-          chat_id: chatId,
-          text: reply,
-          parse_mode: "Markdown"
-        })
-      });
-    } catch (e) {
-      Logger.log("Telegram send error: " + e.toString());
-    }
-  }
+  sendTelegramRaw(chatId, reply, keyboard);
 
   return ContentService.createTextOutput(JSON.stringify({ result: "success", reply: reply }))
     .setMimeType(ContentService.MimeType.JSON);
