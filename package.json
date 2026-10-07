@@ -19,5 +19,9 @@
     "pandit"
   ],
   "author": "Odiins",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^18.0.6",
+    "razorpay": "^2.9.8"
+  }
 }
