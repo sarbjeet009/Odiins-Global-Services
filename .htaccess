@@ -30,10 +30,6 @@
   RewriteRule ^([^.]+)\.html$ https://www.odiins.in/$1 [R=301,L]
 
   # 6. Specific Aliases / Clean Rewrites
-  RewriteRule ^api/create-order/?$ api/create-order.php [L]
-  RewriteRule ^api/verify-payment/?$ api/verify-payment.php [L]
-  RewriteRule ^api/razorpay-config/?$ api/razorpay-config.php [L]
-  RewriteRule ^checkout/?$ checkout.html [L]
   RewriteRule ^bank-csp/?$ bank-csp-odisha.html [L]
   RewriteRule ^csp/?$ bank-csp-odisha.html [L]
 

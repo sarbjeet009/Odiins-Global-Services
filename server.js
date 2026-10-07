@@ -14,13 +14,10 @@
  * - Admin Email Notifications: logged to data/email_notifications.log
  */
 
-require('dotenv').config();
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
-const crypto = require('crypto');
-const Razorpay = require('razorpay');
 
 const PORT = process.env.PORT || 3000;
 const DATA_DIR = path.join(__dirname, 'data');
@@ -35,20 +32,6 @@ const TRAFFIC_FILE = path.join(DATA_DIR, 'traffic.json');
 // Ensure data directory exists
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
-}
-
-// Razorpay SDK Client Initialization
-let razorpayClient = null;
-function getRazorpayClient() {
-  const key_id = process.env.RAZORPAY_KEY_ID;
-  const key_secret = process.env.RAZORPAY_KEY_SECRET;
-  if (!key_id || !key_secret) {
-    return null;
-  }
-  if (!razorpayClient) {
-    razorpayClient = new Razorpay({ key_id, key_secret });
-  }
-  return razorpayClient;
 }
 
 // Initial Traffic Data if not present
@@ -598,148 +581,6 @@ const server = http.createServer((req, res) => {
       res.writeHead(500, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'Failed to delete lead.' }));
     }
-    return;
-  }
-
-  // API 11: Razorpay Public Configuration
-  if (method === 'GET' && pathname === '/api/razorpay-config') {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({
-      key_id: process.env.RAZORPAY_KEY_ID || ''
-    }));
-    return;
-  }
-
-  // API 12: Razorpay Create Order
-  // Endpoint: POST /api/create-order
-  // Request: { amount (in paise), currency, receipt }
-  // Return: { order_id, amount, currency }
-  if (method === 'POST' && pathname === '/api/create-order') {
-    let body = '';
-    req.on('data', chunk => { body += chunk; });
-    req.on('end', async () => {
-      try {
-        const data = JSON.parse(body || '{}');
-        const amount = Number(data.amount);
-        const currency = data.currency || 'INR';
-        const receipt = data.receipt || `rcpt_${Date.now()}`;
-
-        // Validate amount >= 100 paise
-        if (!amount || isNaN(amount) || amount < 100) {
-          res.writeHead(400, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({
-            error: 'Amount must be at least 100 paise (₹1).'
-          }));
-          return;
-        }
-
-        const rzp = getRazorpayClient();
-        if (!rzp) {
-          res.writeHead(500, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({
-            error: 'Razorpay API credentials not configured in server environment.'
-          }));
-          return;
-        }
-
-        try {
-          const order = await rzp.orders.create({
-            amount: Math.round(amount),
-            currency: currency,
-            receipt: receipt,
-            notes: data.notes || {}
-          });
-
-          res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({
-            order_id: order.id,
-            amount: order.amount,
-            currency: order.currency
-          }));
-        } catch (rzpErr) {
-          console.error('Razorpay API Order Error:', rzpErr);
-          const statusCode = rzpErr.statusCode || (rzpErr.error && rzpErr.error.code === 'BAD_REQUEST_ERROR' && rzpErr.statusCode === 401 ? 401 : 500);
-          if (statusCode === 401 || rzpErr.statusCode === 401) {
-            res.writeHead(401, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: 'Razorpay authentication failed. Check credentials.' }));
-          } else {
-            res.writeHead(500, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({
-              error: rzpErr.error?.description || rzpErr.message || 'Failed to create Razorpay order.'
-            }));
-          }
-        }
-      } catch (parseErr) {
-        res.writeHead(400, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Invalid JSON request payload.' }));
-      }
-    });
-    return;
-  }
-
-  // API 13: Razorpay Verify Payment Signature
-  // Endpoint: POST /api/verify-payment
-  // Algorithm: HMAC-SHA256(order_id + "|" + payment_id, KEY_SECRET)
-  if (method === 'POST' && pathname === '/api/verify-payment') {
-    let body = '';
-    req.on('data', chunk => { body += chunk; });
-    req.on('end', () => {
-      try {
-        const data = JSON.parse(body || '{}');
-        const order_id = data.razorpay_order_id || data.order_id;
-        const payment_id = data.razorpay_payment_id || data.payment_id;
-        const signature = data.razorpay_signature || data.signature;
-
-        // Missing fields validation
-        if (!order_id || !payment_id || !signature) {
-          res.writeHead(400, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({
-            success: false,
-            error: 'Missing required payment verification fields (order_id, payment_id, signature).'
-          }));
-          return;
-        }
-
-        const keySecret = process.env.RAZORPAY_KEY_SECRET;
-        if (!keySecret) {
-          res.writeHead(500, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({
-            success: false,
-            error: 'RAZORPAY_KEY_SECRET not configured on server.'
-          }));
-          return;
-        }
-
-        // Algorithm: HMAC-SHA256(order_id + "|" + payment_id, KEY_SECRET)
-        const expectedSignature = crypto
-          .createHmac('sha256', keySecret)
-          .update(`${order_id}|${payment_id}`)
-          .digest('hex');
-
-        if (expectedSignature === signature) {
-          res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({
-            success: true,
-            message: 'Payment verified successfully.',
-            order_id: order_id,
-            payment_id: payment_id
-          }));
-        } else {
-          // Signature mismatch: return 400, do NOT mark as paid
-          res.writeHead(400, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({
-            success: false,
-            error: 'Payment signature verification failed. Signature mismatch.'
-          }));
-        }
-      } catch (err) {
-        res.writeHead(400, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({
-          success: false,
-          error: 'Invalid JSON request payload.'
-        }));
-      }
-    });
     return;
   }
 
