@@ -203,7 +203,7 @@
         Interview Slot Locked!
       </h2>
       <p style="color:#64748b; font-size:0.92rem;">
-        Your ₹99 candidate verification was successful. Your profile is now marked as a <b>Priority Verified Applicant</b> for Health Sector openings.
+        Your ₹99 candidate verification was successful. Your profile is now marked as a <b>Priority Verified Applicant</b> for Sales, Management &amp; Corporate openings across Odisha.
       </p>
 
       <!-- SLIP DETAILS -->
@@ -229,8 +229,8 @@
           <span class="slip-val" style="color:#15803d;">₹99.00 (Verified)</span>
         </div>
         <div class="slip-row">
-          <span class="slip-lbl">Razorpay Payment ID:</span>
-          <span class="slip-val" id="val-pay" style="font-family:monospace; font-size:0.85rem;">pay_confirmed</span>
+          <span class="slip-lbl">Payment Method:</span>
+          <span class="slip-val" id="val-pay" style="font-family:monospace; font-size:0.85rem;">Direct UPI (odiinsglobal123@idfcbank)</span>
         </div>
       </div>
 
@@ -269,20 +269,20 @@
     const appId = params.get('id') || 'SM-' + Math.random().toString(36).substring(2, 7).toUpperCase();
     const name = params.get('name') || 'Applicant';
     const district = params.get('district') || 'Odisha';
-    const payId = params.get('payid') || 'pay_' + Math.random().toString(36).substring(2, 10);
+    const upiId = params.get('upi') || 'odiinsglobal123@idfcbank';
 
     document.getElementById('val-id').innerText = appId;
     document.getElementById('val-name').innerText = name;
     document.getElementById('val-dist').innerText = district;
-    document.getElementById('val-pay').innerText = payId;
+    document.getElementById('val-pay').innerText = 'UPI: ' + upiId;
 
     // WhatsApp Direct Link with pre-filled message
     const waText = encodeURIComponent(
-      `Namaskar Odiins HR Team,\n\nI have completed my ₹99 candidate verification for the Health Sector position.\n\n` +
+      `Namaskar Odiins HR Team,\n\nI have completed my ₹99 candidate verification for Sales & Management Placement.\n\n` +
       `• Name: ${name}\n` +
       `• Application ID: ${appId}\n` +
       `• District: ${district}\n` +
-      `• Payment ID: ${payId}\n\n` +
+      `• Payment Mode: Direct UPI (odiinsglobal123@idfcbank)\n\n` +
       `Please schedule my interview call.`
     );
     document.getElementById('btn-wa').href = `https://wa.me/919938079601?text=${waText}`;

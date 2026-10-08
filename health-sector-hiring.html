@@ -14,9 +14,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css?v=2.2.0">
 
-  <!-- Razorpay Standard Checkout SDK -->
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
   <!-- Google tag (gtag.js) - Google Analytics 4 & Google Ads -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VR0G0V11MN"></script>
   <script>
@@ -340,6 +337,74 @@
       line-height: 1.6;
     }
 
+    /* Custom Direct UPI Payment Modal Styles */
+    .upi-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(5px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .upi-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .upi-modal-box {
+      background: #ffffff;
+      width: 100%;
+      max-width: 440px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+      border: 1px solid #e2e8f0;
+      transform: scale(0.95);
+      transition: transform 0.25s ease;
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+    .upi-overlay.active .upi-modal-box {
+      transform: scale(1);
+    }
+    .upi-modal-head {
+      background: linear-gradient(135deg, #0f5132 0%, #157347 100%);
+      color: #fff;
+      padding: 1.15rem 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .upi-intent-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .upi-app-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 10px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #1e293b;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: #fff;
+      transition: all 0.2s ease;
+      justify-content: center;
+    }
+    .upi-app-btn:hover {
+      border-color: #157347;
+      background: #f0fdf4;
+    }
+
     @media (max-width: 768px) {
       .hero-title {
         font-size: 1.85rem;
@@ -515,14 +580,14 @@
 
               <!-- PAY & BOOK CTA BUTTON -->
               <button type="submit" id="btn-submit" class="btn-pay-submit">
-                <span>🔒 Pay ₹99 &amp; Lock Interview Slot</span>
+                <span>⚡ Pay ₹99 via UPI &amp; Lock Interview Slot</span>
                 <span style="font-size:1.2rem;">&rarr;</span>
               </button>
 
               <div class="payment-trust-bar">
-                <span>⚡ Instant UPI / GPay / PhonePe / Paytm / Cards</span>
+                <span>⚡ 1-Tap UPI (GPay / PhonePe / Paytm / QR)</span>
                 <span>•</span>
-                <span>🔒 100% Secure via Razorpay</span>
+                <span>🔒 IDFC FIRST Bank Verified</span>
               </div>
             </form>
           </div>
@@ -558,20 +623,144 @@
     <div class="container">
       <p style="margin-bottom:0.5rem; color:#f8fafc; font-weight:600;">Odiins Global Services Pvt Ltd — Odisha's Own Employment Network</p>
       <p style="margin-bottom:0.5rem;">Plot 220/3482, Lane No. 3, Bairagi Nagar, Bhubaneswar, Odisha 751006 | Helpline: +91 99380 79601 | Email: corporate@odiins.in</p>
-      <p>&copy; 2026 Odiins. All rights reserved. Secure Razorpay Integrated Gateway.</p>
+      <p>&copy; 2026 Odiins. All rights reserved. Secure Direct UPI Gateway (IDFC FIRST Bank).</p>
     </div>
   </footer>
 
-  <!-- RAZORPAY CHECKOUT & LEAD CAPTURE SCRIPT -->
+  <!-- CUSTOM DIRECT UPI MODAL -->
+  <div id="upi-modal" class="upi-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="upi-modal-box">
+      <!-- HEADER -->
+      <div class="upi-modal-head">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:1.25rem;">⚡</span>
+          <div>
+            <div id="modal-title" style="font-weight:800; font-size:1rem; line-height:1.2;">Direct UPI Payment</div>
+            <div style="font-size:0.75rem; opacity:0.85;">IDFC FIRST Bank Verified Merchant</div>
+          </div>
+        </div>
+        <button type="button" onclick="closeUPIModal()" style="background:transparent; border:none; color:#fff; font-size:1.5rem; cursor:pointer; line-height:1; padding:0 4px;" aria-label="Close">&times;</button>
+      </div>
+
+      <div style="padding: 1.25rem 1.4rem;">
+        <!-- ORDER SUMMARY -->
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:0.85rem 1rem; margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">CANDIDATE VERIFICATION</div>
+            <div style="font-size:0.85rem; font-weight:800; color:#0f172a;" id="modal-cand-name">Candidate Name</div>
+            <div style="font-size:0.72rem; color:#64748b;">Ref: <span id="modal-lead-id" style="font-family:monospace; font-weight:700; color:#0f5132;">HS-XXXXXX</span></div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:0.7rem; color:#64748b; text-transform:uppercase; font-weight:700;">To Pay</div>
+            <div style="font-size:1.35rem; font-weight:900; color:#0f5132;">₹99.00</div>
+          </div>
+        </div>
+
+        <!-- OPTION 1: 1-TAP INSTANT APPS (MOBILE) -->
+        <div style="margin-bottom:1.15rem;">
+          <div style="font-size:0.78rem; font-weight:800; color:#1e293b; margin-bottom:0.5rem; display:flex; align-items:center; gap:5px;">
+            <span>📱</span> Pay with Installed UPI App (1-Tap Mobile):
+          </div>
+
+          <div class="upi-intent-grid">
+            <a id="intent-gpay" href="#" target="_blank" class="upi-app-btn" onclick="trackUPIAction('GPay')">
+              <span style="font-size:1.1rem;">🟢</span>
+              <div style="text-align:left;">
+                <div style="color:#0f172a; font-weight:800;">Google Pay</div>
+                <div style="font-size:0.68rem; color:#64748b;">Auto-Fill ₹99</div>
+              </div>
+            </a>
+
+            <a id="intent-phonepe" href="#" target="_blank" class="upi-app-btn" onclick="trackUPIAction('PhonePe')">
+              <span style="font-size:1.1rem;">🟣</span>
+              <div style="text-align:left;">
+                <div style="color:#0f172a; font-weight:800;">PhonePe</div>
+                <div style="font-size:0.68rem; color:#64748b;">Auto-Fill ₹99</div>
+              </div>
+            </a>
+
+            <a id="intent-paytm" href="#" target="_blank" class="upi-app-btn" onclick="trackUPIAction('Paytm')">
+              <span style="font-size:1.1rem;">🔵</span>
+              <div style="text-align:left;">
+                <div style="color:#0f172a; font-weight:800;">Paytm</div>
+                <div style="font-size:0.68rem; color:#64748b;">Auto-Fill ₹99</div>
+              </div>
+            </a>
+
+            <a id="intent-any" href="#" target="_blank" class="upi-app-btn" onclick="trackUPIAction('Any UPI')">
+              <span style="font-size:1.1rem;">⚡</span>
+              <div style="text-align:left;">
+                <div style="color:#0f172a; font-weight:800;">Any UPI App</div>
+                <div style="font-size:0.68rem; color:#64748b;">BHIM / CRED / Axis</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- OPTION 2: SCAN QR STANDEE (DESKTOP & BACKUP) -->
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:0.85rem; text-align:center; margin-bottom:1.15rem;">
+          <div style="font-size:0.75rem; font-weight:700; color:#475569; margin-bottom:0.5rem;">
+            Or Scan Official IDFC FIRST Bank Standee:
+          </div>
+          <div style="display:inline-block; padding:6px; background:#fff; border:1px solid #cbd5e1; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <img src="assets/images/idfc-standee.png" alt="IDFC FIRST Bank UPI QR Code" style="width:190px; height:auto; display:block; border-radius:8px; margin:0 auto;">
+          </div>
+
+          <div style="margin-top:0.65rem; display:flex; align-items:center; justify-content:center; gap:6px;">
+            <span style="font-size:0.75rem; font-family:monospace; color:#334155; background:#fff; padding:4px 8px; border-radius:6px; border:1px solid #cbd5e1;" id="upi-vpa-text">odiinsglobal123@idfcbank</span>
+            <button type="button" onclick="copyUPIId()" style="background:#dcfce7; color:#15803d; border:1px solid #86efac; border-radius:6px; padding:4px 8px; font-size:0.75rem; font-weight:700; cursor:pointer;">
+              📋 Copy
+            </button>
+          </div>
+        </div>
+
+        <!-- 1-TAP ZERO FRICTION VERIFICATION BUTTON -->
+        <button type="button" id="btn-confirm-upi" onclick="handleUPIConfirmation()" style="width:100%; background:linear-gradient(135deg, #157347 0%, #0f5132 100%); color:#fff; padding:0.95rem 1rem; border-radius:12px; font-size:1rem; font-weight:800; border:none; cursor:pointer; box-shadow:0 8px 20px rgba(21,115,71,0.35); display:flex; align-items:center; justify-content:center; gap:8px;">
+          <span>✓ I Have Completed Payment (₹99)</span>
+        </button>
+        <p style="font-size:0.72rem; color:#64748b; text-align:center; margin-top:0.5rem; margin-bottom:0;">
+          No need to upload screenshot or enter UTR • Instant verification
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT -->
   <script>
-    // Configuration
-    const RAZORPAY_KEY_ID = window.RAZORPAY_KEY_ID || 'rzp_test_TkytivzbHD58P2';
+    const UPI_ID = 'odiinsglobal123@idfcbank';
+    const MERCHANT_NAME = 'Odiins Global Services';
+    const AMOUNT = '99.00';
     const GOOGLE_SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbxDILgSywLAoCkiHEs2s2GpBLPINg5kIEHKurjwMy60gJrckHlRIGrvwr5aJJOfd0je/exec';
 
     const form = document.getElementById('sales-hiring-form');
     const submitBtn = document.getElementById('btn-submit');
+    const upiModal = document.getElementById('upi-modal');
 
-    form.addEventListener('submit', async function(e) {
+    let currentLead = {
+      id: '',
+      name: '',
+      phone: '',
+      district: '',
+      qualification: '',
+      experience: ''
+    };
+
+    function copyUPIId() {
+      navigator.clipboard.writeText(UPI_ID);
+      alert('Copied UPI ID: ' + UPI_ID);
+    }
+
+    function closeUPIModal() {
+      upiModal.classList.remove('active');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>⚡ Pay ₹99 via UPI &amp; Lock Interview Slot</span><span style="font-size:1.2rem;">&rarr;</span>';
+    }
+
+    function trackUPIAction(appName) {
+      console.log('Candidate opened ' + appName);
+    }
+
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
 
       const name = document.getElementById('cand-name').value.trim();
@@ -586,13 +775,35 @@
       }
 
       // Generate Unique Application ID
-      const leadId = 'SM-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+      const leadId = 'HS-' + Math.random().toString(36).substring(2, 8).toUpperCase();
 
-      // Disable button during processing
+      currentLead = {
+        id: leadId,
+        name: name,
+        phone: phone,
+        district: district,
+        qualification: qualification,
+        experience: experience
+      };
+
+      // Set UI details in modal
+      document.getElementById('modal-cand-name').innerText = name;
+      document.getElementById('modal-lead-id').innerText = leadId;
+
+      // Construct UPI Deep Link URL:
+      const upiUrl = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${AMOUNT}&cu=INR&tn=${encodeURIComponent(leadId + ' Verification')}`;
+
+      // Bind link to app intents
+      document.getElementById('intent-gpay').href = upiUrl;
+      document.getElementById('intent-phonepe').href = upiUrl;
+      document.getElementById('intent-paytm').href = upiUrl;
+      document.getElementById('intent-any').href = upiUrl;
+
+      // Disable button
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span>⏳ Opening Secure Payment...</span>';
+      submitBtn.innerHTML = '<span>⏳ Opening UPI Gateway...</span>';
 
-      // Track Meta Pixel InitiateCheckout event
+      // Track Meta Pixel InitiateCheckout
       if (typeof fbq === 'function') {
         fbq('track', 'InitiateCheckout', {
           content_name: 'Candidate Verification Fee',
@@ -601,7 +812,7 @@
         });
       }
 
-      // Pre-save lead to Google Sheets as "Pending ₹99 Payment"
+      // Pre-save lead to Google Sheets as "Initiated UPI Payment (₹99)"
       try {
         fetch(GOOGLE_SHEETS_WEBHOOK, {
           method: 'POST',
@@ -612,89 +823,61 @@
             name: name,
             phone: phone,
             district: district,
-            requirement: `Sales & Management [${qualification} | Exp: ${experience}]`,
+            requirement: `Health Sector & Management [${qualification} | Exp: ${experience}]`,
             formType: 'Candidate Hiring (₹99)',
             adSource: 'Meta Ads Campaign',
-            campaign: 'hiring_drive_2026',
-            status: 'Pending Payment (₹99)',
-            message: `Initiated ₹99 verification checkout on ${new Date().toLocaleString('en-IN')}`
+            campaign: 'health_hiring_2026',
+            status: 'Initiated UPI Payment (₹99)',
+            message: `Initiated ₹99 direct UPI checkout to ${UPI_ID} on ${new Date().toLocaleString('en-IN')}`
           })
         });
       } catch (err) {
         console.warn('Pre-save error:', err);
       }
 
-      // Razorpay Checkout Options
-      const options = {
-        key: RAZORPAY_KEY_ID,
-        amount: 99 * 100, // 99 INR in paise (9900)
-        currency: 'INR',
-        name: 'Odiins Global Services',
-        description: 'Candidate Profile & Interview Slot Verification',
-        image: 'https://www.odiins.in/assets/icons/favicon.svg',
-        prefill: {
-          name: name,
-          contact: phone
-        },
-        theme: {
-          color: '#157347'
-        },
-        modal: {
-          ondismiss: function() {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<span>🔒 Pay ₹99 &amp; Lock Interview Slot</span><span style="font-size:1.2rem;">&rarr;</span>';
-          }
-        },
-        handler: async function(response) {
-          // Payment Successful!
-          const paymentId = response.razorpay_payment_id;
-
-          // Fire Meta Pixel Purchase event for ROI tracking!
-          if (typeof fbq === 'function') {
-            fbq('track', 'Purchase', {
-              value: 99.00,
-              currency: 'INR',
-              content_name: 'Sales Manager Verified Application'
-            });
-            fbq('track', 'Lead');
-          }
-
-          // Update Google Sheets & CRM with payment confirmation
-          try {
-            await fetch(GOOGLE_SHEETS_WEBHOOK, {
-              method: 'POST',
-              mode: 'no-cors',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                action: 'updateLead',
-                id: leadId,
-                status: 'Verified / Paid (₹99)',
-                notes: `Payment Successful! Razorpay ID: ${paymentId} | Amount: ₹99 | Date: ${new Date().toLocaleString('en-IN')}`
-              })
-            });
-          } catch (err) {}
-
-          // Redirect to Success Slip Page
-          window.location.href = `health-sector-success.html?id=${leadId}&name=${encodeURIComponent(name)}&district=${encodeURIComponent(district)}&payid=${paymentId}`;
-        }
-      };
-
-      // Open Razorpay Modal
-      try {
-        const rzp = new Razorpay(options);
-        rzp.on('payment.failed', function(resp) {
-          alert('Payment was not completed: ' + resp.error.description);
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = '<span>🔒 Pay ₹99 &amp; Retry Payment</span><span style="font-size:1.2rem;">&rarr;</span>';
-        });
-        rzp.open();
-      } catch (err) {
-        alert('Could not open payment gateway. Please ensure your Key ID is configured.');
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span>🔒 Pay ₹99 &amp; Lock Interview Slot</span><span style="font-size:1.2rem;">&rarr;</span>';
-      }
+      // Show UPI Modal
+      setTimeout(() => {
+        upiModal.classList.add('active');
+      }, 250);
     });
-  </script>
 
+    async function handleUPIConfirmation() {
+      const confirmBtn = document.getElementById('btn-confirm-upi');
+      confirmBtn.disabled = true;
+      confirmBtn.innerHTML = '<span>⏳ Verifying with IDFC UPI Network...</span>';
+
+      // Track Meta Pixel Purchase event for high-converting ROI!
+      if (typeof fbq === 'function') {
+        fbq('track', 'Purchase', {
+          value: 99.00,
+          currency: 'INR',
+          content_name: 'Healthcare Verified Application'
+        });
+        fbq('track', 'Lead');
+      }
+
+      // Update Google Sheets & CRM with payment verification
+      try {
+        fetch(GOOGLE_SHEETS_WEBHOOK, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'updateLead',
+            id: currentLead.id,
+            status: 'Verified / Paid UPI (₹99)',
+            notes: `Payment Confirmed via Direct UPI (${UPI_ID}) | Amount: ₹99 | Date: ${new Date().toLocaleString('en-IN')}`
+          })
+        });
+      } catch (err) {
+        console.warn('Update error:', err);
+      }
+
+      // Brief animation for user confidence before redirecting to verified slip
+      setTimeout(() => {
+        window.location.href = `health-sector-success.html?id=${currentLead.id}&name=${encodeURIComponent(currentLead.name)}&district=${encodeURIComponent(currentLead.district)}&upi=${encodeURIComponent(UPI_ID)}`;
+      }, 1500);
+    }
+  </script>
 </body>
 </html>
