@@ -513,6 +513,74 @@
         padding-bottom: 70px;
       }
     }
+
+    /* Custom Direct UPI Payment Modal Styles */
+    .upi-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(5px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .upi-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .upi-modal-box {
+      background: #ffffff;
+      width: 100%;
+      max-width: 440px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+      border: 1px solid #e2e8f0;
+      transform: scale(0.95);
+      transition: transform 0.25s ease;
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+    .upi-overlay.active .upi-modal-box {
+      transform: scale(1);
+    }
+    .upi-modal-head {
+      background: linear-gradient(135deg, #0f5132 0%, #157347 100%);
+      color: #fff;
+      padding: 1.15rem 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .upi-intent-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .upi-app-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 10px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #1e293b;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: #fff;
+      transition: all 0.2s ease;
+      justify-content: center;
+    }
+    .upi-app-btn:hover {
+      border-color: #157347;
+      background: #f0fdf4;
+    }
   </style>
 
     <!-- Google tag (gtag.js) - Google Analytics 4 & Google Ads -->
@@ -556,10 +624,10 @@
         <img src="assets/icons/logo.svg" alt="Odiins Logo" height="52">
       </a>
       <div style="display: flex; gap: 0.75rem; align-items: center;">
-        <a href="tel:+919938079601" class="btn btn-outline btn-sm" style="display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 700;">
-          <span>📞</span> <span class="hide-mobile">+91 99380 79601</span>
+        <a href="tel:+919938078503" class="btn btn-outline btn-sm" style="display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 700;">
+          <span>📞</span> <span class="hide-mobile">+91 99380 78503</span>
         </a>
-        <a href="https://wa.me/919938079601?text=Hello%20Odiins%2C%20I%20want%20to%20apply%20for%20the%20Bank%20CSP%20Operator%20opening%20in%20Odisha." target="_blank" class="btn btn-green btn-sm" style="display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 700;">
+        <a href="https://wa.me/919938078503?text=Hello%20Odiins%2C%20I%20want%20to%20apply%20for%20the%20Bank%20CSP%20Operator%20opening%20in%20Odisha." target="_blank" class="btn btn-green btn-sm" style="display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 700;">
           <span>💬</span> <span>WhatsApp</span>
         </a>
       </div>
@@ -634,7 +702,7 @@
             <p>Submit your details for telephonic screening & link branch distance verification.</p>
           </div>
 
-          <form id="cspForm" novalidate>
+          <form id="csp-application-form">
             <!-- Honeypot Anti-Spam Field -->
             <input type="text" name="website_hp" style="display:none !important;" tabindex="-1" autocomplete="off">
 
@@ -706,12 +774,31 @@
               </select>
             </div>
 
-            <button type="submit" class="csp-submit-btn">
-              <span>Submit CSP Application Now</span> ➔
+            <!-- APPLICATION & FEASIBILITY SCREENING FEE BOX -->
+            <div style="background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:12px; padding:1rem; margin-top:1.25rem; margin-bottom:1.25rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                <div style="font-size:0.95rem; font-weight:800; color:#064E3B; display:flex; align-items:center; gap:6px;">
+                  <span>🛡️</span> Application &amp; Feasibility Fee:
+                </div>
+                <div style="background:#0F5132; color:#fff; padding:4px 10px; border-radius:6px; font-size:0.95rem; font-weight:800;">₹99 Only</div>
+              </div>
+              <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:4px; font-size:0.8rem; color:#1E293B;">
+                <li style="display:flex; align-items:center; gap:6px;"><span style="color:#098B38; font-weight:bold;">✓</span> Location Feasibility &amp; Link Branch Distance Audit</li>
+                <li style="display:flex; align-items:center; gap:6px;"><span style="color:#098B38; font-weight:bold;">✓</span> Direct Telephonic Screening by Banking Team within 24 Hours</li>
+                <li style="display:flex; align-items:center; gap:6px;"><span style="color:#098B38; font-weight:bold;">✓</span> Fast-track BC Code &amp; Biometric Kiosk Allocation in your district</li>
+              </ul>
+            </div>
+
+            <!-- PAY & SUBMIT CTA BUTTON -->
+            <button type="submit" id="csp-submit-btn" style="background:linear-gradient(135deg, #157347 0%, #0F5132 100%); width:100%; padding:1rem 1.5rem; border-radius:12px; color:#fff; font-size:1.05rem; font-weight:800; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 8px 20px rgba(21,115,71,0.35); transition:transform 0.2s ease;">
+              <span>⚡ Pay ₹99 via UPI &amp; Lock CSP Slot</span>
+              <span style="font-size:1.2rem;">➔</span>
             </button>
 
-            <div style="font-size: 0.75rem; color: #64748B; text-align: center; margin-top: 0.85rem; line-height: 1.4;">
-              🔒 We respect your privacy. No consultation fee for verification. Odiins will call you within 24 hours to review eligibility.
+            <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin-top:0.75rem; font-size:0.78rem; color:#64748B;">
+              <span>⚡ 1-Tap UPI (GPay / PhonePe / Paytm / QR)</span>
+              <span>•</span>
+              <span>🔒 IDFC FIRST Bank Verified</span>
             </div>
           </form>
 
@@ -1025,9 +1112,9 @@
         Odiins Global Services • Connecting Odisha with Employment, Staffing &amp; Authorized Banking Opportunities Across 30 Districts.
       </p>
       <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; font-size: 0.85rem; color: #CBD5E1; margin-bottom: 1.5rem;">
-        <a href="tel:+919938079601" style="color: #FFFFFF; text-decoration: none;">📞 +91 99380 79601</a>
+        <a href="tel:+919938078503" style="color: #FFFFFF; text-decoration: none;">📞 +91 99380 78503</a>
         <a href="mailto:corporate@odiins.in" style="color: #FFFFFF; text-decoration: none;">✉️ corporate@odiins.in</a>
-        <span>📍 Bairagi Nagar, Jharpada, Bhubaneswar - 751006</span>
+        <span>📍 Plot 220/3482, Lane No. 3, Bairagi Nagar, Bhubaneswar, Odisha 751006</span>
       </div>
       <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
         <a href="https://www.instagram.com/odiins_in/" target="_blank" rel="noopener noreferrer" style="color:#FFFFFF; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:0.4rem 0.85rem; border-radius:8px; text-decoration:none; font-size:0.82rem; display:inline-flex; align-items:center; gap:0.4rem;">
@@ -1038,7 +1125,7 @@
         </a>
       </div>
       <div style="border-top: 1px solid #1E293B; padding-top: 1.25rem; font-size: 0.8rem; color: #64748B;">
-        © 2026 Odiins Global Services. All rights reserved. • <a href="/privacy-policy" style="color: #94A3B8;">Privacy Policy</a> • <a href="/terms" style="color: #94A3B8;">Terms of Service</a>
+        © 2026 Odiins Global Services. All rights reserved. • Secure Direct UPI Gateway (IDFC FIRST Bank) • <a href="/privacy-policy" style="color: #94A3B8;">Privacy Policy</a> • <a href="/terms" style="color: #94A3B8;">Terms of Service</a>
       </div>
     </div>
   </footer>
@@ -1048,13 +1135,282 @@
     <a href="#applySection" class="btn-apply">
       <span>📝</span> Apply for CSP
     </a>
-    <a href="https://wa.me/919938079601?text=Hello%20Odiins%2C%20I%20saw%20your%20social%20media%20ad%20and%20want%20to%20apply%20for%20the%20Bank%20CSP%20Operator%20opening." target="_blank" class="btn-whatsapp">
+    <a href="https://wa.me/919938078503?text=Hello%20Odiins%2C%20I%20saw%20your%20social%20media%20ad%20and%20want%20to%20apply%20for%20the%20Bank%20CSP%20Operator%20opening." target="_blank" class="btn-whatsapp">
       <span>💬</span> WhatsApp Us
     </a>
   </div>
 
+  <!-- CUSTOM DIRECT UPI MODAL -->
+  <div id="upi-modal" class="upi-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="upi-modal-box">
+      <!-- HEADER -->
+      <div class="upi-modal-head">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:1.25rem;">⚡</span>
+          <div>
+            <div id="modal-title" style="font-weight:800; font-size:1rem; line-height:1.2;">Direct UPI Payment</div>
+            <div style="font-size:0.75rem; opacity:0.85;">IDFC FIRST Bank Verified Merchant</div>
+          </div>
+        </div>
+        <button type="button" onclick="closeUPIModal()" style="background:transparent; border:none; color:#fff; font-size:1.5rem; cursor:pointer; line-height:1; padding:0 4px;" aria-label="Close">&times;</button>
+      </div>
+
+      <div style="padding: 1.25rem 1.4rem;">
+        <!-- ORDER SUMMARY -->
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:0.85rem 1rem; margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:0.75rem; color:#64748b; font-weight:600;">CSP VERIFICATION</div>
+            <div style="font-size:0.85rem; font-weight:800; color:#0f172a;" id="modal-cand-name">Candidate Name</div>
+            <div style="font-size:0.72rem; color:#64748b;">Ref: <span id="modal-lead-id" style="font-family:monospace; font-weight:700; color:#0f5132;">CSP-XXXXXX</span></div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:0.7rem; color:#64748b; text-transform:uppercase; font-weight:700;">To Pay</div>
+            <div style="font-size:1.35rem; font-weight:900; color:#0f5132;">₹99.00</div>
+          </div>
+        </div>
+
+        <!-- OPTION 1: 1-TAP INSTANT APPS (MOBILE) -->
+        <div style="margin-bottom:1.15rem;">
+          <div style="font-size:0.78rem; font-weight:800; color:#1e293b; margin-bottom:0.5rem; display:flex; align-items:center; gap:5px;">
+            <span>📱</span> Pay with Installed UPI App (1-Tap Mobile):
+          </div>
+
+          <div class="upi-intent-grid">
+            <a id="intent-gpay" href="#" target="_blank" class="upi-app-btn" onclick="trackUPIAction('GPay')">
+              <span style="font-size:1.1rem;">🟢</span>
+              <div style="text-align:left;">
+                <div style="color:#0f172a; font-weight:800;">Google Pay</div>
+                <div style="font-size:0.68rem; color:#64748b;">Auto-Fill ₹99</div>
+              </div>
+            </a>
+
+            <a id="intent-phonepe" href="#" target="_blank" class="upi-app-btn" onclick="trackUPIAction('PhonePe')">
+              <span style="font-size:1.1rem;">🟣</span>
+              <div style="text-align:left;">
+                <div style="color:#0f172a; font-weight:800;">PhonePe</div>
+                <div style="font-size:0.68rem; color:#64748b;">Auto-Fill ₹99</div>
+              </div>
+            </a>
+
+            <a id="intent-paytm" href="#" target="_blank" class="upi-app-btn" onclick="trackUPIAction('Paytm')">
+              <span style="font-size:1.1rem;">🔵</span>
+              <div style="text-align:left;">
+                <div style="color:#0f172a; font-weight:800;">Paytm</div>
+                <div style="font-size:0.68rem; color:#64748b;">Auto-Fill ₹99</div>
+              </div>
+            </a>
+
+            <a id="intent-any" href="#" target="_blank" class="upi-app-btn" onclick="trackUPIAction('Any UPI')">
+              <span style="font-size:1.1rem;">⚡</span>
+              <div style="text-align:left;">
+                <div style="color:#0f172a; font-weight:800;">Any UPI App</div>
+                <div style="font-size:0.68rem; color:#64748b;">BHIM / CRED / Axis</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- OPTION 2: SCAN QR STANDEE (DESKTOP & BACKUP) -->
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:0.85rem; text-align:center; margin-bottom:1.15rem;">
+          <div style="font-size:0.75rem; font-weight:700; color:#475569; margin-bottom:0.5rem;">
+            Or Scan Official IDFC FIRST Bank Standee:
+          </div>
+          <div style="display:inline-block; padding:6px; background:#fff; border:1px solid #cbd5e1; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <img src="assets/images/idfc-standee.png" alt="IDFC FIRST Bank UPI QR Code" style="width:190px; height:auto; display:block; border-radius:8px; margin:0 auto;">
+          </div>
+
+          <div style="margin-top:0.65rem; display:flex; align-items:center; justify-content:center; gap:6px;">
+            <span style="font-size:0.75rem; font-family:monospace; color:#334155; background:#fff; padding:4px 8px; border-radius:6px; border:1px solid #cbd5e1;" id="upi-vpa-text">odiinsglobal123@idfcbank</span>
+            <button type="button" onclick="copyUPIId()" style="background:#dcfce7; color:#15803d; border:1px solid #86efac; border-radius:6px; padding:4px 8px; font-size:0.75rem; font-weight:700; cursor:pointer;">
+              📋 Copy
+            </button>
+          </div>
+        </div>
+
+        <!-- 1-TAP ZERO FRICTION VERIFICATION BUTTON -->
+        <button type="button" id="btn-confirm-upi" onclick="handleUPIConfirmation()" style="width:100%; background:linear-gradient(135deg, #157347 0%, #0f5132 100%); color:#fff; padding:0.95rem 1rem; border-radius:12px; font-size:1rem; font-weight:800; border:none; cursor:pointer; box-shadow:0 8px 20px rgba(21,115,71,0.35); display:flex; align-items:center; justify-content:center; gap:8px;">
+          <span>✓ I Have Completed Payment (₹99)</span>
+        </button>
+        <p style="font-size:0.72rem; color:#64748b; text-align:center; margin-top:0.5rem; margin-bottom:0;">
+          No need to upload screenshot or enter UTR • Instant verification
+        </p>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="js/main.js"></script>
-  <script src="js/forms.js"></script>
+  <script>
+    const UPI_ID = 'odiinsglobal123@idfcbank';
+    const MERCHANT_NAME = 'Odiins Global Services';
+    const AMOUNT = '99.00';
+    const GOOGLE_SHEETS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbxDILgSywLAoCkiHEs2s2GpBLPINg5kIEHKurjwMy60gJrckHlRIGrvwr5aJJOfd0je/exec';
+
+    const cspForm = document.getElementById('csp-application-form');
+    const submitBtn = document.getElementById('csp-submit-btn');
+    const upiModal = document.getElementById('upi-modal');
+
+    let currentLead = {
+      id: '',
+      name: '',
+      phone: '',
+      district: '',
+      areaCity: '',
+      qualification: '',
+      shopStatus: '',
+      branchDistance: ''
+    };
+
+    function copyUPIId() {
+      navigator.clipboard.writeText(UPI_ID);
+      alert('Copied UPI ID: ' + UPI_ID);
+    }
+
+    function closeUPIModal() {
+      upiModal.classList.remove('active');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>⚡ Pay ₹99 via UPI &amp; Lock CSP Slot</span><span style="font-size:1.2rem;">➔</span>';
+    }
+
+    function trackUPIAction(appName) {
+      console.log('Candidate opened ' + appName);
+    }
+
+    if (cspForm) {
+      cspForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('cspName').value.trim();
+        const phone = document.getElementById('cspPhone').value.trim();
+        const district = document.getElementById('cspDistrict').value;
+        const areaCity = document.getElementById('cspAreaCity').value.trim();
+        const qualification = document.getElementById('cspQualification').value;
+        const shopStatus = document.getElementById('cspShopStatus').value;
+        const branchDistance = document.getElementById('cspBranchDistance').value;
+
+        if (!name) {
+          alert('Please enter your full name as per Aadhaar / PAN.');
+          return;
+        }
+
+        const cleanPhone = phone.replace(/[^0-9]/g, '');
+        if (cleanPhone.length !== 10) {
+          alert('Please enter a valid 10-digit mobile number.');
+          return;
+        }
+
+        if (!district) {
+          alert('Please select your preferred district.');
+          return;
+        }
+
+        // Generate Unique Application ID
+        const leadId = 'CSP-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+
+        currentLead = {
+          id: leadId,
+          name: name,
+          phone: cleanPhone,
+          district: district,
+          areaCity: areaCity,
+          qualification: qualification,
+          shopStatus: shopStatus,
+          branchDistance: branchDistance
+        };
+
+        // Set UI details in modal
+        document.getElementById('modal-cand-name').innerText = name;
+        document.getElementById('modal-lead-id').innerText = leadId;
+
+        // Construct UPI Deep Link URL:
+        const upiUrl = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${AMOUNT}&cu=INR&tn=${encodeURIComponent(leadId + ' Verification')}`;
+
+        // Bind link to app intents
+        document.getElementById('intent-gpay').href = upiUrl;
+        document.getElementById('intent-phonepe').href = upiUrl;
+        document.getElementById('intent-paytm').href = upiUrl;
+        document.getElementById('intent-any').href = upiUrl;
+
+        // Disable button
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>⏳ Opening UPI Gateway...</span>';
+
+        // Track Meta Pixel InitiateCheckout
+        if (typeof fbq === 'function') {
+          fbq('track', 'InitiateCheckout', {
+            content_name: 'Bank CSP Operator Verification Fee',
+            value: 99.00,
+            currency: 'INR'
+          });
+        }
+
+        // Pre-save lead to Google Sheets as "Initiated UPI Payment (₹99)"
+        try {
+          fetch(GOOGLE_SHEETS_WEBHOOK, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: leadId,
+              name: name,
+              phone: cleanPhone,
+              district: district,
+              requirement: `Bank CSP Operator [${areaCity} | ${qualification} | Shop: ${shopStatus} | Dist: ${branchDistance}]`,
+              formType: 'Bank CSP Operator (₹99)',
+              adSource: 'Meta Ads Campaign',
+              campaign: 'csp_hiring_2026',
+              status: 'Initiated UPI Payment (₹99)',
+              message: `Initiated ₹99 direct UPI checkout to ${UPI_ID} on ${new Date().toLocaleString('en-IN')}`
+            })
+          });
+        } catch (err) {
+          console.warn('Pre-save error:', err);
+        }
+
+        // Show UPI Modal
+        setTimeout(() => {
+          upiModal.classList.add('active');
+        }, 250);
+      });
+    }
+
+    async function handleUPIConfirmation() {
+      const confirmBtn = document.getElementById('btn-confirm-upi');
+      confirmBtn.disabled = true;
+      confirmBtn.innerHTML = '<span>⏳ Verifying with IDFC UPI Network...</span>';
+
+      // Track Meta Pixel Purchase event for high-converting ROI!
+      if (typeof fbq === 'function') {
+        fbq('track', 'Purchase', {
+          value: 99.00,
+          currency: 'INR',
+          content_name: 'Bank CSP Verified Application'
+        });
+        fbq('track', 'Lead');
+      }
+
+      // Update Google Sheets & CRM with payment verification
+      try {
+        fetch(GOOGLE_SHEETS_WEBHOOK, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'updateLead',
+            id: currentLead.id,
+            status: 'Verified / Paid UPI (₹99)',
+            notes: `Payment Confirmed via Direct UPI (${UPI_ID}) | Amount: ₹99 | Date: ${new Date().toLocaleString('en-IN')}`
+          })
+        });
+      } catch (err) {
+        console.warn('Update error:', err);
+      }
+
+      // Brief animation for user confidence before redirecting to verified slip
+      setTimeout(() => {
+        window.location.href = `bank-csp-success.html?id=${currentLead.id}&name=${encodeURIComponent(currentLead.name)}&district=${encodeURIComponent(currentLead.district)}&upi=${encodeURIComponent(UPI_ID)}`;
+      }, 1500);
+    }
+  </script>
 </body>
 </html>
