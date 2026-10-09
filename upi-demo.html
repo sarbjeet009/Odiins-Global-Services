@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direct UPI Gateway Demo Portal | Odiins Global Services</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    .pulse-glow {
+      box-shadow: 0 0 0 0 rgba(21, 115, 71, 0.7);
+      animation: pulse-ring 1.8s infinite cubic-bezier(0.66, 0, 0, 1);
+    }
+    @keyframes pulse-ring {
+      to { box-shadow: 0 0 0 16px rgba(21, 115, 71, 0); }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-900 p-3 sm:p-6 min-h-screen">
+
+  <div class="max-w-4xl mx-auto space-y-4">
+
+    <!-- TOP HEADER -->
+    <header class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-700 text-white font-black flex items-center justify-center text-xl shadow-md shadow-emerald-700/20">
+          O
+        </div>
+        <div>
+          <h1 class="font-extrabold text-slate-900 text-base sm:text-lg leading-tight">Odiins Direct UPI Payment Gateway</h1>
+          <p class="text-xs text-slate-500">IDFC FIRST Bank • UPI ID: <code class="font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">odiinsglobal123@idfcbank</code></p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          0% Transaction Fee • Direct Settlement
+        </span>
+      </div>
+    </header>
+
+    <!-- MAIN TWO-COLUMN WORKBENCH -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+
+      <!-- LEFT: CANDIDATE CHECKOUT PORTAL (7 Cols) -->
+      <div class="md:col-span-7 space-y-4">
+        
+        <!-- STEP 1: SHORT CANDIDATE FORM -->
+        <div id="step-form-card" class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+            <span class="bg-emerald-100 text-emerald-800 font-extrabold text-[11px] px-2.5 py-0.5 rounded-full uppercase">Step 1: Candidate Form</span>
+            <span class="text-xs font-bold text-slate-500">Odisha Hiring Drive</span>
+          </div>
+
+          <form id="candidate-form" onsubmit="event.preventDefault(); initiateUPIPayment();" class="space-y-3.5">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Full Name *</label>
+              <input type="text" id="demo-name" value="Bikun Parija" required class="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none font-medium">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">WhatsApp Mobile Number *</label>
+              <input type="tel" id="demo-phone" value="9938078503" required maxlength="10" class="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none font-medium">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Home District *</label>
+                <select id="demo-district" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm bg-white font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                  <option value="Bhubaneswar (Khurda)" selected>Bhubaneswar (Khurda)</option>
+                  <option value="Cuttack">Cuttack</option>
+                  <option value="Puri">Puri</option>
+                  <option value="Sambalpur">Sambalpur</option>
+                  <option value="Balasore">Balasore</option>
+                  <option value="Ganjam (Berhampur)">Ganjam (Berhampur)</option>
+                  <option value="Rourkela (Sundargarh)">Rourkela (Sundargarh)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Work Experience *</label>
+                <select id="demo-exp" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm bg-white font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                  <option value="Fresher (0-1 yr)">Fresher (0 - 1 yr)</option>
+                  <option value="1-3 Years Experienced" selected>1 - 3 Years Experienced</option>
+                  <option value="3-5 Years (Senior)">3 - 5 Years (Senior)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- FEE PILL -->
+            <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between">
+              <div>
+                <div class="text-xs font-black text-emerald-950">Candidate Verification Fee</div>
+                <div class="text-[11px] text-emerald-800">48-Hr Priority Interview Slot Booking</div>
+              </div>
+              <div class="text-right">
+                <span class="text-lg font-black text-emerald-700">₹99</span>
+                <span class="text-[10px] text-slate-400 line-through block">₹499</span>
+              </div>
+            </div>
+
+            <!-- BUTTON -->
+            <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-extrabold rounded-xl shadow-md shadow-emerald-600/30 flex items-center justify-center gap-2 text-sm pulse-glow transition-all">
+              <span>⚡ Proceed to Pay ₹99 via UPI</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </button>
+          </form>
+        </div>
+
+        <!-- STEP 2: SEAMLESS UPI CHECKOUT MODAL / DRAWER -->
+        <div id="step-upi-card" class="bg-white border-2 border-emerald-500 rounded-2xl p-5 sm:p-6 shadow-xl hidden animate-in fade-in duration-200">
+          
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <span class="w-7 h-7 bg-red-700 text-white rounded-lg flex items-center justify-center font-bold text-xs">IDFC</span>
+              <div>
+                <div class="text-xs font-bold text-slate-900 leading-tight">Odiins Global Services</div>
+                <div class="text-[10px] text-slate-500 font-mono">odiinsglobal123@idfcbank</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="text-[10px] text-slate-500 block uppercase font-bold">Total Amount</span>
+              <span class="text-xl font-black text-emerald-700">₹99.00</span>
+            </div>
+          </div>
+
+          <!-- APPLICATION REF BADGE -->
+          <div class="my-3 p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
+            <span class="text-slate-600 font-medium">Application Ref:</span>
+            <span class="font-mono font-extrabold text-slate-900" id="portal-app-id">SM-8F92A1</span>
+          </div>
+
+          <!-- TABS: MOBILE 1-TAP APPS vs SCAN QR CODE -->
+          <div class="space-y-4">
+            
+            <!-- OPTION 1: MOBILE 1-TAP INTENTS -->
+            <div>
+              <div class="text-xs font-extrabold text-slate-700 mb-2 flex items-center gap-1.5">
+                <span>📱 Pay with Installed UPI App (1-Tap Mobile):</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <!-- GPAY -->
+                <a id="btn-intent-gpay" href="#" target="_blank" onclick="logUserAction('Launched Google Pay app for ₹99')" class="p-2.5 bg-white border border-slate-200 hover:border-emerald-500 rounded-xl flex items-center gap-2 shadow-sm transition-all group">
+                  <span class="text-lg">🟢</span>
+                  <div class="text-left">
+                    <div class="font-bold text-xs text-slate-800 group-hover:text-emerald-700">Google Pay</div>
+                    <div class="text-[10px] text-slate-400">1-Tap Auto Fill</div>
+                  </div>
+                </a>
+
+                <!-- PHONEPE -->
+                <a id="btn-intent-phonepe" href="#" target="_blank" onclick="logUserAction('Launched PhonePe app for ₹99')" class="p-2.5 bg-white border border-slate-200 hover:border-purple-500 rounded-xl flex items-center gap-2 shadow-sm transition-all group">
+                  <span class="text-lg">🟣</span>
+                  <div class="text-left">
+                    <div class="font-bold text-xs text-slate-800 group-hover:text-purple-700">PhonePe</div>
+                    <div class="text-[10px] text-slate-400">1-Tap Auto Fill</div>
+                  </div>
+                </a>
+
+                <!-- PAYTM -->
+                <a id="btn-intent-paytm" href="#" target="_blank" onclick="logUserAction('Launched Paytm app for ₹99')" class="p-2.5 bg-white border border-slate-200 hover:border-blue-500 rounded-xl flex items-center gap-2 shadow-sm transition-all group">
+                  <span class="text-lg">🔵</span>
+                  <div class="text-left">
+                    <div class="font-bold text-xs text-slate-800 group-hover:text-blue-700">Paytm</div>
+                    <div class="text-[10px] text-slate-400">1-Tap Auto Fill</div>
+                  </div>
+                </a>
+
+                <!-- ANY UPI APP (BHIM/CRED/ETC) -->
+                <a id="btn-intent-any" href="#" target="_blank" onclick="logUserAction('Opened system UPI App Chooser for ₹99')" class="p-2.5 bg-white border border-slate-200 hover:border-amber-500 rounded-xl flex items-center gap-2 shadow-sm transition-all group">
+                  <span class="text-lg">⚡</span>
+                  <div class="text-left">
+                    <div class="font-bold text-xs text-slate-800 group-hover:text-amber-700">Any UPI App</div>
+                    <div class="text-[10px] text-slate-400">BHIM / CRED / Axis</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- OPTION 2: SCAN QR CODE -->
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center">
+              <div class="text-xs font-bold text-slate-700 mb-2">Or Scan Official IDFC FIRST Bank QR:</div>
+              <div class="inline-block p-2 bg-white rounded-xl shadow-sm border border-slate-200">
+                <img id="qr-img" src="assets/images/idfc-standee.png" alt="IDFC FIRST Bank UPI QR Code" class="w-48 h-auto mx-auto rounded-lg">
+              </div>
+
+              <!-- UPI ID COPY BAR -->
+              <div class="mt-3 flex items-center justify-center gap-2">
+                <span class="text-xs font-mono text-slate-600 bg-white px-2.5 py-1 rounded border border-slate-300" id="display-vpa">odiinsglobal123@idfcbank</span>
+                <button type="button" onclick="copyUPIId()" class="text-xs font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-100 hover:bg-emerald-200 px-2.5 py-1 rounded transition-colors">
+                  📋 Copy
+                </button>
+              </div>
+            </div>
+
+            <!-- ZERO-TYPING CONFIRM BUTTON -->
+            <div class="pt-1">
+              <button type="button" onclick="confirmPaymentSuccess()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-extrabold rounded-xl shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition-all">
+                <span>✓ I Have Completed Payment (₹99)</span>
+              </button>
+              <p class="text-[11px] text-center text-slate-500 mt-1.5">No need to type UTR or upload screenshot • Instant verification</p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- STEP 3: CONFIRMED APPLICATION SLIP -->
+        <div id="step-success-card" class="bg-white border-2 border-emerald-500 rounded-2xl p-6 shadow-xl hidden text-center animate-in zoom-in duration-200">
+          <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-2xl font-black mx-auto mb-3 border-2 border-emerald-300">
+            ✓
+          </div>
+          <span class="bg-emerald-100 text-emerald-800 font-extrabold text-[11px] px-3 py-1 rounded-full uppercase">
+            UPI Payment Confirmed
+          </span>
+          <h3 class="text-xl font-black text-slate-900 mt-2">Interview Slot Locked!</h3>
+          <p class="text-slate-600 text-xs mt-1">₹99 candidate verification successfully received by Odiins Global Services.</p>
+
+          <!-- SLIP CARD -->
+          <div class="bg-slate-50 rounded-xl border border-slate-200 p-4 my-4 text-left text-xs space-y-2">
+            <div class="flex justify-between border-b border-slate-200 pb-1.5">
+              <span class="text-slate-500">Application ID:</span>
+              <span class="font-extrabold text-slate-900" id="slip-app-id">SM-938210</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-200 pb-1.5">
+              <span class="text-slate-500">Candidate Name:</span>
+              <span class="font-bold text-slate-900" id="slip-name">Bikun Parija</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-200 pb-1.5">
+              <span class="text-slate-500">Target District:</span>
+              <span class="font-bold text-slate-900" id="slip-dist">Bhubaneswar (Khurda)</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-200 pb-1.5">
+              <span class="text-slate-500">Amount Paid:</span>
+              <span class="font-bold text-emerald-700">₹99.00 (Zero Fee Deduction)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-500">Beneficiary UPI ID:</span>
+              <span class="font-mono font-bold text-slate-800">odiinsglobal123@idfcbank</span>
+            </div>
+          </div>
+
+          <!-- WHATSAPP CTA -->
+          <a href="#" id="slip-wa-btn" target="_blank" class="w-full py-3 bg-[#25D366] hover:bg-[#20ba59] text-white font-extrabold rounded-xl shadow-md shadow-emerald-500/20 flex items-center justify-center gap-2 text-xs sm:text-sm transition-all">
+            <span>💬 Send Confirmation on WhatsApp to HR (+91 99380 78503)</span>
+          </a>
+
+          <button type="button" onclick="resetDemo()" class="mt-3 text-xs text-slate-400 hover:text-slate-700 underline block mx-auto">
+            &larr; Test Another Candidate
+          </button>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: LIVE MONITOR & BANK HANDSHAKE (5 Cols) -->
+      <div class="md:col-span-5 space-y-4">
+        
+        <!-- LIVE TERMINAL LOGS -->
+        <div class="bg-slate-900 text-white rounded-2xl p-4 shadow-xl border border-slate-800">
+          <div class="flex items-center justify-between pb-2.5 border-b border-slate-800 text-xs">
+            <span class="font-bold text-emerald-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              Live Gateway Terminal
+            </span>
+            <span class="text-[10px] text-slate-400">IDFC Bank Network</span>
+          </div>
+
+          <div id="terminal-logs" class="mt-3 space-y-1.5 font-mono text-[11px] h-60 overflow-y-auto pr-1">
+            <div class="p-1.5 rounded bg-slate-800/60 text-slate-300">
+              [SYSTEM]: UPI Gateway initialized. Beneficiary: odiinsglobal123@idfcbank.
+            </div>
+            <div class="p-1.5 rounded bg-slate-800/60 text-slate-400">
+              [INTENT]: Universal URI protocol ready (GPay, PhonePe, Paytm, BHIM).
+            </div>
+            <div class="p-1.5 rounded bg-slate-800/60 text-slate-400">
+              [CRM]: Google Sheets Webhook active.
+            </div>
+          </div>
+        </div>
+
+        <!-- MERCHANT ADVANTAGES CARD -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm text-xs space-y-2.5">
+          <div class="font-extrabold text-slate-800 text-sm">💡 Direct UPI vs Gateway Aggregators</div>
+          <div class="space-y-1.5 text-slate-600 text-[11px]">
+            <div class="flex items-start gap-1.5">
+              <span class="text-emerald-600 font-bold">✓</span>
+              <span><b>100% Zero Fees:</b> You keep ₹99.00 full (No 2.36% deduction).</span>
+            </div>
+            <div class="flex items-start gap-1.5">
+              <span class="text-emerald-600 font-bold">✓</span>
+              <span><b>Direct to IDFC Bank:</b> Money lands immediately in your account.</span>
+            </div>
+            <div class="flex items-start gap-1.5">
+              <span class="text-emerald-600 font-bold">✓</span>
+              <span><b>Zero Drop-off:</b> No manual UTR copying or screenshot uploading.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    const UPI_ID = 'odiinsglobal123@idfcbank';
+    const MERCHANT_NAME = 'Odiins Global Services';
+    const AMOUNT = '99.00';
+    let currentAppId = '';
+
+    function addLog(msg, colorClass = 'text-slate-300') {
+      const logs = document.getElementById('terminal-logs');
+      const div = document.createElement('div');
+      div.className = `p-1.5 rounded bg-slate-800/70 ${colorClass}`;
+      div.innerText = `[${new Date().toLocaleTimeString('en-IN')}] ${msg}`;
+      logs.appendChild(div);
+      logs.scrollTop = logs.scrollHeight;
+    }
+
+    function logUserAction(action) {
+      addLog(action, 'text-amber-300');
+    }
+
+    function copyUPIId() {
+      navigator.clipboard.writeText(UPI_ID);
+      alert('Copied UPI ID: ' + UPI_ID);
+      addLog('Candidate copied UPI ID to clipboard: ' + UPI_ID, 'text-slate-400');
+    }
+
+    function initiateUPIPayment() {
+      const name = document.getElementById('demo-name').value.trim();
+      const phone = document.getElementById('demo-phone').value.trim();
+      const dist = document.getElementById('demo-district').value;
+      const exp = document.getElementById('demo-exp').value;
+
+      currentAppId = 'SM-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+      document.getElementById('portal-app-id').innerText = currentAppId;
+
+      // Construct UPI Deep Link
+      // upi://pay?pa=odiinsglobal123@idfcbank&pn=Odiins%20Global%20Services&am=99.00&cu=INR&tn=SM-XXXXXX
+      const upiUrl = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${AMOUNT}&cu=INR&tn=${encodeURIComponent(currentAppId + ' Verification')}`;
+
+      // Set links for buttons
+      document.getElementById('btn-intent-gpay').href = upiUrl;
+      document.getElementById('btn-intent-phonepe').href = upiUrl;
+      document.getElementById('btn-intent-paytm').href = upiUrl;
+      document.getElementById('btn-intent-any').href = upiUrl;
+
+      // Log to terminal
+      addLog(`New Candidate: ${name} (${phone}) - ${dist}`, 'text-amber-300 font-bold');
+      addLog(`Pre-saved to Google Sheets: Status 'Initiated UPI (₹99)'`, 'text-blue-400');
+      addLog(`Generated UPI Deep Link: ${upiUrl}`, 'text-slate-400 break-all text-[10px]');
+      addLog(`Meta Pixel Event fired: InitiateCheckout (₹99.00)`, 'text-indigo-300');
+
+      // Switch view
+      document.getElementById('step-form-card').classList.add('hidden');
+      document.getElementById('step-upi-card').classList.remove('hidden');
+    }
+
+    function confirmPaymentSuccess() {
+      const name = document.getElementById('demo-name').value.trim();
+      const dist = document.getElementById('demo-district').value;
+
+      addLog(`Candidate clicked 'I Have Completed Payment'`, 'text-amber-400');
+      addLog(`Handshake with IDFC UPI network... Confirmed!`, 'text-emerald-400 font-bold');
+      addLog(`Updated Google Sheets CRM: 'Verified / Paid UPI (₹99)'`, 'text-emerald-300');
+      addLog(`Meta Pixel Event fired: Purchase (₹99.00) + Lead`, 'text-blue-400 font-bold');
+
+      // Fill slip
+      document.getElementById('slip-app-id').innerText = currentAppId;
+      document.getElementById('slip-name').innerText = name;
+      document.getElementById('slip-dist').innerText = dist;
+
+      const waText = encodeURIComponent(
+        `Namaskar Odiins HR Team,\n\nI have completed my ₹99 candidate verification via UPI.\n\n` +
+        `• Name: ${name}\n` +
+        `• Application ID: ${currentAppId}\n` +
+        `• Target District: ${dist}\n` +
+        `• Paid to: ${UPI_ID}\n\n` +
+        `Please schedule my direct interview call.`
+      );
+      document.getElementById('slip-wa-btn').href = `https://wa.me/919938078503?text=${waText}`;
+
+      // Switch to Slip
+      document.getElementById('step-upi-card').classList.add('hidden');
+      document.getElementById('step-success-card').classList.remove('hidden');
+    }
+
+    function resetDemo() {
+      document.getElementById('step-success-card').classList.add('hidden');
+      document.getElementById('step-form-card').classList.remove('hidden');
+      addLog('Reset demo portal for new transaction test.', 'text-slate-400');
+    }
+  </script>
+
+</body>
+</html>
