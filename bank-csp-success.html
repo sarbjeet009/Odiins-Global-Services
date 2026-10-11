@@ -34,12 +34,9 @@
     'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '2059018191609052');
     fbq('track', 'PageView');
-    fbq('track', 'Purchase', {
-      value: 99.00,
-      currency: 'INR',
+    fbq('track', 'Lead', {
       content_name: 'Bank CSP Operator Application'
     });
-    fbq('track', 'Lead');
   </script>
   <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=2059018191609052&ev=PageView&noscript=1"
@@ -202,14 +199,14 @@
       <div class="badge-icon">✓</div>
       
       <span style="background:#dcfce7; color:#15803d; font-size:0.8rem; font-weight:800; padding:4px 14px; border-radius:20px; text-transform:uppercase;">
-        Payment &amp; Application Confirmed
+        Application Registered
       </span>
 
       <h2 style="font-size:1.6rem; font-weight:800; color:#0f172a; margin-top:0.75rem; margin-bottom:0.25rem;">
-        Bank CSP Slot Locked!
+        Application Submitted Successfully!
       </h2>
       <p style="color:#64748b; font-size:0.92rem;">
-        Your ₹99 candidate verification was successful. Your profile is now marked as a <b>Priority Verified Bank CSP Applicant</b> across Odisha.
+        Thank you for applying. Your profile is registered for <b>Authorized Bank CSP Operator</b>. Our Odisha Banking Verification Desk will call you within <b>24 hours</b> for telephonic screening.
       </p>
 
       <!-- SLIP DETAILS -->
@@ -231,12 +228,12 @@
           <span class="slip-val" id="val-dist">Odisha</span>
         </div>
         <div class="slip-row">
-          <span class="slip-lbl">Fee Paid:</span>
-          <span class="slip-val" style="color:#15803d;">₹99.00 (Verified)</span>
+          <span class="slip-lbl">Application Fee:</span>
+          <span class="slip-val" style="color:#15803d;">100% Free Initial Application</span>
         </div>
         <div class="slip-row">
-          <span class="slip-lbl">Payment Method:</span>
-          <span class="slip-val" id="val-pay" style="font-family:monospace; font-size:0.85rem;">Direct UPI (odiinsglobal123@idfcbank)</span>
+          <span class="slip-lbl">Next Step:</span>
+          <span class="slip-val" style="color:#0369a1; font-weight:700;">Telephonic Verification Call in 24 Hrs</span>
         </div>
       </div>
 
@@ -245,21 +242,21 @@
         <h4>📋 What happens next?</h4>
         <div class="step-item">
           <div class="step-num">1</div>
-          <div><b>Location Feasibility Audit:</b> Our banking team checks your village / shop location against the 15 km link branch radius.</div>
+          <div><b>Telephonic Screening Call:</b> Our banking officer calls your mobile number within 24 hours to verify village / shop distance and eligibility.</div>
         </div>
         <div class="step-item">
           <div class="step-num">2</div>
-          <div><b>Direct Screening Call:</b> You will receive a WhatsApp message and phone call within <b>24 to 48 hours</b> to verify documents.</div>
+          <div><b>Document &amp; Registration Guidance:</b> Complete walkthrough of required KYC documents, IIBF certification, and registration details on call.</div>
         </div>
         <div class="step-item">
           <div class="step-num">3</div>
-          <div><b>BC Code Issuance:</b> Official BC code generation, biometric scanner procurement, and training for center launch.</div>
+          <div><b>BC Code &amp; Kiosk Allotment:</b> Authorized Bank BC code issuance and biometric scanner dispatch for your location.</div>
         </div>
       </div>
 
       <!-- DIRECT WHATSAPP ACTION BUTTON -->
       <a href="#" id="btn-wa" target="_blank" class="btn-wa-connect">
-        <span>💬 Send Slip on WhatsApp for Priority Scheduling</span>
+        <span>💬 Connect on WhatsApp for Instant Update</span>
       </a>
 
       <p style="font-size:0.8rem; color:#94a3b8; margin-top:1rem;">
@@ -275,21 +272,18 @@
     const appId = params.get('id') || 'CSP-' + Math.random().toString(36).substring(2, 7).toUpperCase();
     const name = params.get('name') || 'Applicant';
     const district = params.get('district') || 'Odisha';
-    const upiId = params.get('upi') || 'odiinsglobal123@idfcbank';
 
     document.getElementById('val-id').innerText = appId;
     document.getElementById('val-name').innerText = name;
     document.getElementById('val-dist').innerText = district;
-    document.getElementById('val-pay').innerText = 'UPI: ' + upiId;
 
     // WhatsApp Direct Link with pre-filled message
     const waText = encodeURIComponent(
-      `Namaskar Odiins Banking Team,\n\nI have completed my ₹99 candidate verification for Bank CSP Operator in Odisha.\n\n` +
+      `Namaskar Odiins Banking Team,\n\nI have submitted my application for Bank CSP Operator in Odisha.\n\n` +
       `• Name: ${name}\n` +
       `• Application ID: ${appId}\n` +
-      `• District: ${district}\n` +
-      `• Payment Mode: Direct UPI (odiinsglobal123@idfcbank)\n\n` +
-      `Please review my location feasibility.`
+      `• District: ${district}\n\n` +
+      `Please verify my application and let me know the next steps.`
     );
     document.getElementById('btn-wa').href = `https://wa.me/919938078503?text=${waText}`;
   </script>
